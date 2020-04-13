@@ -16,7 +16,7 @@ class UserController {
                 email: result.email
             })
         }).catch((err) => {
-            console.log(err)
+            // console.log(err)
             return next(err)
         });
     }
