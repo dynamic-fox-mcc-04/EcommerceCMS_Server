@@ -6,7 +6,7 @@ switch (env) {
             path: process.cwd() +'/.env.test'
         })
         break;
-    case 'development':
+    default:
         require('dotenv').config({
             path: process.cwd() + '/.env'
         })
