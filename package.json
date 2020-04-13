@@ -1,0 +1,29 @@
+{
+  "name": "ecommerce_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dynamic-fox-mcc-04/Ecommerce_Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dynamic-fox-mcc-04/Ecommerce_Server/issues"
+  },
+  "homepage": "https://github.com/dynamic-fox-mcc-04/Ecommerce_Server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.2",
+    "sequelize": "^5.21.6"
+  }
+}
