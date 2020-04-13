@@ -52,7 +52,7 @@ describe('User', () => {
           password: 'qweqwe'
         };
         request(app)
-          .post('/register')
+          .post('/user/register')
           .send(userInput)
           .end((err, response) => {
             if (err) {
@@ -72,14 +72,14 @@ describe('User', () => {
       test('should send error and status 400 because missing email and password', done => {
         const errors = [
           {
-            message: 'Email is required field'
+            message: 'Email required'
           },
           {
-            message: 'Password is required field'
+            message: 'Password required'
           }
         ];
         request(app)
-          .post('/register')
+          .post('/user/register')
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
@@ -91,38 +91,15 @@ describe('User', () => {
             }
           });
       });
-      test('should send error and status 400 because password less than 6 characters', done => {
-        const userInput = {
-          email: 'mail@mail.com',
-          password: 'qwe'
-        };
-        const errors = [
-          {
-            message: 'Password at least have 6 characters'
-          }
-        ];
-        request(app)
-          .post('/register')
-          .send(userInput)
-          .end((err, response) => {
-            if (err) {
-              console.log('There is some error: ', err);
-              return done(err);
-            } else {
-              expect(response.status).toBe(400);
-              expect(response.body).toHaveProperty('errors', errors);
-              return done();
-            }
-          });
-      });
+      
       test('should send error and status 400 because email already exists.', done => {
         const errors = [
           {
-            message: 'Email already exists.'
+            message: 'email must be unique'
           }
         ];
         request(app)
-          .post('/register')
+          .post('/user/register')
           .send(dataUser)
           .end((err, response) => {
             if (err) {
@@ -138,11 +115,11 @@ describe('User', () => {
       });
     });
   });
-  describe('POST /login', () => {
+  describe('POST /user/login', () => {
     describe('success login', () => {
       test('should send access token and status 200', done => {
         request(app)
-          .post('/login')
+          .post('/user/login')
           .send(dataUser)
           .end((err, response) => {
             if (err) {

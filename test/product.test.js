@@ -2,17 +2,13 @@ const request = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
+const verify = require ('../helpers/jwt')
+const{Product} = require('../models')
 
-// const dataProduct={
-//             name : req.body.name,
-//             image_url:req.body.image_url,
-//             price: req.body.price,
-//             stock: req.body.stock
-// }
 
 afterAll(done => {
   queryInterface
-    .bulkDelete('Products')
+  Product.destroy({ truncate: true, restartIdentity: true })
     .then(() => {
       console.log('Db clean up');
       done();
@@ -23,36 +19,36 @@ afterAll(done => {
     });
 });
 
-beforeAll(done => {
+// beforeAll(done => {
   
-  queryInterface
-    .bulkInsert('Products', [
-      {
-        email: admin.email,
-        password: adminHashPassword,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ])
-    .then(() => {
-      console.log('Product created: ' + admin.email);
-      done();
-    })
-    .catch(err => {
-      done(err);
-    });
-});
-
+//   queryInterface
+//     .bulkInsert('Products', [
+//       {
+//         email: admin.email,
+//         password: adminHashPassword,
+//         createdAt: new Date(),
+//         updatedAt: new Date()
+//       }
+//     ])
+//     .then(() => {
+//       console.log('Product created: ' + admin.email);
+//       done();
+//     })
+//     .catch(err => {
+//       done(err);
+//     });
+// });
+const newProduct={
+  name : "Minyak goreng lagi",
+  image_url:"test",
+  price: 15000,
+  stock: 10 }
 describe('Product', () => {
   describe('POST /', () => {
     describe('success add product', () => {
       test('should send an object with product detail', done => {
-        const newProduct={
-          name : "Minyak goreng",
-          image_url:"test",
-          price: 15000,
-          stock: 10
-}
+        
+
         request(app)
           .post('/product')
           .send(newProduct)
@@ -71,93 +67,95 @@ describe('Product', () => {
           });
       });
     });
-    describe('error register user', () => {
-      test('should send error and status 400 because missing email and password', done => {
+    describe('error Add product', () => {
+      test('should send error and status 400 because missing name,image_url,price and stock', done => {
         const errors = [
           {
-            message: 'Email is required field'
+            message: 'Name require'
           },
           {
-            message: 'Password is required field'
-          }
-        ];
-        request(app)
-          .post('/register')
-          .end((err, response) => {
-            if (err) {
-              console.log('There is some error: ', err);
-              return done(err);
-            } else {
-              expect(response.status).toBe(400);
-              expect(response.body).toHaveProperty('errors', errors);
-              return done();
-            }
-          });
-      });
-      test('should send error and status 400 because password less than 6 characters', done => {
-        const userInput = {
-          email: 'mail@mail.com',
-          password: 'qwe'
-        };
-        const errors = [
+            message: 'Images require'
+          },
           {
-            message: 'Password at least have 6 characters'
-          }
-        ];
-        request(app)
-          .post('/register')
-          .send(userInput)
-          .end((err, response) => {
-            if (err) {
-              console.log('There is some error: ', err);
-              return done(err);
-            } else {
-              expect(response.status).toBe(400);
-              expect(response.body).toHaveProperty('errors', errors);
-              return done();
-            }
-          });
-      });
-      test('should send error and status 400 because email already exists.', done => {
-        const errors = [
+            message: 'Price require'
+          },
           {
-            message: 'Email already exists.'
+            message: 'stock require'
           }
+
         ];
         request(app)
-          .post('/register')
-          .send(user1)
+          .post('/product')
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
               return done(err);
             } else {
-              console.log(response.body);
               expect(response.status).toBe(400);
+              
               expect(response.body).toHaveProperty('errors', errors);
               return done();
             }
           });
       });
     });
+      
   });
-  describe('POST /login', () => {
-    describe('success login', () => {
-      test('should send access token and status 200', done => {
+  describe('PUT /Product', () => {
+    describe('Update Product', () => {
+      test('should send Message and status 200', done => {
         request(app)
-          .post('/login')
-          .send(user1)
+          .put('/product/1')
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
               return done(err);
-            } else {
-              expect(response.status).toBe(200);
-              expect(response.body).toHaveProperty('token');
+            } else {              
+              expect(response.status).toBe(201);
+              expect(response.body).toHaveProperty('msg', "Update Success");
+              
               return done();
             }
           });
       });
     });
   });
+  describe('Find All /Product', () => {
+    describe('Find All Product', () => {
+      test('should send json and status 200', done => {
+        request(app)
+          .get('/product')
+          .end((err, response) => {
+            if (err) {
+              console.log('There is some error: ', err);
+              return done(err);
+            } else {              
+              expect(response.status).toBe(201);
+              
+              return done();
+            }
+          });
+      });
+    });
+  });
+  describe('DELETE /Product', () => {
+    describe('Delete Product', () => {
+      test('should send Message and status 200', done => {
+        request(app)
+          .delete('/product/1')
+          .end((err, response) => {
+            if (err) {
+              console.log('There is some error: ', err);
+              return done(err);
+            } else {              
+              expect(response.status).toBe(201);
+              expect(response.body).toHaveProperty('msg', "Delete Success");
+              
+              return done();
+            }
+          });
+      });
+    });
+  });
+  
 });

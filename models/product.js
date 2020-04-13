@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     allowNull:false,
     validate:{
-      noNull:{
+      notNull:{
         args:true,
         msg:"Name require"
       }
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull:false,
       validate:{
-        noNull:{
+        notNull:{
           args:true,
           msg:"Images require"
         }
@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false,
       validate:{
-        noNull:{
+        notNull:{
           args:true,
           msg:"Price require"
         }
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:false,
       validate:{
-        noNull:{
+        notNull:{
           args:true,
           msg:"stock require"
         }
