@@ -30,7 +30,8 @@ class ProductController{
             name : name,
             image_url: image_url,
             price: price,
-            stock: stock
+            stock: stock,
+            // AdminId:req.currentAdminId
         })
             .then(result => {
                 res.status(201).json(result)
