@@ -1,5 +1,16 @@
 const app = require('../app')
 const request = require('supertest')
+const { sequelize } = require('../models')
+const { queryInterface } = sequelize
+
+afterAll(() => {
+    queryInterface.bulkDelete('Products')
+    .then(() => {
+        console.log('db clean up');
+        
+    })
+})
+
 
 describe('Product Service', () => {
     describe('success create', ()=>{
