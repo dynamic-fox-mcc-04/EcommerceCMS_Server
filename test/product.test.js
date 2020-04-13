@@ -3,12 +3,12 @@ const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
 
-const dataProduct={
-            name : req.body.name,
-            image_url:req.body.image_url,
-            price: req.body.price,
-            stock: req.body.stock
-}
+// const dataProduct={
+//             name : req.body.name,
+//             image_url:req.body.image_url,
+//             price: req.body.price,
+//             stock: req.body.stock
+// }
 
 afterAll(done => {
   queryInterface
@@ -44,16 +44,18 @@ beforeAll(done => {
 });
 
 describe('Product', () => {
-  describe('POST /register', () => {
-    describe('success register user', () => {
-      test('should send an object with user id and email', done => {
-        const userInput = {
-          email: 'mail@mail.com',
-          password: 'qweqwe'
-        };
+  describe('POST /', () => {
+    describe('success add product', () => {
+      test('should send an object with product detail', done => {
+        const newProduct={
+          name : "Minyak goreng",
+          image_url:"test",
+          price: 15000,
+          stock: 10
+}
         request(app)
-          .post('/register')
-          .send(userInput)
+          .post('/product')
+          .send(newProduct)
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
@@ -61,8 +63,9 @@ describe('Product', () => {
             } else {
               expect(response.status).toBe(201);
               expect(response.body).toHaveProperty('id', expect.any(Number));
-              expect(response.body).toHaveProperty('email', userInput.email);
-              expect(response.body).not.toHaveProperty('password');
+              expect(response.body).toHaveProperty('name', newProduct.name);
+              expect(response.body).toHaveProperty('price', newProduct.price);
+              expect(response.body).toHaveProperty('stock', newProduct.stock); 
               return done();
             }
           });

@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const dataUser = {
   email: 'iguntop@gmail.com',
