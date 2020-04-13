@@ -1,19 +1,19 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
+    "username": "postgres",
+    "password": "Fzn197",
+    "database": "db_cms",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "postgres",
+    "logging": false
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "postgres",
+    "password": "Fzn197",
+    "database": "db_cms_testing",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "root",
