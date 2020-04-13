@@ -20,8 +20,8 @@ module.exports = {
             price: {
                 type: Sequelize.INTEGER
             },
-            CategoryId: {
-                type: Sequelize.INTEGER
+            category: {
+                type: Sequelize.STRING
             },
             createdAt: {
                 allowNull: false,

@@ -1,8 +1,5 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    const Product = sequelize.define('Product', {
-
-    }, {});
     class Product extends sequelize.Sequelize.Model {}
     Product.init({
         productName: {
@@ -20,21 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
             }
         },
-        imageUrl: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notNull: {
-                    args: true,
-                    msg: "image url is required"
-                },
-                notEmpty: {
-                    args: true,
-                    msg: "image url is required"
-                }
-
-            }
-        },
+        imageUrl: DataTypes.STRING,
         stock: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -46,8 +29,12 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: {
                     args: true,
                     msg: "stock is required"
+                },
+                isStockGreaterThanZero() {
+                    if (this.stock < 0) {
+                        throw new Error("Stock must be greater than or equal to 0");
+                    }
                 }
-
             }
         },
         price: {
@@ -61,13 +48,44 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: {
                     args: true,
                     msg: "price is required"
+                },
+                isPriceGreaterThanZero() {
+                    if (this.price < 0) {
+                        throw new Error("Price must be greater than or equal to 0");
+                    }
+                }
+            }
+        },
+        category: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notNull: {
+                    args: true,
+                    msg: "category is required"
+                },
+                notEmpty: {
+                    args: true,
+                    msg: "category is required"
+                },
+                isIn: {
+                    args: [
+                        ['sneakers', 'boots', 'brogue', 'derby', 'trekking', 'others']
+                    ],
+                    msg: 'Category is not valid'
                 }
 
             }
-        },
-        CategoryId: DataTypes.INTEGER
+        }
     }, {
         sequelize,
+        hooks: {
+            beforeCreate(Product, options) {
+                if (!Product.imageUrl) {
+                    Product.imageUrl = 'https://discountseries.com/wp-content/uploads/2017/09/default.jpg'
+                }
+            }
+        },
         modelName: 'Product'
     })
     Product.associate = function(models) {

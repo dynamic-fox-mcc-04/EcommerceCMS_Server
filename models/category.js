@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
     class Category extends sequelize.Sequelize.Model {}
     Category.init({
-        name: {
+        categoryName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -23,7 +23,6 @@ module.exports = (sequelize, DataTypes) => {
     })
     Category.associate = function(models) {
         // associations can be defined here
-        Category.hasMany(models.Product)
     };
     return Category;
 };
