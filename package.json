@@ -1,0 +1,31 @@
+{
+    "name": "tdd",
+    "version": "1.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "jest": "^25.3.0",
+        "jsonwebtoken": "^8.5.1",
+        "pg": "^8.0.2",
+        "sequelize": "^5.21.6"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "jest"
+    },
+    "keywords": [],
+    "author": "achramadhans",
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/achramadhans/Ecommerce_Server.git"
+    },
+    "bugs": {
+        "url": "https://github.com/achramadhans/Ecommerce_Server/issues"
+    },
+    "homepage": "https://github.com/achramadhans/Ecommerce_Server#readme",
+    "description": ""
+}
