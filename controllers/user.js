@@ -4,7 +4,8 @@ const { generateToken } = require('../helpers/jwt')
 
 class Controller {
 
-    static login(req, res){
+    static login(req, res, next){
+        
         User.findOne({
             where : {
                email : req.body.email 
@@ -22,30 +23,28 @@ class Controller {
 
                     let token = generateToken( payload )
 
-                    res.status(200).json({
+                    return res.status(200).json({
                         'access_token' : token
                     })
 
                 } else {
-
-                    res.status(400).json({
-                        type : 'Bad request',
-                        msg : ' Invalid password/email'
+                    return next({
+                        name : 'bad request',
+                        errors : [{ message : 'Invalid password/email'}]
                     })
                 }
                 
             } else {
-                res.status(400).json({
-                    type : 'Bad request',
-                    msg : ' Invalid password/email'
+
+                return next({
+                    name : 'bad request',
+                    errors : [{ message : 'Invalid password/email'}]
                 })
             }
         })
         .catch(err => {
-            res.status(500).json({
-                type : 'Internal server error',
-                msg :  err
-            })
+
+            return next(err)
         })
 
     }
