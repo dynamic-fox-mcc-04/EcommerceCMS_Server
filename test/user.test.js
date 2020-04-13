@@ -2,19 +2,18 @@ const request = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
+const bcrypt = require('bcrypt');
 
-const dataProduct={
-            name : req.body.name,
-            image_url:req.body.image_url,
-            price: req.body.price,
-            stock: req.body.stock
-}
+const dataUser = {
+  email: 'iguntop@gmail.com',
+  password: 'test'
+};
 
 afterAll(done => {
   queryInterface
-    .bulkDelete('Products')
+    .bulkDelete('Users')
     .then(() => {
-      console.log('Db clean up');
+      console.log('Db clean up ');
       done();
     })
     .catch(err => {
@@ -24,18 +23,19 @@ afterAll(done => {
 });
 
 beforeAll(done => {
-  
+  const salt = bcrypt.genSaltSync(10);
+  const dataUserHashPassword = bcrypt.hashSync(dataUser.password, salt);
   queryInterface
-    .bulkInsert('Products', [
+    .bulkInsert('Users', [
       {
-        email: admin.email,
-        password: adminHashPassword,
+        email: dataUser.email,
+        password: dataUserHashPassword,
         createdAt: new Date(),
         updatedAt: new Date()
       }
     ])
     .then(() => {
-      console.log('Product created: ' + admin.email);
+      console.log('User created: ' + dataUser.email);
       done();
     })
     .catch(err => {
@@ -43,7 +43,7 @@ beforeAll(done => {
     });
 });
 
-describe('Product', () => {
+describe('User', () => {
   describe('POST /register', () => {
     describe('success register user', () => {
       test('should send an object with user id and email', done => {
@@ -123,7 +123,7 @@ describe('Product', () => {
         ];
         request(app)
           .post('/register')
-          .send(user1)
+          .send(dataUser)
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
@@ -143,7 +143,7 @@ describe('Product', () => {
       test('should send access token and status 200', done => {
         request(app)
           .post('/login')
-          .send(user1)
+          .send(dataUser)
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
