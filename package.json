@@ -1,0 +1,29 @@
+{
+  "name": "Ecommerce_Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^25.3.0",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test": "jest",
+    "dev": "nodemon bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linnrobin/Ecommerce_Server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linnrobin/Ecommerce_Server/issues"
+  },
+  "homepage": "https://github.com/linnrobin/Ecommerce_Server#readme"
+}
