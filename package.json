@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": " clear && jest --detectOpenHandles",
     "dev": "nodemon bin/server.js"
   },
   "repository": {
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/Fznr/Ecommerce_Server#readme",
   "devDependencies": {
-    "jest": "^25.3.0"
+    "jest": "^25.3.0",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

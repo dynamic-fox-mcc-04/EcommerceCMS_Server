@@ -1,10 +1,9 @@
 'use strict';
-const{encryptPassword}= require('../helper/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   const {Model}= sequelize.Sequelize
-  class Admin extends Model{}
+  class Admintest extends Model{}
 
-  Admin.init({
+  Admintest.init({
     email: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -41,15 +40,15 @@ module.exports = (sequelize, DataTypes) => {
   },{
     sequelize,
     hooks:{
-      beforeCreate(admin,options) {
-        admin.password = encryptPassword(admin.password)
-        admin.position='admin'
+      beforeCreate(admintest,options) {
+        admintest.password = encryptPassword(admintest.password)
+        admintest.position='admintest'
       }
     }
   })
-  Admin.associate = function(models) {
-    Admin.hasMany(models.Product)
+  Admintest.associate = function(models) {
+    Admintest.hasMany(models.Product)
     // associations can be defined here
   };
-  return Admin;
+  return Admintest;
 };
