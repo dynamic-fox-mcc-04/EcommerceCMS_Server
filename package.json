@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon bin/server.js",
-    "test": "NODE_ENV=test clear && jest --detectOpenHandles --runInBand"
+    "test": "NODE_ENV=test clear && jest --detectOpenHandles --runInBand",
+    "start": "node bin/server.js"
   },
   "repository": {
     "type": "git",
