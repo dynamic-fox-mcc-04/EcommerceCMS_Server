@@ -2,16 +2,16 @@ const { Product } = require('../models')
 
 class ProductController {
   static create(req, res, next) {
-    let { name, price, stock, image_Url } = req.body
+    let { name, price, stock, image_Url, category } = req.body
     Product.create({
       name,
       price,
       stock,
       image_Url,
-      UserId: req.currentUserId
+      category
     })
       .then((product) => {
-        res.status(201).json({ product })
+        res.status(201).json(product)
       })
       .catch(next)
   }
@@ -38,12 +38,13 @@ class ProductController {
   }
 
   static edit(req, res, next) {
-    let { name, price, stock, image_Url } = req.body
+    let { name, price, stock, image_Url, category } = req.body
     Product.update({
       name,
       price,
       stock,
-      image_Url
+      image_Url,
+      category
     }, {
       where: {
         id: req.params.id

@@ -63,8 +63,19 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    UserId: {
-      type: DataTypes.INTEGER
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Category is required'
+        },
+        notNull: {
+          args: true,
+          msg: 'Category is required'
+        }
+      }
     }
   }, {
     sequelize,
@@ -73,7 +84,6 @@ module.exports = (sequelize, DataTypes) => {
   })
   Product.associate = function(models) {
     // associations can be defined here
-    Product.belongsTo(models.User)
   };
   return Product;
 };
