@@ -4,6 +4,7 @@ const { User } = require('../models/index');
 module.exports = function(req, res, next) {
     try {
         req.decoded = verifyToken(req.headers.token);
+        console.log(req.decoded.id)
         User.findOne({
             where: {
                 id: req.decoded.id

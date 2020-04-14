@@ -2,8 +2,6 @@ const { Product } = require('../models')
 
 class ProductController {
     static add(req, res, next) {
-        console.log('> > > >', req.body, '< < < <');
-
         Product.create({
             name: req.body.name,
             image_url: req.body.image_url,
@@ -53,18 +51,34 @@ class ProductController {
     }
 
     static update(req, res, next) {
-        Product.update({
-            name: req.body.name,
-            image_url: req.body.image_url,
-            price: req.body.price,
-            stock: req.body.stock,
-            category: req.body.category
-        }, {
+        // console.log(req.body)
+        // console.log(req.params.id)
+        Product.findOne({
             where: {
                 id: req.params.id
-            },
-            returning: true
+            }
         })
+            .then(data => {
+                if(data) {
+                    return Product.update({
+                        name: req.body.name,
+                        image_url: req.body.image_url,
+                        price: req.body.price,
+                        stock: req.body.stock,
+                        category: req.body.category
+                    }, {
+                        where: {
+                            id: req.params.id
+                        },
+                        returning: true
+                    })
+                } else {
+                    return next({
+                        status: 404,
+                        message: 'User not Found'
+                    })
+                }
+            })
             .then(updatedProduct => {
                 console.log('--- Updated Successfully ---', updatedProduct[1][0]);
                 res.status(200).json(updatedProduct[1][0])
@@ -75,8 +89,6 @@ class ProductController {
     }
 
     static delete(req, res, next) {
-        console.log('deeeleeeete');
-        
         let id = req.params.id;
         let deletedProduct;
         Product.findByPk(id)

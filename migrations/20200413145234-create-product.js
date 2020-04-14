@@ -20,6 +20,9 @@ module.exports = {
       stock: {
         type: Sequelize.INTEGER
       },
+      category: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

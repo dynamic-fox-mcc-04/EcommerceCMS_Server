@@ -52,7 +52,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate(User, options) {
-        User.role = 'customer';
+        if(User.role !== 'admin') {
+          User.role = 'customer';
+        }
         User.password = encrypt(User.password);
       }
     },

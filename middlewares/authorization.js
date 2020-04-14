@@ -1,22 +1,19 @@
 const { User, Cart } = require('../models/index');
 
 function adminAuth(req, res, next) {
-    console.log(['Current User: '], req.currentUserId);
     User.findOne({
         where: {
             id: req.currentUserId
         }
     })
         .then(user => {
-            console.log('### The User ==> ', user);
-            if (user.is_admin) {
+            if (user.dataValues.role == 'admin') {
                 next()
             } else {
                 res.status(401).json({ status: 401, message: "Authorization failed" })
             }
         })
         .catch(err => {
-            console.log('errorrrrr disini');
             res.status(500).json(err)
         })
 }

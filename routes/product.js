@@ -4,7 +4,6 @@ const authentication = require('../middlewares/authentication');
 const { adminAuth } = require('../middlewares/authorization');
 
 router.use(authentication);
-
 router.post('/', adminAuth, ProductController.add);
 router.get('/', ProductController.findAll);
 router.get('/:id', ProductController.findOne);
