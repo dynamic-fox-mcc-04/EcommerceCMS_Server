@@ -1,10 +1,10 @@
 const {verifyToken} = require('../helper/jwt')
-const {User}= require('../models')
+const {Admin}= require('../models')
 
 function authentication(req, res, next) {
     try{
         let decoded= verifyToken(req.headers.access_token)
-        User.findOne({
+        Admin.findOne({
             where: {
                 id:decoded.id
             }
@@ -27,6 +27,7 @@ function authentication(req, res, next) {
                 })
             })
     } catch(err) {
+        console.log(err)
         return next(err)
     }
 }

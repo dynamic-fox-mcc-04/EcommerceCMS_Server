@@ -1,7 +1,7 @@
 const {Product} = require('../models')
 
 function authorization(req, res, next) {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     Product.findOne({
         where: {
             id: req.params.id
@@ -9,7 +9,7 @@ function authorization(req, res, next) {
     })
         .then(result => {
             if(result) {
-                console.log(result.AdminId)
+                // console.log(result.AdminId)
                 if(result.AdminId == req.currentAdminId){
                     return next()
                 } else {

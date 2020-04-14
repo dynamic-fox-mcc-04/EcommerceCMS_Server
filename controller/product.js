@@ -2,11 +2,14 @@ const {Product} = require('../models')
 
 class ProductController{
     static findAll(req, res) {
-        Product.findAll({})
+        Product.findAll()
         .then(result => {
             res.status(200).json({Product:result})
         })
-        .catch(err => res.status(500).json(err))
+        .catch(err => {
+            console.log(err)
+            res.status(500).json(err)
+        })
     }static findByPk(req, res) {
         const {id} =req.params
         Product.findByPk(id)
@@ -31,14 +34,19 @@ class ProductController{
             image_url: image_url,
             price: price,
             stock: stock,
-            // AdminId:req.currentAdminId
+            AdminId:req.currentAdminId
         })
             .then(result => {
                 res.status(201).json(result)
             })
             .catch(err => {
                 if(err.name == 'SequelizeValidationError' ) {
-                    res.status(400).json(err)
+                    res.status(400).json({
+                        name:err.name,
+                        errors:err.errors.map(el=>{
+                            return {message:el.message}
+                        })
+                    })
                 } else {
                     res.status(500).json(err)
                 }
@@ -60,13 +68,13 @@ class ProductController{
             .then((result) => {
                 // console.log(result)
                 if(result != 0) {
-                    let output= [{
+                    let output= {
                         name : name,
                         image_url: image_url,
                         price: price,
                         stock: stock
-                    }]
-                    res.status(200).json({Product:output})
+                    }
+                    res.status(200).json(output)
                 } else {
                     let output = {
                         error : "Not Found"
@@ -76,7 +84,13 @@ class ProductController{
             })
             .catch(err => {
                 if(err.name == 'SequelizeValidationError' ) {
-                    res.status(400).json(err)
+                    // console.log(err.errors)
+                    res.status(400).json({
+                        name:err.name,
+                        errors:err.errors.map(el=>{
+                            return {message:el.message}
+                        })
+                    })
                 } else {
                     res.status(500).json(err)
                 }
@@ -99,7 +113,7 @@ class ProductController{
                     })
                 } else {
                     let output = {
-                        error : "Not Found"
+                        errors : "Not Found"
                     }
                     res.status(404).json(output)
                 }   

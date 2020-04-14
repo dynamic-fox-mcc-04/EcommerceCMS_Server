@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull:{
           args:true,
-          msg:'Name cannot null'
+          msg:'image_url cannot null'
         },
         notEmpty:{
           args:true,
@@ -39,11 +39,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty:{
           args:true,
-          msg: 'Please insert image_url field'
+          msg: 'Please insert price field'
         },
         min:{
           args:[0],
-          msg:'price cannot be minus'
+          msg:'Price cannot be minus'
         }
       }
     },
@@ -53,11 +53,11 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:{
           args:true,
-          msg:'please insert stock quantity'
+          msg:'Please insert stock quantity'
         },
         min:{
           args:[0],
-          msg:'stock cannot be minus'
+          msg:'Stock cannot be minus'
         }
       }
     }
