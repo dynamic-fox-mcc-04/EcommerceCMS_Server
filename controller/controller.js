@@ -103,7 +103,8 @@ class Controller {
                     })
                 }
                 else {
-                    let msg = {
+                    console.log('masuk else')
+                    let err = {
                         msg: 'Item Does Not Exist'
                     }
                     throw err

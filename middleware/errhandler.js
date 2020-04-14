@@ -40,6 +40,11 @@ module.exports = function(err, req, res, next) {
                 message: 'Email Already Exist'
             }
             return res.status(400).json(msg)
+            case 'User Does Not Exist': 
+            message = {
+                message: 'User Does Not Exist'
+            }
+            return res.status(400).json(msg)
             case "Wrong Email / Password":
                 message = {
                     message: "Wrong Email / Password"

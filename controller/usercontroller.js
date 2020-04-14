@@ -1,7 +1,8 @@
 const {User} = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const SECRET = process.env.SECRET || 'tralala' //ngga kebaca process.env di jest nya,jadinya declare begini
+// const SECRET = process.env.SECRET || 'tralala' //ngga kebaca process.env di jest nya,jadinya declare begini
+const SECRET = process.env.SECRET
 class UserController {
     static Register(req, res, next) {
         console.log(req.body)
@@ -50,7 +51,6 @@ class UserController {
                 if(result) {
                     let status = bcrypt.compareSync(Password, result.Password)
                     if(status) {
-                        console.log(process.env.SECRET)
                         let payload = {
                             access_token: jwt.sign({
                                 Email: result.Email,
@@ -62,7 +62,7 @@ class UserController {
                     }
                     else {
                         let err = {
-                            msg: 'Wrong Email / Password'
+                            msg: 'User Does Not Exist'
                         }
                         throw err
                     }
