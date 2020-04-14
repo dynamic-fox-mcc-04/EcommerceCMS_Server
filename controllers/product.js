@@ -74,6 +74,7 @@ class Controller {
         })
             .then( result => {
                 return res.status(200).json({
+                    result,
                     message: 'Found'
                 })
             })

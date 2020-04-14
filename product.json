@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Masker",
+        "image_url": "https://media.suara.com/pictures/653x366/2020/02/29/45914-ilustrasi-masker.jpg",
+        "price": 5000,
+        "stock": 10
+    }, 
+    {
+        "name": "Termometer IR",
+        "image_url": "https://s2.bukalapak.com/img/2748510291/w-1000/Termometer_Infrared.jpg",
+        "price": 50000,
+        "stock": 5
+    },
+    {
+        "name": "Hand Sanitizer",
+        "image_url": "https://cf.shopee.co.id/file/f747ca26ccb029ed5770f415a4f1a52b",
+        "price": 5000,
+        "stock": 100
+    },
+    {
+        "name": "Masker Kain",
+        "image_url": "https://cf.shopee.co.id/file/0a26a227e7a8a19d8ba2b034ad57324c",
+        "price": 20000,
+        "stock": 100
+    }
+]
