@@ -125,6 +125,40 @@ describe('product test',()=>{
             })
         })
     })
+    describe('success findbypk',()=>{
+        describe('GET /product/:id', ()=>{
+            test('should send status 200',(done)=>{
+                request(app)
+                .get('/product/1')
+                .set('access_token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJmYXV6YW5AbWFpbC5jb20iLCJpYXQiOjE1ODY4NTExNjF9.I3kVebpFUQX-MOzQkr2KH6Irg4d5-Iqvunrr0nqAWkM')
+                .end((err, response)=> {
+                    if(err){
+                        return done(err)
+                    } else {
+                        expect(response.status).toBe(200)
+                        done()
+                    }
+                })
+            })
+        })
+    })
+    describe('failed findbypk',()=>{
+        describe('GET /product/:id', ()=>{
+            test('should send status 404 because data not found',(done)=>{
+                request(app)
+                .get('/product/2')
+                .set('access_token','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJmYXV6YW5AbWFpbC5jb20iLCJpYXQiOjE1ODY4NTExNjF9.I3kVebpFUQX-MOzQkr2KH6Irg4d5-Iqvunrr0nqAWkM')
+                .end((err, response)=> {
+                    if(err){
+                        return done(err)
+                    } else {
+                        expect(response.status).toBe(404)
+                        done()
+                    }
+                })
+            })
+        })
+    })
     describe('success update',()=> {
         describe('PUT /product/:id',()=> {
             test('should send status 200 and object with name, image_url, price and stock ',(done)=> {
