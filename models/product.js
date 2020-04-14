@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       minValue(value){
         if ( value < 0 ){
-          throw new Error(' Price must greater than or equal to 0')
+          throw new Error('Price must greater than or equal to 0')
         }
       }
      }
@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       minValue(value){
         if ( value < 0 ){
-          throw new Error(' Stock must greater or equal to  0')
+          throw new Error('Stock must greater than or equal to 0')
         }
       }
      }
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
   })
  
   Product.associate = function(models) {
-    // associations can be defined here
+    Product.belongsTo(models.User)
   };
   return Product;
 };

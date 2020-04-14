@@ -3,19 +3,21 @@ const request = require('supertest')
 const { sequelize } = require('../models')
 const { queryInterface } = sequelize
 
+let dummyToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ1c2VyQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTU4NjgzNDUyM30.ZYBaZhdNmvyFOFrELf_f-3ibObI--MUW6Ov5cxH9j8g'
+
 afterAll(() => {
-    queryInterface.bulkDelete('Products')
-    .then(() => {
-        console.log('db clean up');
-        
-    })
+    queryInterface.bulkDelete('Products', null, {})
+    console.log('db clean up');
+    
 })
 
 
+
 describe('Product Service', () => {
+
     describe('success create', ()=>{
         describe('POST /products', ()=>{
-            test('should return success message and status 201', (done) => {
+            test('should return success message and status 201 with token', (done) => {
                 const data = {
                     name : "molto",
                     image_url : "https://dummyimage.com/300",
@@ -25,6 +27,7 @@ describe('Product Service', () => {
 
                 request(app)
                 .post('/products')
+                .set('access_token', dummyToken)
                 .send(data)
                 .end((err, response) => {
 
@@ -42,10 +45,10 @@ describe('Product Service', () => {
         })
     })
 
+
     describe('Error create products', ()=>{
         describe('POST /products', ()=>{
-            test('should return multiple error when all input is empty and give status 500', (done)=>{
-
+            test('should return multiple error when all input is empty and give status 400 with token', (done)=>{
                 const data = {
                     name : "",
                     image_url : "",
@@ -74,6 +77,77 @@ describe('Product Service', () => {
                     },
                     {
                         message :  'Stock must be a number'
+                    },
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+        })
+
+        describe('POST /products', ()=>{
+            test('should return errors when price and price are negative value and give status 400 with token', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "https://dummyimage.com/300",
+                    price : -10000,
+                    stock : -50
+                }
+
+                const errors = [
+                    {
+                        message : 'Price must greater than or equal to 0'
+                    },
+                    {
+                        message : 'Stock must greater than or equal to 0'
+                    },
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+        })
+
+        describe('POST /products', ()=>{
+            test('should return errors because token not exist', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "https://dummyimage.com/300",
+                    price : 10000,
+                    stock : 50
+                }
+
+                const errors = [
+                    {
+                        message : 'Request Token'
                     },
                 ]
 
