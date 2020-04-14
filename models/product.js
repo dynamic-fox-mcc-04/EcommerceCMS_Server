@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     image_url : {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate : {
+        // isNotNull: tambahin is not null
+      }
     },
     price: {
       type: DataTypes.INTEGER,

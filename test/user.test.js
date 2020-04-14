@@ -50,6 +50,12 @@ describe('error register', ()=>{
                     } else {
                         expect(response.status).toBe(500)
                         expect(response.body).toHaveProperty('errors', errors)
+                        expect(response.body.errors).toEqual(
+                            expect.arrayContaining([
+                                expect.objectContaining({message: 'Email is required'}),
+                                expect.objectContaining({message: 'Password is required'})
+                            ])
+                        )
                         return done()
                     }
                 })
@@ -77,8 +83,23 @@ describe('error register', ()=>{
                         console.log(err)
                         return done(err)
                     } else {
+                        /*
+                        expect(users).toEqual(
+                            expect.arrayContaining([
+                            expect.objectContaining({id: 1}),
+                            expect.objectContaining({id: 2})
+                            ])
+                        );
+                        */
+
                         expect(response.status).toBe(400)
                         expect(response.body).toHaveProperty('errors', errors)
+                        //masih kurang spesifik, kamu harus cek apakah error message-nya sudah "Invalid email/password"
+                        expect(response.body.errors).toEqual(
+                            expect.arrayContaining([
+                                expect.objectContaining({message: "Invalid email/password"})
+                            ])
+                        ) 
                         return done()
                     }
                 })
@@ -87,7 +108,7 @@ describe('error register', ()=>{
 })
 
 
-// '/LOGIN' | Error Register -- Wrong Password
+// '/LOGIN' | Error Register -- Wrong Email
 
 describe('error register', ()=>{
     describe('POST/register', () =>{
@@ -109,6 +130,12 @@ describe('error register', ()=>{
                     } else {
                         expect(response.status).toBe(400)
                         expect(response.body).toHaveProperty('errors', errors)
+                        //lebih spesifik
+                        expect(response.body.errors).toEqual(
+                            expect.arrayContaining([
+                                expect.objectContaining({message: "Invalid email/password"})
+                            ])
+                        )
                         return done()
                     }
                 })

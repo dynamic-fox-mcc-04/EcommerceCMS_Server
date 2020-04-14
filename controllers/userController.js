@@ -14,7 +14,7 @@ class UserController {
         .then(result => {
             let user = {
                 id : result.id,
-                password : result.password
+                password : result.password // -- email bukan password
             }
             let token = generateToken(user)
             res.status(201).json({
@@ -73,7 +73,7 @@ class UserController {
             }
         })
         .catch(err =>{
-            return res.status(500).json({
+            return res.status(500).json({ // catch case pakai error handlerr
                 name:"InternalServerError", 
                 errors: [{
                     message: 'Email is required'

@@ -23,6 +23,7 @@ function authentication(req,res,next){
                 // Kemudian next ke todo user
                 console.log("=============================")
                 console.log("LULUS AUTHENTICATION")
+                // req.currentUserRole = result.role // payload di userController sign in method harusnya mengandung id, email, dan role setelah log in
                 req.currentUserId = result.id
                 return next()
             } else {
