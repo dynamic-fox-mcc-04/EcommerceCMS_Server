@@ -88,7 +88,7 @@ describe('OVERALL TEST', () => {
                         .send(inputNull)
                         .end((err, res) => {
                             if (err) {
-                                console.log('ERROR', err)
+                                // console.log('ERROR', err)
                                 return done(err)
                             } else {
                                 const { body } = res
@@ -118,7 +118,7 @@ describe('OVERALL TEST', () => {
                         .send(userInput)
                         .end((err, res) => {
                             if (err) {
-                                console.log('There is some error: ', err);
+                                // console.log('There is some error: ', err);
                                 return done(err);
                             } else {
                                 // console.log('INI EMPTY:', res.body)
@@ -211,7 +211,7 @@ describe('OVERALL TEST', () => {
                         name: 'samsung galaxy flip z',
                         image_url: 'https://images.samsung.com/id/smartphones/galaxy-z-flip/buy/0-bloom-black-purple-family-1-pc-img.jpg',
                         price: 22000000,
-                        stock: 10
+                        stock: 1
                     }
                     User.findOne({
                         where: {
@@ -232,7 +232,7 @@ describe('OVERALL TEST', () => {
                                 if (err) {
                                     return done(err)
                                 } else {
-                                    console.log('CREATE', res.body)
+                                    // console.log('CREATE', res.body)
                                     expect(res.status).toBe(201)
                                     expect(res.body).toHaveProperty('id', expect.any(Number))
                                     expect(res.body).toHaveProperty('name', inputProducts.name)
@@ -272,11 +272,19 @@ describe('OVERALL TEST', () => {
             })
             describe('error validation null', () => {
                 test('should return error validation not null with status 400', done => {
-                    const errorNull = [{ "message": "The name of products is required" }, {
-                        "message": "The image_url is required",
-                    }, {
-                        "message": "price is required",
-                    }]
+                    const errorNull = [
+                        {
+                            "message": "The name of products is required"
+                        },
+                        {
+                            "message": "The image_url is required",
+                        }, 
+                        {
+                            "message": "price is required",
+                        }, 
+                        {
+                            "message": "stock is required"
+                        }]
                     User.findOne({
                         where: {
                             'email': 'user@mail.com'
@@ -295,7 +303,7 @@ describe('OVERALL TEST', () => {
                                 if (err) {
                                     return done(err)
                                 } else {
-                                    console.log('INI', res.body)
+                                    // console.log('INI', res.body)
                                     expect(res.status).toBe(400)
                                     expect(res.body).toHaveProperty('errors', errorNull);
                                     return done()
@@ -307,11 +315,14 @@ describe('OVERALL TEST', () => {
             describe('error validation empty', () => {
                 test('should return error validation not null with status 400', done => {
                     const errorEmpty = [
-                        { message: "The image_url is required", "message": "price is required" },
+                        { "message": "price is required" },
+                         {
+                            "message": "stock is required"
+                        },
                         {
                             "message": "The name of products must not be an empty string",
                         },
-                        { message: 'The image_url must not be an empty string' },
+                        { message: 'The image_url must not be an empty string' }
                     ]
                     const inputProductEmpty = {
                         name: '',
@@ -335,7 +346,7 @@ describe('OVERALL TEST', () => {
                                 if (err) {
                                     return done(err)
                                 } else {
-                                    console.log('ITU', res.body)
+                                    // console.log('ITU', res.body)
                                     expect(res.status).toBe(400)
                                     expect(res.body).toHaveProperty('errors', errorEmpty);
                                     return done()
@@ -424,42 +435,42 @@ describe('OVERALL TEST', () => {
                     })
                 })
             })
-            // describe('error negative stock', () => {
-            //     test('should return error validation maximum price with status 400', done => {
-            //         const errorStock = [ { message: 'stock not allowed to be negative value' } ]
-            //         const inputStockErr = {
-            //             name: 'iphone',
-            //             image_url: 'iphone.jpg',
-            //             price: 100000,
-            //             stock: -1
-            //         }
-            //         User.findOne({
-            //             where: {
-            //                 'email': 'user@mail.com'
-            //             }
-            //         }).then(result => {
-            //             let payload = {
-            //                 id: result.id,
-            //                 email: result.email
-            //             }
-            //             access_token = getToken(payload)
-            //             request(app)
-            //                 .post('/products')
-            //                 .set({ 'access_token': access_token, Accept: 'application/json' })
-            //                 .send(inputStockErr)
-            //                 .end((err, res) => {
-            //                     if (err) {
-            //                         return done(err)
-            //                     } else {
-            //                         console.log('YO', res.body)
-            //                         expect(res.status).toBe(400)
-            //                         expect(res.body).toHaveProperty('errors', errorStock);
-            //                         return done()
-            //                     }
-            //                 })
-            //         })
-            //     })
-            // })
+            describe('error negative stock', () => {
+                test('should return error validation maximum price with status 400', done => {
+                    const errorStock = [ { message: 'stock must be positive' } ]
+                    const inputStockErr = {
+                        name: 'iphone',
+                        image_url: 'iphone.jpg',
+                        price: 100000,
+                        stock: -1
+                    }
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+                        access_token = getToken(payload)
+                        request(app)
+                            .post('/products')
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .send(inputStockErr)
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    // console.log('YO', res.body)
+                                    expect(res.status).toBe(400)
+                                    expect(res.body).toHaveProperty('errors', errorStock);
+                                    return done()
+                                }
+                            })
+                    })
+                })
+            })
         })
     })
 })

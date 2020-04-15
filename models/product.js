@@ -45,12 +45,18 @@ module.exports = (sequelize, DataTypes) => {
     },
     stock: {
       type: DataTypes.INTEGER,
-      // validate:{
-      //   min:{
-      //     args: 0,
-      //     msg: 'stock not allowed to be negative value'
-      //   }
-      // }
+      allowNull: false,
+      validate:{
+        notNull: {
+          args: true,
+          msg: `stock is required`
+        },
+        isPosiive(value){
+          if(value <= 0){ //try to make another version custom validation
+            throw new Error("stock must be positive");
+          }
+        }
+      }
     }
   }, {
     sequelize,

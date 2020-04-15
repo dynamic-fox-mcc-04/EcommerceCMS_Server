@@ -3,7 +3,7 @@ const userRouter = require("./users")
 const productRouter = require("./products")
 
 router.use(userRouter)
-router.use(productRouter)
+router.use('/products', productRouter)
 
 
 module.exports = router
