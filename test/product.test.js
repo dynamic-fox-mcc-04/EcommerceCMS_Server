@@ -31,16 +31,16 @@ beforeAll((done) => {
 })
 
 //do afterAll bellow if all function have running well
-afterAll((done) => {
-    queryInterface.bulkDelete('Products', {})
-        .then(_ => {
-            console.log('Db clean up')
-            done()
-        })
-        .catch(err => {
-            done(err)
-        })
-})
+// afterAll((done) => {
+//     queryInterface.bulkDelete('Products', {})
+//         .then(_ => {
+//             console.log('Db clean up')
+//             done()
+//         })
+//         .catch(err => {
+//             done(err)
+//         })
+// })
 
 describe('Product Routes', () => {
     describe('POST /products', () => {
@@ -140,7 +140,7 @@ describe('Product Routes', () => {
                     stock: 100
                 }
                 request(app)
-                    .put('/products/68')
+                    .put('/products/20')
                     .set('token', token)
                     .send(update)
                     .end((err, res) => {
@@ -182,7 +182,7 @@ describe('Product Routes', () => {
         describe('Success Process', () => {
             test('Should return an array of object (name, image_url, price, stock) with status code 200', (done) => {
                 request(app)
-                    .get('/products/68')
+                    .get('/products/20')
                     .set('token', token)
                     .end((err, res) => {
                         // console.log('//------>>>', res.body);

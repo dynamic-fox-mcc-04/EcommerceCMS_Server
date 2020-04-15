@@ -1,4 +1,5 @@
 const { Product } = require('../models')
+const rupiahMaker = require('../helpers/rupiahMaker');
 
 class ProductController {
     static add(req, res, next) {
@@ -22,6 +23,11 @@ class ProductController {
             order: [['updatedAt', 'DESC']]
         })
             .then(products => {
+                let nominal = '';
+                products.map(el => {
+                    nominal = el.price;
+                    el.price = rupiahMaker(nominal)
+                })
                 res.status(200).json(products)
             })
             .catch(err => {
