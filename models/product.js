@@ -35,11 +35,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         min: {
           args: 2000,
-          msg: 'price muste be IDR 2000 or higher'
+          msg: 'price must be IDR 2000 or higher'
+        },
+        max: {
+          args: 25000000,
+          msg: 'price maximum is IDR 25000000'
         }
       }
     },
-    stock: DataTypes.INTEGER
+    stock: {
+      type: DataTypes.INTEGER,
+      // validate:{
+      //   min:{
+      //     args: 0,
+      //     msg: 'stock not allowed to be negative value'
+      //   }
+      // }
+    }
   }, {
     sequelize,
     modelName: 'Product'

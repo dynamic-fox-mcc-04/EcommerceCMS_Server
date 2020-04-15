@@ -232,12 +232,13 @@ describe('OVERALL TEST', () => {
                                 if (err) {
                                     return done(err)
                                 } else {
+                                    console.log('CREATE', res.body)
                                     expect(res.status).toBe(201)
                                     expect(res.body).toHaveProperty('id', expect.any(Number))
-                                    expect(res.body).toHaveProperty('price', inputProducts.price)
-                                    expect(res.body).toHaveProperty('stock', inputProducts.stock)
                                     expect(res.body).toHaveProperty('name', inputProducts.name)
                                     expect(res.body).toHaveProperty('image_url', inputProducts.image_url)
+                                    expect(res.body).toHaveProperty('price', inputProducts.price)
+                                    expect(res.body).toHaveProperty('stock', inputProducts.stock)
                                     return done()
                                 }
                             })
@@ -245,7 +246,6 @@ describe('OVERALL TEST', () => {
                     // .catch(err => done(err))
                 })
             })
-
             describe('error auth', () => {
                 test('should return error invalid token, not authorized', done => {
                     const inputProductNull = {
@@ -348,7 +348,7 @@ describe('OVERALL TEST', () => {
                 test('should return error validation minimum price with status 400', done => {
                     const errorPrice = [
                         {
-                            "message": "price muste be IDR 2000 or higher",
+                            "message": "price must be IDR 2000 or higher",
                         }
                     ]
                     const inputPriceError = {
@@ -375,7 +375,7 @@ describe('OVERALL TEST', () => {
                                 if (err) {
                                     return done(err)
                                 } else {
-                                    console.log('APA', res.body)
+                                    // console.log('APA', res.body)
                                     expect(res.status).toBe(400)
                                     expect(res.body).toHaveProperty('errors', errorPrice);
                                     return done()
@@ -384,6 +384,82 @@ describe('OVERALL TEST', () => {
                     })
                 })
             })
+            describe('error maximum price', () => {
+                test('should return error validation maximum price with status 400', done => {
+                    const errorMaxPrice = [
+                        {
+                            message: 'price maximum is IDR 25000000'
+                        }
+                    ]
+                    const inputPriceMaxError = {
+                        name: 'iphone',
+                        image_url: 'iphone.jpg',
+                        price: 100000000000000,
+                        stock: 10
+                    }
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+                        access_token = getToken(payload)
+                        request(app)
+                            .post('/products')
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .send(inputPriceMaxError)
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    // console.log('OPO', res.body)
+                                    expect(res.status).toBe(400)
+                                    expect(res.body).toHaveProperty('errors', errorMaxPrice);
+                                    return done()
+                                }
+                            })
+                    })
+                })
+            })
+            // describe('error negative stock', () => {
+            //     test('should return error validation maximum price with status 400', done => {
+            //         const errorStock = [ { message: 'stock not allowed to be negative value' } ]
+            //         const inputStockErr = {
+            //             name: 'iphone',
+            //             image_url: 'iphone.jpg',
+            //             price: 100000,
+            //             stock: -1
+            //         }
+            //         User.findOne({
+            //             where: {
+            //                 'email': 'user@mail.com'
+            //             }
+            //         }).then(result => {
+            //             let payload = {
+            //                 id: result.id,
+            //                 email: result.email
+            //             }
+            //             access_token = getToken(payload)
+            //             request(app)
+            //                 .post('/products')
+            //                 .set({ 'access_token': access_token, Accept: 'application/json' })
+            //                 .send(inputStockErr)
+            //                 .end((err, res) => {
+            //                     if (err) {
+            //                         return done(err)
+            //                     } else {
+            //                         console.log('YO', res.body)
+            //                         expect(res.status).toBe(400)
+            //                         expect(res.body).toHaveProperty('errors', errorStock);
+            //                         return done()
+            //                     }
+            //                 })
+            //         })
+            //     })
+            // })
         })
     })
 })
