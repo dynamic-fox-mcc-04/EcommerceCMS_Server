@@ -59,7 +59,6 @@ http://localhost:3000
   ```
 
 ----
-----
 ***Signin***
 ----
   Returns Admin.
@@ -291,7 +290,6 @@ http://localhost:3000
 
 ----
 ***Update***
----
 ----
   Returns Updated product.
 
