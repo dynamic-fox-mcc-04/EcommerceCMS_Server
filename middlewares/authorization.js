@@ -11,7 +11,7 @@ function authorization(req,res,next){
         if(result){
             console.log(req.currentUserId)
             //for cms, chcek if currentUserRole yang ditampung di authentication adalah "admin"
-            if(result.role == req.currentUserId){
+            if(result.userId == req.currentUserId){
                 return next()
             } else {
                 res.status(401).json({

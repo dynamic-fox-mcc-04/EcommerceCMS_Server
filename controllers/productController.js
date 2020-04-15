@@ -5,11 +5,11 @@ class ProductController {
         Product.findAll({
             where:{
                 userId: req.currentUserId
-            }
+            }, order: [['id', 'ASC']]
         })
         .then(result =>{
             res.status(200).json({
-                tasks: result
+                products: result
             })
         })
         .catch(error =>{

@@ -73,6 +73,7 @@ class UserController {
             }
         })
         .catch(err =>{
+            console.log(err)
             return res.status(500).json({ // catch case pakai error handlerr
                 name:"InternalServerError", 
                 errors: [{
