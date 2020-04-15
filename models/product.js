@@ -35,12 +35,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     price: {
       type: DataTypes.INTEGER,
-      min: {
-        args: 0,
-        msg: 'Price cannot be negative'
-      },
       allowNull: false,
       validate: {
+        // min: {
+        //   args: 0,
+        //   msg: 'Price cannot be negative'
+        // },
         notNull: {
           args: true,
           msg: "Price cannot be null"
@@ -53,12 +53,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     stock: {
       type: DataTypes.INTEGER,
-      min: {
-        args: 0,
-        msg: 'Stock cannot be negative'
-      },
       allowNull: false,
       validate: {
+        // min: {
+        //   args: 0,
+        //   msg: 'Stock cannot be negative'
+        // },
         notNull: {
           args: true,
           msg: "Stock cannot be null"

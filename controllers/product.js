@@ -3,8 +3,8 @@ const { Product } = require('../models')
 class Controller {
     static findAll(req, res, next) {
         Product.findAll({
-            orders: [
-                ['name','ASC']
+            order: [
+                ['id','ASC']
             ]
         })
             .then( result => {
