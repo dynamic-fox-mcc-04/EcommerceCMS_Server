@@ -14,7 +14,8 @@ const userTest = {
 const currentProduct = {
     name: 'orange fruit',
     image_url: 'https://google.com',
-    price: 20000
+    price: 20000,
+    stock: 30
 }
 
 
@@ -33,47 +34,47 @@ afterAll((done) => {
 })
 
 beforeAll(done => {
+    
     const newPass = encrypt(userTest.password)
     queryInterface
       .bulkInsert('Users', [
         {
           email: userTest.email,
           password: newPass,
+          role: 'admin',
           createdAt: new Date(),
           updatedAt: new Date()
         }
       ])
       .then((result) => {
         console.log('User created: ' + userTest.email);
-        done();
+        request(app)
+        .post('/users/login')
+        .send(userTest)
+        .end((err, response) => {
+            if (err) {
+                console.log(err)
+                return done(err)
+            } else {
+                currentuserId = response.body.id
+                currentToken = response.body.token
+                console.log(currentToken)
+                expect(response.status).toBe(200);
+                expect(response.body).toHaveProperty('token');
+                return done()
+            }
+        })
       })
       .catch(err => {
         done(err);
       });
-  });
+
+     
+});
 
 
   describe('Product services', () => {
     describe('success add product', () => {
-        test('should return object with properties access token, id, email and status code 200', (done) => {
-            request(app)
-            .post('/users/login')
-            .send(userTest)
-            .end((err, response) => {
-                if (err) {
-                    console.log(err)
-                    return done(err)
-                } else {
-                    currentuserId = response.body.id
-                    currentToken = response.body.token
-                    console.log(currentToken)
-                    expect(response.status).toBe(200);
-                    expect(response.body).toHaveProperty('token');
-                    return done()
-                }
-            })
-        });     
-
 
         test('should return object with properties id, name, price, image_url and status code 201', (done) => {
             request(app)
@@ -91,7 +92,7 @@ beforeAll(done => {
                     expect(response.body).toHaveProperty('name', currentProduct.name)
                     expect(response.body).toHaveProperty('image_url', currentProduct.image_url)
                     expect(response.body).toHaveProperty('price', currentProduct.price)
-                    expect(response.body).toHaveProperty('userId', currentuserId)
+                    expect(response.body).toHaveProperty('stock', currentProduct.stock)
                     return done()
                 }
             })
@@ -104,7 +105,7 @@ beforeAll(done => {
                     name: currentProduct.name,
                     image_url: currentProduct.image_url,
                     price: currentProduct.price,
-                    userId: currentuserId
+                    stock: currentProduct.stock
                 }
             ]
             request(app)
@@ -130,7 +131,8 @@ beforeAll(done => {
             .send({
                 name: 'red orange fruits',
                 image_url: 'http://facebook.com',
-                price: 40000
+                price: 40000,
+                stock: 10
             })
             .end((err, response) => {
                 if (err) {
@@ -182,7 +184,7 @@ beforeAll(done => {
 
     describe('errors auhtorization', () => {
         test('should return error with status code 404 because server cannot find searched product', (done) => {
-            const errors = [{ message: 'Data Product Not Found' }]
+            const errors = [{ message: 'Product Not Found' }]
             request(app)
             .delete('/products/2987')
             .set({'access_token': currentToken})
@@ -208,11 +210,12 @@ beforeAll(done => {
                     message: 'Name is required field'
                 },
                 {
-                    message: 'Image_url is required field'
+                    message: 'Price is required field'
                 },
                 {
-                    message: 'Price is required field'
+                    message: 'Stock is required field'
                 }
+                
             ]
             request(app)
             .post('/products')
@@ -237,7 +240,8 @@ beforeAll(done => {
             .send({
                 name: 'mango',
                 image_url: 'http://twitter.com',
-                price: -1
+                price: -1,
+                stock: 10
             })
             .end((err, response) => {
                 if (err) {
@@ -260,7 +264,8 @@ beforeAll(done => {
             .send({
                 name: 'mango',
                 image_url: 'twitterom',
-                price: 10000
+                price: 10000,
+                stock: 10
             })
             .end((err, response) => {
                 if (err) {

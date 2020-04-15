@@ -1,12 +1,13 @@
 const { Product } = require('../models')
-
+const { Op } = require('sequelize');
 class ProductController {
     static addProduct (req, res, next) {
         const product = {
             name: req.body.name,
             image_url: req.body.image_url,
             price: req.body.price,
-            userId: req.currentuserId
+            stock: req.body.stock,
+            category: req.body.category
         }
         Product.create(product)
         .then((result) => {
@@ -15,7 +16,8 @@ class ProductController {
                 name: result.name,
                 image_url: result.image_url,
                 price: result.price,
-                userId: result.userId
+                stock: result.stock,
+                category: result.category
             })
         }).catch((err) => {
             return next(err)
@@ -29,9 +31,16 @@ class ProductController {
             }
         })
         .then((result) => {
-            return res.status(200).json({
-                message: 'Data successfully deleted'
-            })
+            if (result) {
+                return res.status(200).json({
+                    message: 'Data successfully deleted'
+                })
+            } else {
+                return next({
+                    name: 'NotFound',
+                    errors: [{ message: 'Product Not Found' }]
+                })
+            }
         }).catch((err) => {
             return next(err)
         });
@@ -41,22 +50,44 @@ class ProductController {
         Product.update({
             name: req.body.name,
             image_url: req.body.image_url,
-            price: req.body.price
+            price: req.body.price,
+            stock: req.body.stock,
+            category: req.body.category
         },{
             where: {
                 id: req.params.id
             }
         })
         .then((result) => {
-            return res.status(200).json({
-                message: 'Data successfully updated'
-            })
+            if (result) {
+                return res.status(200).json({
+                    message: 'Data successfully updated'
+                })
+            } else {
+                return next({
+                    name: 'NotFound',
+                    errors: [{ message: 'Product Not Found' }]
+                })
+            }
         }).catch((err) => {
+            console.log(err)
             return next(err)
         });
     }
     static readProduct (req, res, next) {
-        Product.findAll()
+        let src = {}
+        if (req.query.category) {
+            console.log(req.query.category)
+            src = {
+                where: {
+                    category: {
+                        [Op.iLike]: `%${req.query.category}%`
+                    }
+                }
+            }
+        }
+        console.log(src)
+        Product.findAll(src)
         .then((result) => {
             const products = result.map(el => {
                 return {
@@ -64,7 +95,8 @@ class ProductController {
                     name: el.name,
                     image_url: el.image_url,
                     price: el.price,
-                    userId: el.userId
+                    stock: el.stock,
+                    category: el.category                    
                 }
             })
             return res.status(200).json({

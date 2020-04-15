@@ -27,11 +27,13 @@ beforeAll(done => {
         {
           email: userTest.email,
           password: newPass,
+          role: 'admin',
           createdAt: new Date(),
           updatedAt: new Date()
         }
       ])
-      .then(() => {
+      .then((result) => {
+          console.log(result)
         console.log('User created: ' + userTest.email);
         done();
       })
@@ -58,9 +60,11 @@ describe('User services', () => {
                     if (err) {
                         return done(err)
                     } else {
+                        console.log(response.body)
                         expect(response.status).toBe(201);
                         expect(response.body).toHaveProperty('id', expect.any(Number));
                         expect(response.body).toHaveProperty('email', userInput.email);
+                        expect(response.body).toHaveProperty('role', 'admin');
                         expect(response.body).not.toHaveProperty('password');
                         return done()
                     }
@@ -74,7 +78,8 @@ describe('User services', () => {
                 const errors = [
                     {
                         message: 'Email is required field'
-                    },
+                    }
+                    ,
                     {
                         message: 'Password is required field'
                     }
@@ -154,6 +159,7 @@ describe('User services', () => {
                         console.log(err)
                         return done(err)
                     } else {
+                        console.log(response.body)
                         expect(response.status).toBe(200);
                         expect(response.body).toHaveProperty('token');
                         return done()

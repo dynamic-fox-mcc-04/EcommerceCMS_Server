@@ -11,6 +11,7 @@ const auhtentication = (req, res, next) => {
         })
         .then((result) => {
             if (result) {
+                // console.log(payload)
                 req.currentuserId = result.id
                 return next()
             } else {

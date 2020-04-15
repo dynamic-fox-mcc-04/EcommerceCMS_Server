@@ -1,11 +1,10 @@
 // const { Product } = require('../models')
 const { User } = require('../models')
 
-const authorization = (req, res, next) => {
-    console.log(req.currentuserId)
+const loginAuth = (req, res, next) => {
     User.findOne({
         where: {
-            id: req.currentuserId
+            email: req.body.email
         }
     })
     .then((result) => {
@@ -29,4 +28,4 @@ const authorization = (req, res, next) => {
     });
 } 
 
-module.exports = authorization
+module.exports = loginAuth

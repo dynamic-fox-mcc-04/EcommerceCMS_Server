@@ -13,10 +13,10 @@ class UserController {
         .then((result) => {
             return res.status(201).json({
                 id: result.id,
-                email: result.email
+                email: result.email,
+                role: result.role
             })
         }).catch((err) => {
-            // console.log(err)
             return next(err)
         });
     }
@@ -29,16 +29,19 @@ class UserController {
         })
         .then((result) => {
             if (result) {
+                console.log(req.body.password)
                 const compare = decrypt(req.body.password, result.password)
                 if (compare) {
                     const payload = {
                         id: result.id,
-                        email: result.email
+                        email: result.email,
+                        role: result.role
                     }
                     const token = generateToken(payload)
                     return res.status(200).json({
                         id: result.id,
                         email: result.email,
+                        role: result.role,
                         token
                     })
                 } else {

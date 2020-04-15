@@ -14,8 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     get price() {
       return this.price
     }
-    get userID() {
-      return this.userID
+    get category() {
+      return this.category
     }
 
   }
@@ -33,12 +33,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     image_url: {
       type: DataTypes.STRING,
-      allowNull: false,
       validate: {
-        notNull: {
-            args: true,
-            msg: 'Image_url is required field'
-        },
         isUrl: {
           args: true,
           msg: 'this field must be url like'
@@ -59,15 +54,47 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       }
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Stock is required field'
+        },
+        greaterThanZeroStk() {
+          if (this.stock < 0) {
+            throw new Error('Stock must be greater than 0')
+          }
+        }
+      }
+    },
+    category: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: 'Category is required field'
+        }
+      }
     }
   }, {
     sequelize,
+    hooks: {
+      beforeCreate: (Product, options) => {
+        if (Product.image_url == '') {
+          Product.image_url = 'https://discountseries.com/wp-content/uploads/2017/09/default.jpg'
+        }
+      }
+    },
     models: 'Product'
   })
 
   Product.associate = function(models) {
     // associations can be defined here
-    Product.belongsTo(models.User, { foreignKey: 'userId', onDelete: 'CASCADE' })
+    // Product.belongsTo(models.User, { foreignKey: 'userId', onDelete: 'CASCADE' })
   };
   return Product;
 };

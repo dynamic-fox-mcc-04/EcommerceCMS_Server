@@ -12,6 +12,9 @@ module.exports = (sequelize, DataTypes) => {
     get password() {
       return this.password
     }
+    get role() {
+      return this.role
+    }
   }
 
   User.init({
@@ -38,19 +41,25 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be at least 8 characters'
         }
       }
+    },
+    role: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize,
     hooks: {
       beforeCreate: (User, options) => {
         User.password = encrypt(User.password)
+        if (User.role == '' || !User.role) {
+          User.role = 'admin'
+        }
       }
     },
     modelName: 'User'
   })
   User.associate = function(models) {
     // associations can be defined here
-    User.hasMany(models.Product, { foreignKey: 'userId', onDelete: 'CASCADE' })
+    // User.hasMany(models.Product, { foreignKey: 'userId', onDelete: 'CASCADE' })
   };
   return User;
 };
