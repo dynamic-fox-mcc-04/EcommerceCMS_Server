@@ -41,6 +41,7 @@ class UserController {
     }
 
     static Login(req, res, next) {
+        console.log(req.body)
         let {Email, Password} = req.body
         User.findOne({
             where: {
@@ -54,9 +55,11 @@ class UserController {
                         let payload = {
                             access_token: jwt.sign({
                                 Email: result.Email,
-                                id: result.id
+                                id: result.id,
+                                Role: result.Role
                             }, SECRET),
-                            Email: result.Email
+                            Email: result.Email,
+                            Role: result.Role
                         }
                         return res.status(200).json(payload)
                     }

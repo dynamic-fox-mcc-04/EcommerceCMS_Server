@@ -2,7 +2,9 @@ const {Product} = require('../models')
 
 class Controller {
     static FetchProduct(req, res, next) {
-        Product.findAll()
+        Product.findAll({
+            order: [['id', 'DESC']]
+        })
             .then(function(result) {
                 return res.status(200).json(result)
             })
@@ -50,6 +52,8 @@ class Controller {
     }
 
     static UpdateProduct(req, res, next) {
+        console.log(req.body)
+        console.log(req.params.id)
         let {Name, Image_Url, Stock,Price} = req.body
         Product.findOne({
             where: {
@@ -114,6 +118,20 @@ class Controller {
                 res.status(201).json({
                     msg: 'Successfully Deleted the Product'
                 })
+            })
+            .catch(function(err) {
+                next(err)
+            })
+    }
+
+    static getDetails(req, res, next) {
+        Product.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(function(result) {
+                return res.status(200).json(result)
             })
             .catch(function(err) {
                 next(err)
