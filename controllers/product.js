@@ -8,6 +8,7 @@ class Controller{
             price: req.body.price,
             stock: req.body.stock
         }
+       console.log(data);
        
         Product.create(data)
         .then(result=>{
@@ -65,7 +66,7 @@ class Controller{
         Product.findAll()
         .then(result=>{         
                           
-            res.status(201).json(result)
+            res.status(201).json({data:result})
         })
         .catch(err=>{
            next(err)

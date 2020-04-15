@@ -1,5 +1,6 @@
 const { User } = require('../models');
-const jwt = require('jsonwebtoken');
+const {generateToken,verify} = require('../helpers/jwt');
+const {Decrypt} = require('../helpers/bcrypt')
 
 class Controller {
   static register(req, res, next) {
@@ -27,11 +28,34 @@ class Controller {
         email
       }
     })
-      .then(response => {
-        const payload = {
-          id: response.id,
-          email: response.email
-        };
+      .then(result => {
+        
+        let compare = Decrypt(password,result.password)
+        console.log(compare);
+        
+        if(compare){
+            let payload={
+                id:result.id,
+                email:result.email
+            }
+            
+            let token = generateToken(payload)
+            console.log(token);
+            return res.status(201).json({
+                
+                id:result.id,
+                token:token
+            })
+            
+        }
+        else{
+           return res.status(401).json({
+                msg:"username/password not found"
+            })
+        }
+
+
+        
         const token = jwt.sign(payload, process.env.SECRET);
         return res.status(200).json({
           token

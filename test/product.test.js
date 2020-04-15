@@ -131,7 +131,7 @@ describe('Product', () => {
               return done(err);
             } else {              
               expect(response.status).toBe(201);
-              
+              expect(response.body).toHaveProperty('data');
               return done();
             }
           });
