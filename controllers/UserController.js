@@ -45,9 +45,12 @@ class UserController {
                         name: 'InvalidLogin'
                     })
                 }
+            } else {
+                return next({
+                    name: 'InvalidLogin'
+                })
             }
         }).catch(err => {
-            console.log('ERR PROMISE', err)
             return next(err)
         })
     }

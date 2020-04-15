@@ -61,7 +61,12 @@ module.exports = (err, req, res, next) => {
             })
             break;
         default:
-            return res.status(500).json(err)
+            return res.status(500).json({
+                errors: {
+                    type: 'Internal Server Error',
+                    status: 500
+                }
+            })
             break;
     }
 }
