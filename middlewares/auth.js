@@ -31,6 +31,7 @@ const authentication = (req, res, next) => {
 const admin_authorization = (req, res, next) => {
     const role = req.decoded.role
     if (role == 'admin') {
+        console.log(`authorized`)
         return next()
     } else {
         return next({

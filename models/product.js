@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
                 },
                 isIn: {
                     args: [
-                        ['sneakers', 'boots', 'brogue', 'derby', 'trekking', 'others']
+                        ['sneakers', 'boots', 'brogue', 'derby', 'trekking']
                     ],
                     msg: 'Category is not valid'
                 }

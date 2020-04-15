@@ -24,6 +24,7 @@ class UserController {
     }
 
     static login(req, res, next) {
+        console.log(`controller login`)
         const { email, password } = req.body
         const account = { email, password }
         return models.User.findOne({ where: { email } })

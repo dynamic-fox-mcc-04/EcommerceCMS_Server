@@ -9,11 +9,10 @@ switch (env) {
         break;
 }
 
-
-const app = require('../app.js');
-const http = require('http');
-const server = http.createServer(app);
-
-server.listen(process.env.PORT, () => {
-    console.log(`listening on port : ${process.env.PORT}`);
-})
+module.exports = {
+    "username": process.env.DB_USER,
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME,
+    "host": process.env.DB_HOST,
+    "dialect": process.env.DB_DIALECT
+}
