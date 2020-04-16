@@ -2,9 +2,9 @@
   "name": "Ecommerce_Server-1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "set NODE_ENV=development&&nodemon ./bin/http.js",
+    "dev": "set NODE_ENV=development&&nodemon ./bin/server.js",
     "test": "set NODE_ENV=test&&jest --detectOpenHandles"
   },
   "repository": {

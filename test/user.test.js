@@ -48,7 +48,7 @@ beforeAll(done => {
 const userInput = {
     email: 'fadhil@mail.com',
     password: 'fadhilman',
-    role: 'paid'
+    role: 'admin'
 };
 
 describe('User service', () => {
@@ -72,9 +72,10 @@ describe('User service', () => {
                     }
                 });
             })
-            test('Should return id, email, and role - free (because role is emptied) with status 201', done => {
+            test('Should return id, email, and role - buyer (because role is emptied) with status 201', done => {
                 const norole = { ...userInput }
-                delete norole.role
+                norole.email = 'fadhilman@mail.com'
+                norole.role = ''
                 request(app)
                     .post('/register')
                     .send(norole)
@@ -85,8 +86,8 @@ describe('User service', () => {
                     } else {
                         expect(response.status).toBe(201);
                         expect(response.body).toHaveProperty('id', expect.any(Number));
-                        expect(response.body).toHaveProperty('email', userInput.email);
-                        expect(response.body).toHaveProperty('role', 'free');
+                        expect(response.body).toHaveProperty('email', norole.email);
+                        expect(response.body).toHaveProperty('role', 'buyer');
                         expect(response.body).not.toHaveProperty('password');
                         return done();
                     }
@@ -158,7 +159,7 @@ describe('User service', () => {
     })
     describe('/POST login', () => {
         describe('Login - success', () => {
-            test('should send access token with status 200', () => {
+            test('should send access token with status 200', done => {
                 const login = {
                     email: admin.email,
                     password: admin.password
@@ -180,7 +181,7 @@ describe('User service', () => {
             })
         })
         describe('Login - error', () => {
-            test('should return error and status 400 because email/password mismatched', () => {
+            test('should return error and status 400 because email/password mismatched', done => {
                 const failToLog = {
                     email: userInput.email,
                     password: admin.password
