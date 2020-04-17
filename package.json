@@ -4,7 +4,8 @@
   "description": "Tugas",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev" : "nodemon bin/server.js",
+    "test": "clear && jest --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,9 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.0.2",
     "sequelize": "^5.21.6"
+  },
+  "devDependencies": {
+    "jest": "^25.3.0",
+    "supertest": "^4.0.2"
   }
 }

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.INTEGER,
       validate :
         {
-          isNumeric : true,
+          isInt : true,
           min : 0
         }
     },
@@ -34,10 +34,13 @@ module.exports = (sequelize, DataTypes) => {
           min : 0
         }
     },
-    description: DataTypes.TEXT
+    description: DataTypes.TEXT,
+    UserId: DataTypes.INTEGER
   }, {});
   Product.associate = function(models) {
     // associations can be defined here
+    Product.belongsToMany(models.User, {through : "Orders"});
+    Product.belongsTo(models.User);
   };
   return Product;
 };
