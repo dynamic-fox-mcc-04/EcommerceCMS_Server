@@ -14,10 +14,10 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.0.2",
     "sequelize": "^5.21.6",
+    "dotenv": "^8.2.0",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
     "jest": "^25.3.0",
     "supertest": "^4.0.2"
   },
