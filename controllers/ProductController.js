@@ -47,6 +47,8 @@ class ProductController {
     }
 
     static updateProduct (req, res, next) {
+        console.log(req.body)
+        console.log(req.params.id)
         Product.update({
             name: req.body.name,
             image_url: req.body.image_url,

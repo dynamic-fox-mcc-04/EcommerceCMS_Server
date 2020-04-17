@@ -3,6 +3,7 @@ const errorHandler = (err, req, res, next) => {
         const errors = err.errors.map(el => {
             return { message: el.message }
         })
+        console.log(errors)
         return res.status(400).json({
             errors
         })
@@ -10,6 +11,7 @@ const errorHandler = (err, req, res, next) => {
         const errors = err.errors.map(el => {
             return { message: el.message }
         })
+        console.log(errors)
         return res.status(400).json({
             errors
         })
@@ -30,6 +32,7 @@ const errorHandler = (err, req, res, next) => {
             errors: err.errors
         })
     } else {
+        console.log(err)
         return res.status(500).json(err)
     }
 }

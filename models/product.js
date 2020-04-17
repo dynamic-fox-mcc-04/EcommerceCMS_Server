@@ -44,14 +44,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        notNull: {
-            args: true,
-            msg: 'Price is required field'
-          },
         greaterThanZero() {
           if (this.price < 0) {
             throw new Error('Price must be greater than 0')
           }
+        },
+        isNan() {
+          if (isNaN(this.stock)) {
+            throw new Error('Price Must be Integer!')
+          }
+        },
+        notNull: {
+          args: true,
+          msg: 'Price is required field'
         }
       }
     },
@@ -59,14 +64,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        notNull: {
-          args: true,
-          msg: 'Stock is required field'
-        },
         greaterThanZeroStk() {
           if (this.stock < 0) {
             throw new Error('Stock must be greater than 0')
           }
+        },
+        isNan() {
+          if (isNaN(this.stock)) {
+            throw new Error('Stock Must be Integer!')
+          }
+        },
+        notNull: {
+          args: true,
+          msg: 'Stock is required field'
         }
       }
     },
@@ -87,6 +97,9 @@ module.exports = (sequelize, DataTypes) => {
         if (Product.image_url == '') {
           Product.image_url = 'https://discountseries.com/wp-content/uploads/2017/09/default.jpg'
         }
+      },
+      beforeUpdate: (Product, options) => {
+        Product.updatedAt = new Date().toISOString()
       }
     },
     models: 'Product'
