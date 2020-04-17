@@ -78,7 +78,7 @@ const token3 = createToken({
 })
 
 const productInput = {
-    title: 'JetSki',
+    name: 'JetSki',
     image_url: 'asdf',
     price: 1500,
     stock: 25,
@@ -86,7 +86,7 @@ const productInput = {
 }
 
 const change = {
-    title: 'BananaB',
+    name: 'BananaB',
     image_url: 'jkrl',
     price: 2000,
     stock: 15,
@@ -112,7 +112,7 @@ describe('Product service', () => {
                         testId = response.body.id
                         expect(response.status).toBe(201);
                         expect(response.body).toHaveProperty('id', expect.any(Number))
-                        expect(response.body).toHaveProperty('title', productInput.title);
+                        expect(response.body).toHaveProperty('name', productInput.name);
                         expect(response.body).toHaveProperty('image_url', productInput.image_url);
                         expect(response.body).toHaveProperty('price', productInput.price);
                         expect(response.body).toHaveProperty('stock', productInput.stock);
@@ -123,16 +123,16 @@ describe('Product service', () => {
             })
         })
         describe('Error creating product', () => {
-            test('Should return error and status 400 because product title should be at least 1 characters in length', done => {
+            test('Should return error and status 400 because product name should be at least 1 characters in length', done => {
                 const noTitle = { ...productInput }
-                noTitle.title = ''
+                noTitle.name = ''
                 const error = {
                     message: 'Title must be at least 1 character in length.'
                 }
                 request(app)
                 .post('/product')
                 .set('token', token)
-                .send(productInput)
+                .send(noTitle)
                 .end((err, response) => {
                     if (err) {
                         console.log('Error testing: ', err);
@@ -153,7 +153,7 @@ describe('Product service', () => {
                 request(app)
                 .post('/product')
                 .set('token', token)
-                .send(productInput)
+                .send(stockError)
                 .end((err, response) => {
                     if (err) {
                         console.log('Error testing: ', err);
@@ -174,7 +174,7 @@ describe('Product service', () => {
                 request(app)
                 .post('/product')
                 .set('token', token)
-                .send(productInput)
+                .send(priceError)
                 .end((err, response) => {
                     if (err) {
                         console.log('Error testing: ', err);
@@ -199,6 +199,7 @@ describe('Product service', () => {
                         console.log('Error testing: ', err);
                         return done(err);
                     } else {
+                        console.log(response.body, 'unauthenticated')
                         expect(response.status).toBe(401);
                         expect(response.body).toHaveProperty('message', error.message);
                         return done();
@@ -222,7 +223,7 @@ describe('Product service', () => {
                         expect(response.status).toBe(200);
                         const firstData = response.body[0]
                         expect(firstData).toHaveProperty('id', expect.any(Number))
-                        expect(firstData).toHaveProperty('title', productInput.title)
+                        expect(firstData).toHaveProperty('name', productInput.name)
                         expect(firstData).toHaveProperty('image_url', productInput.image_url)
                         expect(firstData).toHaveProperty('price', productInput.price)
                         expect(firstData).toHaveProperty('stock', productInput.stock)
@@ -237,7 +238,7 @@ describe('Product service', () => {
         describe('Success updating product', () => {
             test('Should return the product data with status 200', done => {
                 request(app)
-                .put('/product')
+                .put(`/product/${testId}`)
                 .set('token', token)
                 .send(change)
                 .end((err, response) => {
@@ -245,14 +246,55 @@ describe('Product service', () => {
                         console.log('Error testing: ', err);
                         return done(err);
                     } else {
-                        console.log(response.body)
                         expect(response.status).toBe(200);
                         expect(response.body).toHaveProperty('id', testId)
-                        expect(response.body).toHaveProperty('title', change.title);
+                        expect(response.body).toHaveProperty('name', change.name);
                         expect(response.body).toHaveProperty('image_url', change.image_url);
                         expect(response.body).toHaveProperty('price', change.price);
                         expect(response.body).toHaveProperty('stock', change.stock);
                         expect(response.body).toHaveProperty('category', change.category);
+                        return done();
+                    }
+                })
+            })
+        })
+        describe('Error updating product', () => {
+            test('Should return error and status 401 because user accessing this route is not an admin', done => {
+                const error = {
+                    message: 'User unauthenticated - not an admin'
+                }
+                request(app)
+                .put(`/product/${testId}`)
+                .set('token', token3)
+                .send(productInput)
+                .end((err, response) => {
+                    if (err) {
+                        console.log('Error testing: ', err);
+                        return done(err);
+                    } else {
+                        console.log(response.body, 'unauthenticated')
+                        expect(response.status).toBe(401);
+                        expect(response.body).toHaveProperty('message', error.message);
+                        return done();
+                    }
+                })
+            })
+        })
+    })
+    describe('DELETE /product', () => {
+        describe('Success deleting product', () => {
+            test('Should return delete message with status 200', done => {
+                request(app)
+                .delete(`/product/${testId}`)
+                .set('token', token)
+                .end((err, response) => {
+                    if (err) {
+                        console.log('Error testing: ', err);
+                        return done(err);
+                    } else {
+                        console.log(response.body, 'destroy')
+                        expect(response.status).toBe(200);
+                        expect(response.body).toHaveProperty('message', `Item destroyed`)
                         return done();
                     }
                 })

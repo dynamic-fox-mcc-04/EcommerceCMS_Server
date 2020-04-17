@@ -18,7 +18,7 @@ function authenticationSuper(req, res, next) {
                 }
             })
             .catch(err => {
-                throw { status: 401, type: 'Unauthorized', message: 'User unauthenticated - not a super admin' }
+                return next({ status: 401, type: 'Unauthorized', message: 'User unauthenticated - not a super admin' })
             })
     } catch (err) {
         console.log('nyasar sini')
@@ -43,7 +43,7 @@ function authenticationAdmin(req, res, next) {
                 }
             })
             .catch(err => {
-                throw { status: 401, type: 'Unauthorized', message: 'User unauthenticated - not an admin' }
+                return next({ status: 401, type: 'Unauthorized', message: 'User unauthenticated - not an admin' })
             })
     } catch (err) {
         console.log('nyasar sini')

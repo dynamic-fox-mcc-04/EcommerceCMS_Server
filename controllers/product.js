@@ -13,7 +13,7 @@ class ProductController {
     static read(req, res, next) {
         Product.findAll()
             .then(response => {
-                return res.status(201).json(response)
+                return res.status(200).json(response)
             })
             .catch(err => next(err))
     }
@@ -32,7 +32,7 @@ class ProductController {
     static destroy(req, res, next) {
         Product.destroy({ where: { id: req.params.id } })
             .then(response => {
-                returnres.status(200).json(`Item destroyed`)
+                return res.status(200).json({ message: `Item destroyed` })
             })
             .catch(err => {
                 return next(err)
