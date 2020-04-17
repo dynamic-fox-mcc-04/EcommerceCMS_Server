@@ -3,8 +3,7 @@ const { Product } = require('../models')
 function adminAuthorization(req, res, next) {
   Product.findOne({
     where: {
-      id: req.params.id,
-      UserId: req.currentUserId
+      id: req.params.id
     }
   })
   .then((product) => {
