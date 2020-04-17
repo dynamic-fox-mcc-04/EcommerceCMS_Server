@@ -23,7 +23,9 @@
   },
   "scripts": {
     "test": "SET NODE_ENV=test&&jest --detectOpenHandles",
-    "dev": "SET NODE_ENV=development&&nodemon ./bin/http.js"
+    "dev": "SET NODE_ENV=development&&nodemon ./bin/http.js",
+    "reset": "SET NODE_ENV=test&&sequelize db:migrate:undo:all",
+    "seqtest": "SET NODE_ENV=test&&sequelize db:migrate"
   },
   "repository": {
     "type": "git",

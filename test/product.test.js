@@ -20,7 +20,7 @@ describe('Product Routes', () => {
         test('Should return with status code 201 and object ', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'test',
                     Image_Url: 'testingImageUrl',
@@ -43,7 +43,7 @@ describe('Product Routes', () => {
         test('Should regurn with Status Code 400 And Object', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'test',
                     Image_Url: 'testingImageUrl',
@@ -63,7 +63,7 @@ describe('Product Routes', () => {
         test('Should return with status Code 400 and Object', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Image_Url: 'testingImageUrl',
                     Stock: 299,
@@ -83,7 +83,7 @@ describe('Product Routes', () => {
         test('Should Return with status code 400 and object', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'Item',
                     Stock: 299,
@@ -103,7 +103,7 @@ describe('Product Routes', () => {
         test('Should Return with status code 400 and object', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'Item0011',
                     Image_Url: 'testingImageUrl',
@@ -123,7 +123,7 @@ describe('Product Routes', () => {
         test('Should Return with status code 400 and object', (done) => {
             request(app)
                 .post('/product/')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'Item02',
                     Image_Url: 'testingImageUrl',
@@ -143,7 +143,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 201 and Object ', (done) => {
             request(app)
                 .patch('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'UpdateItem',
                     Image_Url: 'UpdateImageUrl',
@@ -163,7 +163,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 201 and Object ', (done) => {
             request(app)
                 .patch('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Image_Url: 'UpdateImageUrl',
                     Price: 30000,
@@ -182,7 +182,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 201 and Object ', (done) => {
             request(app)
                 .patch('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'UpdateItem',
                     Price: 30000,
@@ -201,7 +201,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 201 and Object ', (done) => {
             request(app)
                 .patch('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'UpdateItem',
                     Image_Url: 'UpdateImageUrl',
@@ -220,7 +220,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 201 and Object ', (done) => {
             request(app)
                 .patch('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'UpdateItem',
                     Image_Url: 'UpdateImageUrl',
@@ -239,7 +239,7 @@ describe('Product Routes', () => {
         test('Should return with Status Code 400 and Object ', (done) => {
             request(app)
                 .patch('/product/1222')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .send({
                     Name: 'UpdateItem',
                     Image_Url: 'UpdateImageUrl',
@@ -259,7 +259,7 @@ describe('Product Routes', () => {
         test('Should Return with Status Code 201 and Object', (done) => {
             request(app)
                 .delete('/product/1')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .end(function(err, res) {
                     expect(err).toBe(null)
                     expect(res.status).toBe(201)
@@ -273,7 +273,7 @@ describe('Product Routes', () => {
         test('Should Return with Status Code 400 and Object', (done) => {
             request(app)
                 .delete('/product/12222')
-                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6InRlc3RpbmcxMjNAbWFpbC5jb20iLCJpZCI6MjYsImlhdCI6MTU4NjgzNzgzOH0.Hq75uJGJrIXQ7c0hfNPuPdH1adLfVAwKsW9Te9oFLCU')
+                .set('access_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6IkFkbWluMDFAbWFpbC5jb20iLCJpZCI6NSwiUm9sZSI6IkFkbWluIiwiaWF0IjoxNTg3MTI2NzE3fQ.ZRmNbw9tTj9-aUd9rozXedrjpDmIn-LQEX41Rd_PZqo')
                 .end(function(err, res) {
                     expect(err).toBe(null)
                     expect(res.status).toBe(400)
