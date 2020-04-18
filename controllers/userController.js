@@ -14,17 +14,17 @@ class UserController {
         .then(result => {
             let user = {
                 id : result.id,
-                password : result.password // -- email bukan password
+                email : result.email // -- email bukan password
             }
             let token = generateToken(user)
             res.status(201).json({
                 id : result.id,
                 email: result.email,
+                role: result.role,
                 access_token:token
             })
         })
         .catch(error => {
-            console.log(error)
             res.status(500).json({
                 message:"InternalServerError",
                 error:error
@@ -37,6 +37,7 @@ class UserController {
             email: req.body.email,
             password: req.body.password
         }
+        // console.log(payload)
         User.findOne({where:{
             email : payload.email
         }})
@@ -47,12 +48,14 @@ class UserController {
                 if(compare){
                     let user = {
                         id: result.id,
-                        email: result.email
+                        email: result.email,
+                        role: result.role
                     }
                     let token = generateToken(user)
                     res.status(200).json({
                         id : user.id,
                         email : user.email,
+                        role: result.role,
                         access_token : token
                     })
                 } else {
@@ -73,7 +76,7 @@ class UserController {
             }
         })
         .catch(err =>{
-            console.log(err)
+            // console.log(err)
             return res.status(500).json({ // catch case pakai error handlerr
                 name:"InternalServerError", 
                 errors: [{

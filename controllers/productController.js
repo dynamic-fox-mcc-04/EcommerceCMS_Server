@@ -3,9 +3,7 @@ const  { Product } = require("../models/index.js")
 class ProductController {
     static findAll(req,res,next){
         Product.findAll({
-            where:{
-                userId: req.currentUserId
-            }, order: [['id', 'ASC']]
+            order: [['updatedAt', 'DESC']]
         })
         .then(result =>{
             res.status(200).json({
@@ -26,17 +24,9 @@ class ProductController {
         .then(result => {
             //kalau result ada, cocokkan user id || not found-- kalau cocok, tampilkan  || unauthorized
             if(result){
-                console.log(result, req.currentUserId, "TEST")
-                if(result.userId == req.currentUserId){
-                    res.status(200).json({
-                        Product: result
-                    })
-                } else {
-                    res.status(400).json({
-                        message:"BadRequest",
-                        errors: "Unauthorized request"
-                    })
-                }
+                res.status(200).json({
+                    Product: result
+                })
             } else {
                 res.status(404).json({
                     message:"Product not found",
@@ -45,6 +35,8 @@ class ProductController {
             }
         })
         .catch(err =>{
+            console.log("-----------------------")
+            console.log(err)
             return next({
                 message:"InternalServerError",
                 error:err

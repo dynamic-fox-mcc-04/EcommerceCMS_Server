@@ -2,9 +2,9 @@ const request = require('supertest')
 const app = require('../app')
 
 
-// '/LOGIN' | Success Register 
+// '/LOGIN' | Successful login case 
 describe ( 'User service ', () => { 
-    describe('success register response', () => {
+    describe('successful login response', () => {
         describe('POST/login', ()=>{
             test('should return object with id and email and status 201', done => {
                 const userinput = {
@@ -30,10 +30,10 @@ describe ( 'User service ', () => {
     })
 })
 
-// '/LOGIN' | Error Register 
+// '/LOGIN' | Error login case -- Missing email and password 
 
-describe('error register', ()=>{
-    describe('POST/register', () =>{
+describe('error login', ()=>{
+    describe('POST/login', () =>{
         test('should return error with status 500 because missing email and password', done =>{
             const errors = [{
                 message: 'Email is required'
@@ -63,10 +63,10 @@ describe('error register', ()=>{
     })
 })
 
-// '/LOGIN' | Error Register -- Wrong Password
+// '/LOGIN' | Error login case -- Wrong Password
 
-describe('error register', ()=>{
-    describe('POST/register', () =>{
+describe('error login', ()=>{
+    describe('POST/login', () =>{
         test('should return error with status 400 due to wrong password', done =>{
             const errors = [{
                 message: "Invalid email/password"
@@ -91,7 +91,6 @@ describe('error register', ()=>{
                             ])
                         );
                         */
-
                         expect(response.status).toBe(400)
                         expect(response.body).toHaveProperty('errors', errors)
                         //masih kurang spesifik, kamu harus cek apakah error message-nya sudah "Invalid email/password"
@@ -108,10 +107,10 @@ describe('error register', ()=>{
 })
 
 
-// '/LOGIN' | Error Register -- Wrong Email
+// '/LOGIN' | Error in log in process -- Wrong Email
 
-describe('error register', ()=>{
-    describe('POST/register', () =>{
+describe('error login', ()=>{
+    describe('POST/login', () =>{
         test('should return error with status 400 due to unregistered email', done =>{
             const errors = [{
                 message: "Invalid email/password"
