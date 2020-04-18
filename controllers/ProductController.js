@@ -4,7 +4,6 @@ const Op = sequelize.Op;
 
 class ProductController {
     static read(req, res, next) {
-        // console.log(req.query.category)
         if (req.query.category) {
             return models.Product.findAll({where: { category: req.query.category}})
             .then(result => {
@@ -29,13 +28,12 @@ class ProductController {
     }
 
     static create(req, res, next) {
-        // console.log(`masuk create`)
+        console.log(`masuk create`)
         const { productName, imageUrl, price, stock, category } = req.body
         const newProduct = { productName, imageUrl, price, stock, category }
-        // console.log(`====new Product`,newProduct)
         return models.Product.create(newProduct)
             .then(result => {
-                console.log(`result create`,result)
+                // console.log(`result create`,result)
                 return res.status(201).json({
                     id: result.id,
                     productName: result.productName,
@@ -46,19 +44,20 @@ class ProductController {
                 })
             })
             .catch(err => {
-                console.log(`error dari create prod cont`, err)
+                // console.log(`error dari create prod cont`, err)
                 return next(err)
             })
     }
 
     static edit(req, res, next) {
+        console.log('masuk edit')
         const { id, productName, imageUrl, price, stock, category } = req.body
         const editedProduct = { productName, imageUrl, price, stock, category }
         console.log(id)
         console.log(`dari cont edit`, editedProduct)
         return models.Product.update(editedProduct, { where: { id: id } })
         .then(result => {
-            console.log(result)
+            // console.log(result)
             return res.status(200).json({
                 message: `Successfully edited one product`
             })
