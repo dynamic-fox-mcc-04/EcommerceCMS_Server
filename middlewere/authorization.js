@@ -8,9 +8,9 @@ function adminAuthorization(req, res, next) {
   })
   .then((product) => {
     if(product) {
-      next()
+      return next()
     } else {
-      res.status(401).json({ message: `Unauthorized`})
+      return res.status(401).json({ message: `Unauthorized`})
     }
   })
   .catch((err) => {
