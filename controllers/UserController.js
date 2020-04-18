@@ -24,7 +24,7 @@ class UserController {
     }
 
     static login(req, res, next) {
-        const { username, email, password } = req.body;
+        const { email, password } = req.body;
         User.findOne({
             where: {
                 email
@@ -58,6 +58,48 @@ class UserController {
             })
             .catch(err => {
                 return next(err)
+            })
+    }
+
+    static loginAdmin(req, res, next) {
+        const { email, password } = req.body;
+        User.findOne({
+            where: {
+                email,
+                role: 'admin'
+            }
+        })
+            .then(foundUser => {
+                const payload = { 
+                    id: foundUser.id,
+                    username: foundUser.username,
+                    email: foundUser.email
+                 };
+                 const token = generateToken(payload);
+                 if(foundUser) {
+                     let verify = decrypt(password, foundUser.password);
+                     if(verify) {
+                        return res.status(200).json({
+                            token
+                        })
+                     } else {
+                        return next({
+                            status: 400,
+                            message: 'Invalid username/email/password'
+                        })
+                     }
+                 } else {
+                    return next({
+                        status: 400,
+                        message: 'Invalid username/email/password'
+                    })
+                 }
+            })
+            .catch(err => {
+                return next({
+                    status: 401,
+                    message: 'Not Authorized'
+                })
             })
     }
 
