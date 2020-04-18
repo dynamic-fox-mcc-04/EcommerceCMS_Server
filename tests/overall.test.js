@@ -4,7 +4,7 @@ const { sequelize } = require("../models")
 const { queryInterface } = sequelize
 const bcrypt = require("bcryptjs")
 const { getToken } = require("../helpers/jwt")
-const { User } = require("../models/index")
+const { User, Product } = require("../models/index")
 let access_token = {}
 
 afterAll((done) => {
@@ -13,7 +13,7 @@ afterAll((done) => {
             return queryInterface.bulkDelete('Products')
         })
         .then(() => {
-            console.log('db restored')
+            console.log('All database restored')
             return done()
         }).catch(err => done(err))
 })
@@ -23,6 +23,12 @@ const firstUser = {
     password: '12345'
 }
 
+const firstProduct = {
+    name: 'Xiaomi Note 10',
+    image_url: 'www.exampe.com/image.jpg',
+    price: 7000000,
+    stock: 15
+}
 
 
 beforeAll(done => {
@@ -40,10 +46,25 @@ beforeAll(done => {
         .then(() => {
             // console.log('RESULT:::', result)
             // console.log('New user created: ' + result.email)
-            return done()
-        }).catch(err => done(err))
+
+            return queryInterface.bulkInsert('Products', [
+                {
+                    name: firstProduct.name,
+                    image_url: firstProduct.image_url,
+                    price: firstProduct.price,
+                    stock: firstProduct.stock,
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                }
+            ])
+        })
+        .then(() => done())
+        .catch(err => done(err))
 })
+let id = ''
 describe('OVERALL TEST', () => {
+
+    //*USER SERVICE///
     describe('User service', () => {
         describe('POST /register', () => {
             describe('success register', () => {
@@ -203,6 +224,9 @@ describe('OVERALL TEST', () => {
             })
         })
     })
+    //*END OF USER SERVICE//
+
+    //* PRODUCT SERVICE
     describe('product service', () => {
         describe('POST /products', () => {
             describe('success create', () => {
@@ -226,7 +250,6 @@ describe('OVERALL TEST', () => {
                         request(app)
                             .post('/products')
                             .set({ 'access_token': access_token, Accept: 'application/json' })
-                            // .set('access_token', access_token)
                             .send(inputProducts)
                             .end((err, res) => {
                                 if (err) {
@@ -278,10 +301,10 @@ describe('OVERALL TEST', () => {
                         },
                         {
                             "message": "The image_url is required",
-                        }, 
+                        },
                         {
                             "message": "price is required",
-                        }, 
+                        },
                         {
                             "message": "stock is required"
                         }]
@@ -316,7 +339,7 @@ describe('OVERALL TEST', () => {
                 test('should return error validation not null with status 400', done => {
                     const errorEmpty = [
                         { "message": "price is required" },
-                         {
+                        {
                             "message": "stock is required"
                         },
                         {
@@ -437,7 +460,7 @@ describe('OVERALL TEST', () => {
             })
             describe('error negative stock', () => {
                 test('should return error validation maximum price with status 400', done => {
-                    const errorStock = [ { message: 'stock must be positive' } ]
+                    const errorStock = [{ message: 'stock must be positive' }]
                     const inputStockErr = {
                         name: 'iphone',
                         image_url: 'iphone.jpg',
@@ -472,6 +495,416 @@ describe('OVERALL TEST', () => {
                 })
             })
         })
+        describe('GET /products', () => {
+            describe('success get products', () => {
+                test('should return object with status 200 and id, name, image_url, price, stock', done => {
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+                        access_token = getToken(payload)
+                        request(app)
+                            .get('/products')
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    const { products } = res.body
+                                    // console.log(products)
+                                    expect(res.status).toBe(200)
+                                    expect(products[0]).toHaveProperty('id', expect.any(Number))
+                                    expect(products[1]).toHaveProperty('id', expect.any(Number))
+                                    expect(products[0]).toHaveProperty('name', firstProduct.name)
+                                    expect(products[0]).toHaveProperty('image_url', firstProduct.image_url)
+                                    expect(products[0]).toHaveProperty('price', firstProduct.price)
+                                    expect(products[0]).toHaveProperty('stock', firstProduct.stock)
+
+                                    return done()
+                                }
+                            })
+                    })
+                })
+            })
+            describe('error invalid auth token to get products', () => {
+                test('should return object with status 401', done => {
+                    const errors = 'invalid token'
+                    request(app)
+                        .get('/products')
+                        .end((err, res) => {
+                            if (err) {
+                                console.log(err)
+                                return done(err)
+                            } else {
+                                expect(res.status).toBe(401)
+                                expect(res.body).toHaveProperty('type', 'Unauthorized')
+                                expect(res.body).toHaveProperty('name', 'JsonWebTokenError')
+                                expect(res.body).toHaveProperty('errors', errors)
+                                // console.log('BODY', res.body)
+                                return done()
+                            }
+                        })
+
+                })
+            })
+
+        })
+        describe('GET /products/:id', () => {
+            describe('succes get products with specific id', () => {
+                test('should return object with status 200 and single id, name, image_url, price, stock with specific id', done => {
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        return User.findOne({
+                            where: {
+                                'email': 'user@mail.com'
+                            }
+                        }).then(result => {
+                            let payload = {
+                                id: result.id,
+                                email: result.email
+                            }
+                            access_token = getToken(payload)
+                            request(app)
+                                .get('/products/' + id)
+                                .set({ 'access_token': access_token, Accept: 'application/json' })
+                                .end((err, res) => {
+                                    if (err) {
+                                        return done(err)
+                                    } else {
+                                        expect(res.status).toBe(200)
+                                        expect(res.body).toHaveProperty('id', id)
+                                        expect(res.body).toHaveProperty('name', firstProduct.name)
+                                        expect(res.body).toHaveProperty('image_url', firstProduct.image_url)
+                                        expect(res.body).toHaveProperty('price', firstProduct.price)
+                                        expect(res.body).toHaveProperty('stock', firstProduct.stock)
+
+                                        return done()
+                                    }
+                                })
+                        })
+                    })
+                })
+            })
+            describe('error invalid auth token to get products with specific id', () => {
+                test('should return object with status 401', done => {
+                    const errors = 'invalid token'
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        request(app)
+                            .get('/products/' + id)
+                            .end((err, res) => {
+                                if (err) {
+                                    console.log(err)
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(401)
+                                    expect(res.body).toHaveProperty('type', 'Unauthorized')
+                                    expect(res.body).toHaveProperty('name', 'JsonWebTokenError')
+                                    expect(res.body).toHaveProperty('errors', errors)
+                                    // console.log('BODY', res.body)
+                                    return done()
+                                }
+                            })
+
+
+                    })
+
+                })
+            })
+            describe('error not found id', () => {
+                test('should return object with result Not Found', done => {
+
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+                        access_token = getToken(payload)
+                        request(app)
+                            .get('/products/' + 1000)
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(404)
+                                    expect(res.body).toHaveProperty('type', 'Not Found')
+                                    return done()
+                                }
+                            })
+                    })
+
+                })
+            })
+        })
+        describe('UPDATE /products/id', () => {
+            describe('error update invalid token', () => {
+                test('should return object with status 401', done => {
+                    const errors = 'invalid token'
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        request(app)
+                            .put('/products/' + id)
+                            .end((err, res) => {
+                                if (err) {
+                                    console.log(err)
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(401)
+                                    expect(res.body).toHaveProperty('type', 'Unauthorized')
+                                    expect(res.body).toHaveProperty('name', 'JsonWebTokenError')
+                                    expect(res.body).toHaveProperty('errors', errors)
+                                    return done()
+                                }
+                            })
+
+
+                    })
+
+                })
+            })
+            describe('succes update product with specific id', () => {
+                test('should return object with status 200', done => {
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        return User.findOne({
+                            where: {
+                                'email': 'user@mail.com'
+                            }
+                        }).then(result => {
+                            let payload = {
+                                id: result.id,
+                                email: result.email
+                            }
+                            let updatedProduct = {
+                                name: firstProduct.name,
+                                image_url: 'imageUpdate.jpg',
+                                price: 9999,
+                                stock: 12
+                            }
+                            access_token = getToken(payload)
+                            request(app)
+                                .put('/products/' + id)
+                                .set({ 'access_token': access_token, Accept: 'application/json' })
+                                .send(updatedProduct)
+                                .end((err, res) => {
+                                    if (err) {
+                                        return done(err)
+                                    } else {
+                                        expect(res.status).toBe(201)
+                                        expect(res.body).toHaveProperty('msg', expect.any(String))
+                                        return done()
+                                    }
+                                })
+                        })
+                    })
+                })
+            })
+            describe('error update not found id', () => {
+                test('should return object with result Not Found', done => {
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+
+                        access_token = getToken(payload)
+                        request(app)
+                            .put('/products/' + null)
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    return done()
+                                }
+                            })
+                    })
+
+                })
+            })
+            describe('error delete not found id', () => {
+                test('should return error object with result Not Found', done => {
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+
+                        access_token = getToken(payload)
+                        request(app)
+                            .del('/products')
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(404)
+                                    return done()
+                                }
+                            })
+                    })
+
+                })
+            })
+        })
+        describe('DELETE /products/id', () => {
+            describe('error delete invalid token', () => {
+                test('should return object with status 401', done => {
+                    const errors = 'invalid token'
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        request(app)
+                            .del('/products/' + id)
+                            .end((err, res) => {
+                                if (err) {
+                                    console.log(err)
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(401)
+                                    expect(res.body).toHaveProperty('type', 'Unauthorized')
+                                    expect(res.body).toHaveProperty('name', 'JsonWebTokenError')
+                                    expect(res.body).toHaveProperty('errors', errors)
+                                    // console.log('BODY', res.body)
+                                    return done()
+                                }
+                            })
+
+
+                    })
+
+                })
+            })
+            describe('succes delete product with specific id', () => {
+                test('should return object with status 200', done => {
+                    Product.findOne({
+                        where: {
+                            name: firstProduct.name
+                        }
+                    }).then(data => {
+                        let id = data.id
+                        return User.findOne({
+                            where: {
+                                'email': 'user@mail.com'
+                            }
+                        }).then(result => {
+                            let payload = {
+                                id: result.id,
+                                email: result.email
+                            }
+                            access_token = getToken(payload)
+                            request(app)
+                                .del('/products/' + id)
+                                .set({ 'access_token': access_token, Accept: 'application/json' })
+                                .end((err, res) => {
+                                    if (err) {
+                                        return done(err)
+                                    } else {
+                                        expect(res.status).toBe(200)
+                                        expect(res.body).toHaveProperty('msg', expect.any(String))
+                                        return done()
+                                    }
+                                })
+                        })
+                    })
+                })
+            })
+            describe('error delete not found id', () => {
+                test('should return object with result Not Found', done => {
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+
+                        access_token = getToken(payload)
+                        request(app)
+                            .del('/products/' + null)
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(404)
+                                    expect(res.body).toHaveProperty('type', 'Not Found')
+                                    return done()
+                                }
+                            })
+                    })
+
+                })
+            })
+            describe('error delete not found id', () => {
+                test('should return error object with result Not Found', done => {
+                    User.findOne({
+                        where: {
+                            'email': 'user@mail.com'
+                        }
+                    }).then(result => {
+                        let payload = {
+                            id: result.id,
+                            email: result.email
+                        }
+
+                        access_token = getToken(payload)
+                        request(app)
+                            .del('/products')
+                            .set({ 'access_token': access_token, Accept: 'application/json' })
+                            .end((err, res) => {
+                                if (err) {
+                                    return done(err)
+                                } else {
+                                    expect(res.status).toBe(404)
+                                    return done()
+                                }
+                            })
+                    })
+
+                })
+            })
+        })
+
+
     })
 })
-// module.exports = access_token
