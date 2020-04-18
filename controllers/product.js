@@ -29,19 +29,23 @@ class Controller{
         let data={
             name : req.body.name,
             image_url:req.body.image_url,
-            price: req.body.price,
-            stock: req.body.stock
+            price: +req.body.price,
+            stock: +req.body.stock
         }
-
-        Product.update({data},{
-            where:{id:req.params.id
-        }})
+        
+        Product.update(data,{
+            where:{
+                id:req.params.id
+                }
+            })
         .then(result=>{
             res.status(201).json({
                 msg:"Update Success"
             })
         })
         .catch(err=>{
+            console.log(err);
+            
            next(err)
         })
     }
