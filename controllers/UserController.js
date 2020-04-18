@@ -61,12 +61,49 @@ class UserController {
                         errors: [{ message: 'Invalid Email/Password' }]
                     })
                 }
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 return next({
                     name: 'InternalServerError',
                     errors: [{ message: err }]
                 })
-            });
+            })
+    }
+
+    static findUser(req, res, next) {
+        const id = req.currentUserId
+        User.findOne({
+                where: {
+                    id: id
+                }
+            })
+            .then((data) => {
+                return res.status(200).json({ data })
+            })
+            .catch((err) => {
+                return next({
+                    name: 'InternalServerError',
+                    errors: [{ message: err }]
+                })
+            })
+    }
+
+    static updateBalance(req, res, next) {
+        const id = req.currentUserId
+        User.update({ balance: req.body.balance }, {
+                where: {
+                    id: id
+                }
+            })
+            .then((data) => {
+                return res.status(201).json({ data })
+            })
+            .catch((err) => {
+                return next({
+                    name: 'InternalServerError',
+                    errors: [{ msg: 'Failed to Update.' }]
+                })
+            })
     }
 
 }

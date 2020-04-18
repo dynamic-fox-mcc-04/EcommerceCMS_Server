@@ -1,12 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+    const { Model } = sequelize.Sequelize
     const { generate } = require('../helpers/bcrypt')
 
-    const { Model } = sequelize.Sequelize
+    class Admin extends Model {}
 
-    class User extends Model {}
-
-    User.init({
+    Admin.init({
         email: {
             type: DataTypes.STRING,
             isEmail: true,
@@ -32,21 +31,18 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        balance: {
-            type: DataTypes.INTEGER
-        }
+
+        isAdmin: DataTypes.BOOLEAN
     }, {
         hooks: {
-            beforeCreate(User, options) {
-                User.password = generate(User.password)
-                User.balance = 0
+            beforeCreate(Admin, options) {
+                Admin.password = generate(User.password)
             }
         },
         sequelize
-    })
-
-    User.associate = function(models) {
-        User.belongsToMany(models.Product, { through: 'UserProducts' })
+    });
+    Admin.associate = function(models) {
+        // associations can be defined here
     };
-    return User;
+    return Admin;
 };
