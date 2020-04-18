@@ -19,8 +19,8 @@ const loginAuth = (req, res, next) => {
             }
         } else {
             return next({
-                name: 'NotFound',
-                errors: [{ message: 'User Not Found' }]
+                name: 'BadRequest',
+                errors: [{ message: 'Invalid Email/Password' }]
             })
         }
     }).catch((err) => {

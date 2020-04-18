@@ -15,7 +15,8 @@ const currentProduct = {
     name: 'orange fruit',
     image_url: 'https://google.com',
     price: 20000,
-    stock: 30
+    stock: 30,
+    category: 'Fruit'
 }
 
 
@@ -77,6 +78,7 @@ beforeAll(done => {
     describe('success add product', () => {
 
         test('should return object with properties id, name, price, image_url and status code 201', (done) => {
+            console.log(currentProduct)
             request(app)
             .post('/products')
             .set({ 'access_token': currentToken })
@@ -93,6 +95,7 @@ beforeAll(done => {
                     expect(response.body).toHaveProperty('image_url', currentProduct.image_url)
                     expect(response.body).toHaveProperty('price', currentProduct.price)
                     expect(response.body).toHaveProperty('stock', currentProduct.stock)
+                    expect(response.body).toHaveProperty('category', currentProduct.category)
                     return done()
                 }
             })
@@ -105,7 +108,8 @@ beforeAll(done => {
                     name: currentProduct.name,
                     image_url: currentProduct.image_url,
                     price: currentProduct.price,
-                    stock: currentProduct.stock
+                    stock: currentProduct.stock,
+                    category: currentProduct.category
                 }
             ]
             request(app)
@@ -132,7 +136,8 @@ beforeAll(done => {
                 name: 'red orange fruits',
                 image_url: 'http://facebook.com',
                 price: 40000,
-                stock: 10
+                stock: 10,
+                category: 'Fruit'
             })
             .end((err, response) => {
                 if (err) {
@@ -141,6 +146,47 @@ beforeAll(done => {
                 } else {
                     expect(response.status).toBe(200)
                     expect(response.body).toHaveProperty('message', message)
+                    return done()
+                }
+            })
+        });
+
+        test('should return error with status code 400 because Request Error', (done) => {
+            const errors = [{ message: 'Request Error' }]
+            request(app)
+            .patch(`/products/9999`)
+            .set({ 'access_token': currentToken })
+            .send({
+                name: 'red orange fruits',
+                image_url: 'http://facebook.com',
+                price: 40000,
+                stock: 10,
+                category: 'Fruit'
+            })
+            .end((err, response) => {
+                if (err) {
+                    console.log(err)
+                    return done(err)
+                } else {
+                    expect(response.status).toBe(400)
+                    expect(response.body).toHaveProperty('errors', errors)
+                    return done()
+                }
+            })
+        });
+
+        test('should return error with status code 400 because Request Error in input req.body', (done) => {
+            const errors = [{ message: 'Request Error' }]
+            request(app)
+            .patch(`/products/9999`)
+            .set({ 'access_token': currentToken })
+            .end((err, response) => {
+                if (err) {
+                    console.log(err)
+                    return done(err)
+                } else {
+                    expect(response.status).toBe(400)
+                    expect(response.body).toHaveProperty('errors', errors)
                     return done()
                 }
             })
@@ -214,6 +260,9 @@ beforeAll(done => {
                 },
                 {
                     message: 'Stock is required field'
+                },
+                {
+                    message: "Category is required field"
                 }
                 
             ]
@@ -241,7 +290,8 @@ beforeAll(done => {
                 name: 'mango',
                 image_url: 'http://twitter.com',
                 price: -1,
-                stock: 10
+                stock: 10,
+                category: 'Fruit'
             })
             .end((err, response) => {
                 if (err) {
@@ -256,7 +306,8 @@ beforeAll(done => {
         });        
 
 
-         test('should return error with status code 400 because image_url validation has been violated', (done) => {
+
+        test('should return error with status code 400 because image_url validation has been violated', (done) => {
             const errors = [{ message: 'this field must be url like' }]
             request(app)
             .post('/products')
@@ -265,7 +316,8 @@ beforeAll(done => {
                 name: 'mango',
                 image_url: 'twitterom',
                 price: 10000,
-                stock: 10
+                stock: 10,
+                category: 'Fruit'
             })
             .end((err, response) => {
                 if (err) {
@@ -278,6 +330,8 @@ beforeAll(done => {
                 }
             })
         });        
+
+        
 
     });
 

@@ -48,7 +48,7 @@ class ProductController {
 
     static updateProduct (req, res, next) {
         console.log(req.body)
-        console.log(req.params.id)
+        console.log(req.params.id, '<<<<<<<<<<')
         Product.update({
             name: req.body.name,
             image_url: req.body.image_url,
@@ -61,18 +61,18 @@ class ProductController {
             }
         })
         .then((result) => {
-            if (result) {
+            console.log('sadbasidas <<<<<<<<<<<<<', result)
+            if (result == 1) {
                 return res.status(200).json({
                     message: 'Data successfully updated'
                 })
             } else {
                 return next({
-                    name: 'NotFound',
-                    errors: [{ message: 'Product Not Found' }]
+                    name: 'BadRequest',
+                    errors: [{ message: 'Request Error' }]
                 })
             }
         }).catch((err) => {
-            console.log(err)
             return next(err)
         });
     }
@@ -88,7 +88,6 @@ class ProductController {
                 }
             }
         }
-        console.log(src)
         Product.findAll(src)
         .then((result) => {
             const products = result.map(el => {

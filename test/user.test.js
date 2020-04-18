@@ -197,7 +197,7 @@ describe('User services', () => {
 
             test('should return error with status code 401 because Invalid Email', (done) => {
                 const user = {
-                    email: 'testha@mail.com',
+                    email: 'testi@mail.com',
                     password: userTest.password
                 }
                 const errors = [
