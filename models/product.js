@@ -5,12 +5,13 @@ module.exports = (sequelize, DataTypes) => {
 
   class Product extends Model {}
 
-  Product.init( {
+  Product.init({
     product_name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     description: {
-      type:  DataTypes.STRING
+      type: DataTypes.STRING
     },
     image: {
       type: DataTypes.STRING
@@ -18,12 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.INTEGER
     },
-    qty:{
-      type:  DataTypes.INTEGER
+    qty: {
+      type: DataTypes.INTEGER
+    },
+    Category: {
+      type: DataTypes.STRING
     }
-  }, {sequelize})
+  }, { sequelize })
 
-  Product.associate = function(models) {
+  Product.associate = function (models) {
     // associations can be defined here
   };
   return Product;

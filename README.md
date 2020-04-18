@@ -1,1 +1,3 @@
 # EcommerceCMS_Server
+
+    <!-- "test": "echo \"Error: no test specified\" && exit 1", -->
