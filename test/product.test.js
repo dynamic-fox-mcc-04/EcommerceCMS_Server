@@ -107,7 +107,7 @@ describe('Product Service', () => {
         describe('Successful FindOne', () => {
             test('should return message with status 200', done => {
                 request(app)
-                    .get('/products/1')
+                    .get('/products/' + id)
                     .set('access_token', token)
                     .end((err, res) => {
                         if (err) {

@@ -37,10 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        // min: {
-        //   args: 0,
-        //   msg: 'Price cannot be negative'
-        // },
+        min: {
+          args: [0],
+          msg: 'Price cannot be negative'
+        },
         notNull: {
           args: true,
           msg: "Price cannot be null"
@@ -55,10 +55,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
-        // min: {
-        //   args: 0,
-        //   msg: 'Stock cannot be negative'
-        // },
+        min: {
+          args: [0],
+          msg: 'Stock cannot be negative'
+        },
         notNull: {
           args: true,
           msg: "Stock cannot be null"
@@ -74,7 +74,7 @@ module.exports = (sequelize, DataTypes) => {
     modelName: "Product"
   })
   Product.associate = function(models) {
-    // Product.belongsTo(models.User)
+    Product.belongsTo(models.User)
   };
 
   return Product;

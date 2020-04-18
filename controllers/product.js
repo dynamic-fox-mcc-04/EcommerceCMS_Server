@@ -1,11 +1,12 @@
-const { Product } = require('../models')
+const { Product, User } = require('../models')
 
 class Controller {
     static findAll(req, res, next) {
         Product.findAll({
             order: [
-                ['id','ASC']
-            ]
+                ['id', 'ASC']
+            ],
+            include: [ User ]
         })
             .then( result => {
                 return res.status(200).json({ result })
@@ -17,7 +18,7 @@ class Controller {
 
     static create(req, res, next) {
         let { name, image_url, price, stock } = req.body
-        let newCreate = { name, image_url, price, stock }
+        let newCreate = { name, image_url, price, stock, UserId: req.currentUserId }
         Product.create(newCreate)
             .then( result => {
                 return res.status(201).json({
@@ -37,7 +38,14 @@ class Controller {
             }
         })
             .then( result => {
-                return res.status(200).json({ message: 'Successfully deleted product'})
+                if (result) {
+                    return res.status(200).json({ message: 'Successfully deleted product'})
+                } else { 
+                    return next({
+                        name: 'NotFound',
+                        errors: [{ message: 'Product Not Found' }] 
+                    })
+                }
             })
             .catch( err => {
                 return next(err)
@@ -55,10 +63,17 @@ class Controller {
             returning: true
         })
             .then( result => {
-                return res.status(200).json({
-                    result,
-                    message: 'Successfully updated product'
-                })
+                if ( result[0] ) {
+                    return res.status(200).json({
+                        result,
+                        message: 'Successfully updated product'
+                    })
+                } else {
+                    return next({
+                        name: 'NotFound',
+                        errors: [{ message: 'Product Not Found' }]
+                    })
+                }
             })
             .catch( err => {
                 return next(err)
@@ -70,13 +85,21 @@ class Controller {
         Product.findOne({
             where: {
                 id
-            }
+            }, 
+            include: [ User ]
         })
             .then( result => {
-                return res.status(200).json({
-                    result,
-                    message: 'Found'
-                })
+                if (result) {
+                    return res.status(200).json({
+                        result,
+                        message: 'Found'
+                    })
+                } else {
+                    return next({
+                        name: 'NotFound',
+                        errors: [{ message: 'Product Not Found '}]
+                    })
+                }
             })
             .catch( err => {
                 return next(err)

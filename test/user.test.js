@@ -255,13 +255,12 @@ describe('User Service', () => {
                         }
                     })
             })
-            //CANNOT BE USED BECAUSE FIRST BULK INSERT 'role' IS 'admin' FROM 'dummyUser'
+            // CANNOT BE USED BECAUSE FIRST BULK INSERT 'role' IS 'admin' FROM 'dummyUser'
             // test('should return error with status 401 because role not admin', done => {
             //     const errors = [{ message: "Only admin can login" }]
             //     request(app)
             //         .post('/users/login')
-            //         .set('role', 'notAdmin')
-            //         .send(dummyUser)
+            //         .send(notAdmin)
             //         .end((err, res) => {
             //             if (err) {
             //                 console.log(err)
