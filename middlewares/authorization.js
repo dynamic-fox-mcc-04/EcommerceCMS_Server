@@ -4,25 +4,16 @@ const {User} = require("../models");
 function authorization(req, res, next)
 {
     let UserId = req.user_id;
-    let {id} = req.params;
 
-    Product.findByPk(id, {include : User})
+    User.findByPk(UserId)
     .then(data =>
     {
-        console.log(data);
-        if(!data)
+        if(!data.dataValues)
             return res.status(404).json({error : "Product not found"});
-        if(data.UserId == UserId)
+        if(data.dataValues.role == 'admin')
             return next();
         
-        return User.findByPk(UserId)
-    })
-    .then(data =>
-    {
-        if(data.role != "admin")
-            return res.status(401).json({error : "Unauthorized"});
-
-        return next();
+        return es.status(401).json({error : "Unauthorized"});
     })
     .catch(err =>
     {

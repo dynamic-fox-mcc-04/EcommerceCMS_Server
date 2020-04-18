@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     image_url: 
     {
+      allowNull: false,
       type : DataTypes.STRING,
       validate :
         {
@@ -34,13 +35,11 @@ module.exports = (sequelize, DataTypes) => {
           min : 0
         }
     },
-    description: DataTypes.TEXT,
-    UserId: DataTypes.INTEGER
+    description: DataTypes.TEXT
   }, {});
   Product.associate = function(models) {
     // associations can be defined here
     Product.belongsToMany(models.User, {through : "Orders"});
-    Product.belongsTo(models.User);
   };
   return Product;
 };

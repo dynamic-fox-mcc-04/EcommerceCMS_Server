@@ -13,6 +13,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       image_url: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       price: {
@@ -25,9 +26,6 @@ module.exports = {
       },
       description: {
         type: Sequelize.TEXT
-      },
-      UserId: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,

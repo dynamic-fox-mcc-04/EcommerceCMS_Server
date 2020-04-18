@@ -7,7 +7,7 @@ function getToken(data)
 
 function verify(token)
 {
-    jwt.verify(token, process.env.Token);
+    return jwt.verify(token, process.env.Token);
 }
 
 module.exports = {getToken, verify};

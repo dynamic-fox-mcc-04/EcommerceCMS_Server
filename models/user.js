@@ -26,10 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       allowNull: false,
       type : DataTypes.STRING,
-      defaultValue : "customer",
+      defaultValue : "user",
       validate :
       {
-        isIn : [["admin", "customer", "seller"]]
+        isIn : [["admin", "user"]]
       }
     },
     wallet: 
@@ -54,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = function(models) {
     // associations can be defined here
     User.belongsToMany(models.Product, {through : "Orders"});
-    User.hasMany(models.Product);
   };
   return User;
 };

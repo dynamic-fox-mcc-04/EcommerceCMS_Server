@@ -1,4 +1,4 @@
-const {Product} = require("../models");
+const {Product, Order} = require("../models");
 
 class ProductController
 {
@@ -33,15 +33,24 @@ class ProductController
     static add(req, res, next)
     {
         let {name, image_url, price, stock, description} = req.body;
-        let product = {name, image_url, price, stock, description};
+        let UserId = req.user_id;
+        let product = {name, image_url, price, stock, description, UserId};
 
         Product.create(product)
         .then(data =>
         {
+            let order = 
+            {
+                UserId : req.user_id,
+                ProductId : data.id
+            }
+            
+            Order.create(order)
             return res.status(201).json(data);
         })
         .catch(err =>
         {
+            console.log(err)
             return next(err);
         })
     }
@@ -70,10 +79,12 @@ class ProductController
         Product.destroy({where : {id}})
         .then(() =>
         {
+            console.log('Success')
             return res.status(200).json({message : "Data successfully deleted"});
         })
         .catch(err =>
         {
+            console.log(err)
             return next(err);
         })
     }

@@ -33,7 +33,7 @@ class UserController
                 return res.status(404).json({error : "Invalid email/pasword"});
 
             req.headers.token = getToken(data.id);
-            return res.status(200).json({token : req.headers.token});
+            return res.status(200).json({token : req.headers.token, role : data.role});
         })
     }
 }
