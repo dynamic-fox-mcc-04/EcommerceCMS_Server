@@ -120,6 +120,33 @@ class UserController {
                 return next(err)
             })
     }
+
+    static delete(req, res, next) {
+        let id = req.params.id;
+        console.log('masuk sini ga',id);
+        User.findByPk(id)
+            .then(data => {
+                console.log(data)
+                if(data.role == 'customer') {
+                    return User.destroy({
+                        where: { id }
+                    })
+                } else {
+                    return next({
+                        status: 403,
+                        message: 'only customer can be deleted by admin'
+                    })
+                }
+            })
+            .then(_ => {
+                return next({
+                    message: 'User successfully deleted'
+                })
+            })
+            .catch(err => {
+                return next(err);
+            })
+    }
 }
 
 module.exports = UserController;

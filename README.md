@@ -1,4 +1,6 @@
 # EcommerceCMS_Server
+- **BASE URL**
+  localhost:3000 (only for development)
 
 ## **Register (Customer)**
 
@@ -156,9 +158,9 @@ Finds a user that matches the inputted email then (if the email matched) compare
 
   none
 
-  ## **GET all Customers (user without admin)**
+## **GET all Customers (user without admin)**
 
-Finds all user that regist as customers returns username, email, and date when they're joined.
+Finds all user that regist as customers returns data.
 
 - **URL**
 
@@ -231,6 +233,58 @@ Finds all user that regist as customers returns username, email, and date when t
 
   none
 
+## **DELETE Customer by Id (by admin)**
+- **URL**
+
+  /:id
+
+- **Method:**
+
+  `DELETE`
+
+- **URL Params**
+
+  **Required**
+
+  `id=[integer]`
+
+- **Data Params**
+  
+   none
+
+- **Success Response:**
+
+  - Code:
+
+    200
+
+  - Content:
+
+  ```
+  { 
+    "message": "User successfully deleted" 
+  }
+  ```
+
+- **Error Response:**
+
+- **Code:** 403
+
+- **Sample Call:**
+
+  ```
+  {
+    errors: { "message": "only customer can be deleted by admin" }
+  }
+  ```
+  OR
+
+- **Code:** 500
+
+- **Sample Call:**
+
+   none
+
 # Product
 
 ## **Add Product**
@@ -281,8 +335,7 @@ Adds new product and returns the added product.
   - **Code:** 500
 
 - **Sample Call:**
-
-  none
+    none
 
 ## **Fetch Products**
 
