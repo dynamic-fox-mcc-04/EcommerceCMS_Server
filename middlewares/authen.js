@@ -1,9 +1,9 @@
-const verify = require('../helpers/jwt')
+const {verify} = require('../helpers/jwt')
 const {User} = require('../models')
 function Authen(req,res,next){
+    console.log(req.headers.token);
+    let decode = verify(req.headers.token)
     try{
-        let decode = verify(req.headers.token)
-
         User.findOne({
             where:{
                 id:decode.id
@@ -11,6 +11,7 @@ function Authen(req,res,next){
         })
         .then(result=>{
             req.currentUserId = result.id
+            console.log('authen sucess');
             return next()
         })
         .catch(err=>{

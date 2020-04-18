@@ -1,11 +1,11 @@
 const router = require('express').Router()
 const controllerProduct = require("../controllers/product")
-const author = require("../middlewares/author")
-const authen = require("../middlewares/authen")
+const Author = require("../middlewares/author")
+const Authen = require("../middlewares/authen")
 
-router.post('/',controllerProduct.addNew)
-router.put('/:id',controllerProduct.Edit)
-router.delete('/:id',controllerProduct.delete)
+router.post('/',Authen,Author,controllerProduct.addNew)
+router.put('/:id',Authen,Author,controllerProduct.Edit)
+router.delete('/:id',Authen,Author,controllerProduct.delete)
 router.get('/',controllerProduct.viewall)
 
 module.exports = router

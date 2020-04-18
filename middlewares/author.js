@@ -1,7 +1,6 @@
 const {Product} = require('../models')
-function author(req,res,next){
-
-    Product.findbyPK(req.currentUserId)
+function Author(req,res,next){
+    Product.findByPk(req.currentUserId)
     .then(result=>{
         return next()
     })
@@ -12,4 +11,4 @@ function author(req,res,next){
         })
     })
 }
-module.exports = author
+module.exports = Author

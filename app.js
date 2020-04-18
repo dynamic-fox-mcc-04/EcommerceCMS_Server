@@ -35,6 +35,8 @@ app.use((err, req, res, next) => {
       errors
     });
   } else {
+    console.log("error",err);
+    
     return res.status(500).json(err);
   }
 });
