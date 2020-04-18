@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jest --runInBand --detectOpenHandles",
-    "dev": "nodemon bin/server.js"
+    "dev": "nodemon bin/server.js",
+    "start":"node bin/server.js"
   },
   "repository": {
     "type": "git",
