@@ -3,30 +3,6 @@ const {decryptPassword} = require('../helper/bcrypt')
 const {generateToken} =require('../helper/jwt')
 
 class AdminController {
-    static signup(req, res, next) {
-        const {email, password} = req.body
-        let payload = {
-            email,
-            password
-        }
-        Admin.create(payload)
-            .then(result => {
-                let Admin = {
-                    id: result.id,
-                    email: result.email
-                }
-                let token = generateToken(Admin)
-                return res.status(201).json({
-                    id: Admin.id,
-                    email: Admin.email,
-                    access_token: token
-                })
-            })
-            .catch(err => {
-                console.log(err)
-                return next(err)
-            })
-    }
     static signin(req, res, next) {
         const {email, password} = req.body
         let payload = {
