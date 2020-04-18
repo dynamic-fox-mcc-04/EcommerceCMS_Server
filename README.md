@@ -2,6 +2,8 @@
 
 **Base URL**
 
+https://powerful-lake-70062.herokuapp.com/
+
 http://localhost:3000
 
 # Admin
