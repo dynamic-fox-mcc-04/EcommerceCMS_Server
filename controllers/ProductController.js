@@ -1,10 +1,13 @@
 const models = require('../models')
+const sequelize = require('sequelize')
+const Op = sequelize.Op;
 
 class ProductController {
     static read(req, res, next) {
-        return models.Product.findAll()
+        console.log(req.query.category)
+        if (req.query.category) {
+            return models.Product.findAll({where: { category: req.query.category}})
             .then(result => {
-                // console.log(`ini result findAll`, result.dataValues)
                 return res.status(200).json({
                     Products: result
                 })
@@ -12,14 +15,27 @@ class ProductController {
             .catch(err => {
                 return next(err)
             })
+        } else {
+            return models.Product.findAll()
+            .then(result => {
+                return res.status(200).json({
+                    Products: result
+                })
+            })
+            .catch(err => {
+                return next(err)
+            }) 
+        }
     }
 
     static create(req, res, next) {
+        console.log(`masuk create`)
         const { productName, imageUrl, price, stock, category } = req.body
         const newProduct = { productName, imageUrl, price, stock, category }
-        console.log(newProduct)
+        console.log(`====new Product`,newProduct)
         return models.Product.create(newProduct)
             .then(result => {
+                console.log(`result create`,result)
                 return res.status(201).json({
                     id: result.id,
                     productName: result.productName,
@@ -36,22 +52,20 @@ class ProductController {
     }
 
     static edit(req, res, next) {
-        // let param = req.params.id
         const { id, productName, imageUrl, price, stock, category } = req.body
-        console.log(id)
         const editedProduct = { productName, imageUrl, price, stock, category }
+        console.log(id)
         console.log(`dari cont edit`, editedProduct)
-        return models.Product.update({ editedProduct }, { where: { id: id } })
-            .then(result => {
-                console.log(result)
-                res.status(200).json({
-                    message: `Successfully edited one product`
-                })
-                return null
+        return models.Product.update(editedProduct, { where: { id: id } })
+        .then(result => {
+            console.log(result)
+            return res.status(200).json({
+                message: `Successfully edited one product`
             })
-            .catch(err => {
-                return next(err)
-            })
+        })
+        .catch(err => {
+            return next(err)
+        })
     }
 
     static delete(req, res, next) {

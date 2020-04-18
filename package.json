@@ -22,7 +22,8 @@
     },
     "scripts": {
         "dev": "SET NODE_ENV=development&&nodemon ./bin/server.js",
-        "test": "SET NODE_ENV=test&&jest --runInBand --detectOpenHandles"
+        "test": "SET NODE_ENV=test&&jest --runInBand --detectOpenHandles",
+        "start": "node bin/server.js"
     },
     "repository": {
         "type": "git",
