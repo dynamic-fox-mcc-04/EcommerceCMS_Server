@@ -47,11 +47,11 @@ describe('Product Routes', () => {
         describe('Success Process', () => {
             test('Should return an object (username, image_url, price, stock) with status code 201', (done) => {
                 let newProduct = {
-                    name: 'Nike Air Jordan 1 Low',
-                    image_url: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/jk6pwv5o9uos8n2ruecy/air-jordan-1-low-shoe-6Q1tFM.jpg',
-                    price: 1429000,
-                    stock: 50,
-                    category: 'Men'
+                    name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
+                    image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
+                    price: 37299000,
+                    stock: 5,
+                    category: 'Olympus'
                 }
                 request(app)
                     .post('/products')
@@ -73,11 +73,11 @@ describe('Product Routes', () => {
         describe('Error Process', () => {
             test('Should return a message about authorization failed', (done) => {
                 let newProduct = {
-                    name: 'Nike Cortez G',
-                    image_url: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/jk6pwv5o9uos8n2ruecy/air-jordan-1-low-shoe-6Q1tFM.jpg',
-                    price: 929000,
-                    stock: 10,
-                    category: 'Women'
+                    name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
+                    image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
+                    price: 37299000,
+                    stock: 5,
+                    category: 'Olympus'
                 }
                 request(app)
                     .post('/products')
@@ -93,19 +93,19 @@ describe('Product Routes', () => {
     describe('GET /products', () => {
         beforeEach((done) => {
             queryInterface.bulkInsert('Products', [{
-                name: 'Converse Chuck Taylor All Star',
-                image_url: 'https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw7306ff94/images/a_107/M7650_A_107X1.jpg?sw=964',
-                price: 629000,
-                stock: 150,
-                category: 'Men',
+                name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
+                image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
+                price: 37299000,
+                stock: 5,
+                category: 'Olympus',
                 createdAt: new Date(),
                 updatedAt: new Date()
             }, {
-                name: 'Adidas Ultraboost 20',
-                image_url: 'https://static.shop.adidas.co.id/media/catalog/product/cache/2/small_image/250x/9df78eab33525d08d6e5fb8d27136e95/E/G/EG1342_SL_eCom.jpg',
-                price: 3000000,
-                stock: 35,
-                category: 'Men',
+                name: 'Nikon D850 Kit AF-S VR 24-120mm f/4G',
+                image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/CNK24169-Nikon-D850-Kit-AF-S-VR-24-120mm-f4G_D1-rev.png',
+                price: 49999000,
+                stock: 10,
+                category: 'Nikon',
                 createdAt: new Date(),
                 updatedAt: new Date()
             }])
@@ -134,10 +134,11 @@ describe('Product Routes', () => {
         describe('Success Process', () => {
             test('Should return an object (name, image_url, price, stock) with status code 200', (done) => {
                 let update = {
-                    name: 'Nike Air Jordan 2 Low',
-                    image_url: 'https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw7306ff94/images/a_107/M7650_A_107X1.jpg?sw=964',
-                    price: 1429000,
-                    stock: 100
+                    name: 'Nikon D850 Kit AF-S VR 24-120mm f/4G',
+                    image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/CNK24169-Nikon-D850-Kit-AF-S-VR-24-120mm-f4G_D1-rev.png',
+                    price: 50000000,
+                    stock: 10,
+                    category: 'Nikon',
                 }
                 request(app)
                     .put('/products/20')
@@ -158,17 +159,19 @@ describe('Product Routes', () => {
     describe('GET /products/:id', () => {
         beforeEach((done) => {
             queryInterface.bulkInsert('Products', [{
-                name: 'Converse Chuck Taylor All Star',
-                image_url: 'https://www.converse.com/dw/image/v2/BCZC_PRD/on/demandware.static/-/Sites-cnv-master-catalog/default/dw7306ff94/images/a_107/M7650_A_107X1.jpg?sw=964',
-                price: 629000,
-                stock: 150,
+                name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
+                image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
+                price: 37299000,
+                stock: 5,
+                category: 'Olympus',
                 createdAt: new Date(),
                 updatedAt: new Date()
             }, {
-                name: 'Adidas Ultraboost 20',
-                image_url: 'https://static.shop.adidas.co.id/media/catalog/product/cache/2/small_image/250x/9df78eab33525d08d6e5fb8d27136e95/E/G/EG1342_SL_eCom.jpg',
-                price: 3000000,
-                stock: 35,
+                name: 'Nikon D850 Kit AF-S VR 24-120mm f/4G',
+                image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/CNK24169-Nikon-D850-Kit-AF-S-VR-24-120mm-f4G_D1-rev.png',
+                price: 49999000,
+                stock: 10,
+                category: 'Nikon',
                 createdAt: new Date(),
                 updatedAt: new Date()
             }])
