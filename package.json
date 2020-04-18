@@ -4,6 +4,7 @@
   "description": "Tugas",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "dev" : "nodemon bin/server.js",
     "test": "clear && jest --detectOpenHandles"
   },
