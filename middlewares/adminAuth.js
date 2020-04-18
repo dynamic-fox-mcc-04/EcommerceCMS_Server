@@ -4,7 +4,6 @@ const { Op } = require('sequelize')
 function adminAuth(req, res, next) {
     let { email } = req.body
     let payload = { email }
-    console.log(payload)
     User.findOne({
         where: {
             [Op.and]: [
@@ -20,7 +19,7 @@ function adminAuth(req, res, next) {
             } else {
                 return next({
                     name: 'Unauthorized',
-                    errors: [{ message: 'Only admin can login' }]
+                    errors: [{ message: 'Only admin is authorized' }]
                 })
             }
         })
