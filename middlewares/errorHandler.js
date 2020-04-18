@@ -37,7 +37,7 @@ const errorHandler = (err, req, res, next) => {
         })
     } else {
         // console.log(`masuk ke error handler else`)
-        console.log(err)
+        console.log('=============ini errornya', err)
         return res.status(500).json({ errors: err.errors })
     }
 }

@@ -93,6 +93,7 @@ describe('product service', () => {
                             done(err)
                         } else {
                             productId = res.body.id
+                            console.log(`+++++++++++++++++++`,productId)
                             expect(res.status).toBe(201)
                             expect(res.body).toHaveProperty('id', expect.any(Number))
                             expect(res.body).toHaveProperty('poductName', data.poductName)
@@ -220,6 +221,7 @@ describe('product service', () => {
                             done(err)
                         } else {
                             expect(res.status).toBe(400)
+                            console.log(`+++++++++++++++++++2`,productId)
                             expect(res.body).toHaveProperty('errors', errors)
                             return done()
                         }
@@ -235,6 +237,7 @@ describe('product service', () => {
                     .put(`/products/${productId}`)
                     .set('token', adminToken)
                     .send({
+                        id: `${productId}`,
                         productName: 'blee',
                         imageUrl: 'https://cdn.elevenia.co.id/g/8/0/5/4/3/7/18805437_B_V1.jpg',
                         price: 120500,

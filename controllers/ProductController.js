@@ -4,7 +4,7 @@ const Op = sequelize.Op;
 
 class ProductController {
     static read(req, res, next) {
-        console.log(req.query.category)
+        // console.log(req.query.category)
         if (req.query.category) {
             return models.Product.findAll({where: { category: req.query.category}})
             .then(result => {
@@ -29,10 +29,10 @@ class ProductController {
     }
 
     static create(req, res, next) {
-        console.log(`masuk create`)
+        // console.log(`masuk create`)
         const { productName, imageUrl, price, stock, category } = req.body
         const newProduct = { productName, imageUrl, price, stock, category }
-        console.log(`====new Product`,newProduct)
+        // console.log(`====new Product`,newProduct)
         return models.Product.create(newProduct)
             .then(result => {
                 console.log(`result create`,result)
