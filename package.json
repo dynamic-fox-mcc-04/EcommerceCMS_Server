@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon bin/server.js",
     "test": "cls&&jest --detectOpenHandles",
-    "initdbtest": "sequelize db:create --env=test"
+    "initdbtest": "sequelize db:create --env=test",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
