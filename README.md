@@ -108,7 +108,7 @@ Finds a user that matches the inputted email then (if the email matched) compare
 
 - **URL**
 
-  /login
+  /login/admin
 
 - **Method:**
 
