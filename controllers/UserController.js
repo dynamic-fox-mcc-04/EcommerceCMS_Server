@@ -60,6 +60,24 @@ class UserController {
                 return next(err)
             })
     }
+
+    static findAll(req, res, next) {
+        User.findAll({
+            order: [['updatedAt', 'DESC']]
+        })
+            .then(data => {
+                let users = [];
+                data.map(el => {
+                    if(el.role !== 'admin') {
+                        users.push(el)
+                    }
+                })
+                return res.status(200).json(users)
+            })
+            .catch(err => {
+                return next(err)
+            })
+    }
 }
 
 module.exports = UserController;

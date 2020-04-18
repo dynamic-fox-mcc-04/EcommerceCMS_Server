@@ -156,6 +156,81 @@ Finds a user that matches the inputted email then (if the email matched) compare
 
   none
 
+  ## **GET all Customers (user without admin)**
+
+Finds all user that regist as customers returns username, email, and date when they're joined.
+
+- **URL**
+
+  /
+
+- **Method:**
+
+  `GET`
+
+- **URL Params**
+
+  **Required:**
+
+  None
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - Code:  
+
+    200
+
+    Content:
+
+    ```
+    [
+      {
+          "id": 6,
+          "username": "test3",
+          "email": "test3@mail.com",
+          "password": "$2b$10$8jFDn1ERGyvVMSKqns6vCuNCbZ1PE72wlI.PVHMEsqxu/oE0z3SZG",
+          "role": "customer",
+          "createdAt": "2020-04-18T05:31:20.312Z",
+          "updatedAt": "2020-04-18T05:31:20.312Z"
+      },
+      {
+          "id": 5,
+          "username": "test2",
+          "email": "test2@mail.com",
+          "password": "$2b$10$P5I8rRgcCDnjZF85fz40I.I9AzZjuvVIfEvoIYePK.8mUdh5vuaLK",
+          "role": "customer",
+          "createdAt": "2020-04-18T05:31:12.130Z",
+          "updatedAt": "2020-04-18T05:31:12.130Z"
+      },
+      {
+          "id": 4,
+          "username": "test1",
+          "email": "test@mail.com",
+          "password": "$2b$10$SFAVCRO0LhH2DBx1YSomNu8N1V6MpPIEGtU03I8kFDbTWQ0sgzpyG",
+          "role": "customer",
+          "createdAt": "2020-04-18T05:30:56.423Z",
+          "updatedAt": "2020-04-18T05:30:56.423Z"
+      }
+    ]
+    ```
+
+- **Error Response:**
+
+  - **Code:** 400
+    **Content:** `{ message : "User Not Found" }`
+
+  OR
+
+  - **Code:** 500
+
+- **Sample Call:**
+
+  none
+
 # Product
 
 ## **Add Product**
@@ -183,8 +258,6 @@ Adds new product and returns the added product.
 - **Success Response:**
 
   - Code:
-
-     
 
     201
 
@@ -441,8 +514,6 @@ Update a product and returns json data about the updated product.
 - **Success Response:**
 
   - Code:
-
-     
 
     200
 

@@ -11,10 +11,10 @@ class ProductController {
             category: req.body.category
         })
             .then(newProduct => {
-                res.status(201).json(newProduct)
+                return res.status(201).json(newProduct)
             })
             .catch(err => {
-                next(err)
+                return next(err)
             })
     }
 
@@ -28,10 +28,10 @@ class ProductController {
                     nominal = el.price;
                     el.price = rupiahMaker(nominal)
                 })
-                res.status(200).json(products)
+                return res.status(200).json(products)
             })
             .catch(err => {
-                next(err)
+                return next(err)
             })
     }
 
@@ -43,9 +43,9 @@ class ProductController {
         })
             .then(product => {
                 if (product) {
-                    res.status(200).json(product)
+                    return res.status(200).json(product)
                 } else {
-                    next({
+                    return next({
                         status: 404,
                         message: 'Product not found'
                     })
@@ -87,10 +87,10 @@ class ProductController {
             })
             .then(updatedProduct => {
                 console.log('--- Updated Successfully ---', updatedProduct[1][0]);
-                res.status(200).json(updatedProduct[1][0])
+                return res.status(200).json(updatedProduct[1][0])
             })
             .catch(err => {
-                next(err)
+                return next(err)
             })
     }
 
@@ -107,20 +107,20 @@ class ProductController {
                         }
                     })
                         .then(() => {
-                            res.status(200).json(deletedProduct)
+                            return res.status(200).json(deletedProduct)
                         })
                         .catch(err => {
-                            next(err)
+                            return next(err)
                         })
                 } else {
-                    next({
+                    return next({
                         status: 404,
                         message: 'Product not found'
                     })
                 }
             })
             .catch(err => {
-                next(err)
+                return next(err)
             })
     }
 }
