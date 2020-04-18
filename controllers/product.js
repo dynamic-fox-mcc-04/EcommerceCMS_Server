@@ -8,6 +8,7 @@ class Controller {
             where : { UserId : req.userId}
         })
         .then(result => {
+            
             return res.status(200).json({
                 products : result
             })
@@ -22,12 +23,14 @@ class Controller {
     static create(req, res, next){
 
         const { name, image_url, price, stock} = req.body
+        const UserId = req.userId
 
         Product.create({
             name,
             image_url,
             price,
-            stock
+            stock,
+            UserId
         })
         .then( result =>{
 
