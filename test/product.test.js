@@ -88,7 +88,7 @@ describe('Product Service', () => {
     })
     describe('GET /products', () => {
         describe('Successful FindAll', () => {
-            test('should return object with status 200 and product detail', done => {
+            test('should return object with status 200 and all products', done => {
                 request(app)
                     .get('/products')
                     .set('access_token', token)

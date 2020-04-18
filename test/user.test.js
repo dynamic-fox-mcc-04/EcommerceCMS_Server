@@ -28,6 +28,8 @@ const notAdmin = {
     role: 'civilian'
 }
 
+let token = ''
+
 afterAll( done => {
     queryInterface.bulkDelete('Users')
         .then( () => {
@@ -192,6 +194,8 @@ describe('User Service', () => {
                             expect(res.status).toBe(200)
                             expect(res.body).toHaveProperty('access_token', expect.any(String))
                             expect(res.body).not.toHaveProperty('password')
+                            // Set Token For FindAll Testing
+                            token = res.body.access_token
                             return done()
                         }
                     })
@@ -212,9 +216,9 @@ describe('User Service', () => {
                         }
                     })
             })
-            test('should return error with status 404 because user not found', (done) => {
+            test('should return error with status 401 because user is not admin', (done) => {
                 const errors = [{
-                    message: 'User not found'
+                    message: 'Only admin is authorized'
                 }]
                 request(app)
                     .post('/users/login')
@@ -227,7 +231,7 @@ describe('User Service', () => {
                             console.log(err)
                             return done(err)
                         } else {
-                            expect(res.status).toBe(404)
+                            expect(res.status).toBe(401)
                             expect(res.body).toHaveProperty('errors', errors)
                             return done()
                         }
@@ -255,24 +259,25 @@ describe('User Service', () => {
                         }
                     })
             })
-            // CANNOT BE USED BECAUSE FIRST BULK INSERT 'role' IS 'admin' FROM 'dummyUser'
-            // test('should return error with status 401 because role not admin', done => {
-            //     const errors = [{ message: "Only admin can login" }]
-            //     request(app)
-            //         .post('/users/login')
-            //         .send(notAdmin)
-            //         .end((err, res) => {
-            //             if (err) {
-            //                 console.log(err)
-            //                 return done(err)
-            //             } else {
-            //                 console.log(res.body)
-            //                 expect(res.status).toBe(401)
-            //                 expect(res.body).toHaveProperty('errors', errors)
-            //                 return done()
-            //             }
-            //         })
-            // })
+        })
+    })
+    describe('GET /users', () => {
+        describe('Successful FindAll', () => {
+            test('should return object with status 200 and all users', done => {
+                request(app)
+                    .get('/users')
+                    .set('access_token', token)
+                    .end((err, res) => {
+                        if (err) {
+                            console.log(err)
+                            return done(err)
+                        } else {
+                            expect(res.status).toBe(200)
+                            expect(res.body.result).toEqual(expect.any(Array))
+                            return done()
+                        }
+                    })
+            })
         })
     })
 })

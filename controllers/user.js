@@ -55,6 +55,20 @@ class Controller {
                 return next(err)
             })
     }
+
+    static findAll (req, res, next) {
+        User.findAll({
+            orders: [
+                ['role', 'ASC']
+            ]
+        })
+            .then(result => {
+                res.status(200).json({ result })
+            })
+            .catch(err => {
+                return next(err)
+            })
+    }
 }
 
 module.exports = Controller
