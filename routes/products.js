@@ -7,9 +7,9 @@ router.use(auth)
 router.post('/', ProductController.create)
 router.get('/', ProductController.getAll)
 // router.use(authorization)
-router.put('/:id', ProductController.update)
+router.put('/:id', authorization, ProductController.update)
 router.get('/:id', authorization, ProductController.getProduct)
-router.delete('/:id', ProductController.delete)
+router.delete('/:id', authorization, ProductController.delete)
 
 
 
