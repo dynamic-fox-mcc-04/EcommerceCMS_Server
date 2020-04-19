@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
           args: true,
           msg: 'Price cannot be empty'
         },
+        min: {
+          args: [0],
+          msg: 'Minimum price must be 0, minus values not allowed'
+        },
         validNotMinus() {
           notMinus(this.price)
         }
