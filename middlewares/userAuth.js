@@ -1,15 +1,14 @@
 const { User } = require('../models')
 const { Op } = require('sequelize')
 
-function adminAuth(req, res, next) {
+function userAuth(req, res, next) {
     let { email } = req.body
-    console.log(req.body)
     let payload = { email }
     User.findOne({
         where: {
             [Op.and]: [
-                { email: payload.email },
-                { role: 'admin' }
+                {email: payload.email},
+                {role: 'user'}
             ]
         }
     })
@@ -20,7 +19,7 @@ function adminAuth(req, res, next) {
             } else {
                 return next({
                     name: 'Unauthorized',
-                    errors: [{ message: 'Only admin is authorized' }]
+                    errors: [{ message: 'Please login using user account' }]
                 })
             }
         })
@@ -29,4 +28,4 @@ function adminAuth(req, res, next) {
         })
 }
 
-module.exports = adminAuth
+module.exports = userAuth
