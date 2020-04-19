@@ -3,26 +3,37 @@ const request = require('supertest');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
 const { encrypt } = require('../helpers/bcrypt');
+const { generateToken } = require('../helpers/jwt');
+const { User } = require('../models');
 
 const dummyUser = {
     username: 'qweqwe',
-    email: 'mail100@mail.com',
+    email: 'mail10@mail.com',
     password: 'qweqwe'
 }
 
+const admin = {
+    username: 'admin001',
+    email: 'admin@mail.com',
+    password: 'user001',
+    role: 'admin'
+}
 
-afterAll((done) => {
-    queryInterface.bulkDelete('Users')
-        .then(() => {
-            console.log('DB clean up')
+beforeAll((done) => {
+    User.create(admin)
+        .then(newUser => {
+            const payload = { 
+                id: newUser.id,
+                username: newUser.username,
+                email: newUser.email
+             };
+            // console.log('ini payload', payload)
+            token = generateToken(payload)
             done()
         })
         .catch(err => {
             done(err)
-        })
-})
-
-beforeAll((done) => {
+    })
     const hashPassword = encrypt(dummyUser.password);
     queryInterface.bulkInsert('Users', [
         {
@@ -34,6 +45,17 @@ beforeAll((done) => {
         }
     ])
         .then(() => {
+            done()
+        })
+        .catch(err => {
+            done(err)
+        })
+})
+
+afterAll((done) => {
+    queryInterface.bulkDelete('Users')
+        .then(() => {
+            console.log('DB clean up')
             done()
         })
         .catch(err => {
@@ -173,4 +195,76 @@ describe('User service', () => {
             })
         })
     })
+    describe('POST /login/admin', () => {
+        const adminLogin = {
+            email: 'admin@mail.com',
+            password: 'user001',
+        }
+        describe('success login admin', () => {
+            test('should return token with status 200', done => {
+                request(app)
+                    .post('/login/admin')
+                    .send(adminLogin)
+                    .end((err, response) => {
+                        if(err) {
+                            return done(err)
+                        } else {
+                            expect(response.status).toBe(200)
+                            expect(response.body).toHaveProperty('token', expect.any(String))
+                            return done()
+                        }
+                    })
+                })
+            })
+        })
+        describe('GET /', () => {
+            beforeEach((done) => {
+                queryInterface.bulkInsert('Users', [
+                    {
+                        username: 'test30',
+                        email: 'test3@mail.com',
+                        password: 'test123',
+                        role: 'customer',
+                        createdAt: new Date(),
+                        updatedAt: new Date
+                    },
+                    {
+                        username: 'test20',
+                        email: 'test2@mail.com',
+                        password: 'test123',
+                        role: 'customer',
+                        createdAt: new Date(),
+                        updatedAt: new Date
+                    },
+                    {
+                        username: 'test109',
+                        email: 'test@mail.com',
+                        password: 'test123',
+                        role: 'customer',
+                        createdAt: new Date(),
+                        updatedAt: new Date
+                    }
+                  ])
+                    .then(_ => {
+                        done()
+                    })
+                    .catch(err => {
+                        done(err)
+                    })
+            })
+            describe('success get all users(only customer)', () => {
+                test('should return all users whose role is customer with status 200', done => {
+                    request(app)
+                        .get('/')
+                        .end((err, res) => {
+                            if(err) {
+                                return done(err)
+                            } else {
+                                expect(res.status).toBe(200)
+                                return done()
+                            }
+                        })
+                })
+            })
+        })
 })

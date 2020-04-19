@@ -42,6 +42,7 @@ class ProductController {
             }
         })
             .then(product => {
+                // console.log(product)
                 if (product) {
                     return res.status(200).json(product)
                 } else {
@@ -86,7 +87,7 @@ class ProductController {
                 }
             })
             .then(updatedProduct => {
-                console.log('--- Updated Successfully ---', updatedProduct[1][0]);
+                // console.log('--- Updated Successfully ---', updatedProduct[1][0]);
                 return res.status(200).json(updatedProduct[1][0])
             })
             .catch(err => {

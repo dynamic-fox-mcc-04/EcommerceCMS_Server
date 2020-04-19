@@ -1,5 +1,4 @@
 'use strict';
-const notMinus = require('../helpers/notMinus');
 
 module.exports = (sequelize, DataTypes) => {
   class Product extends sequelize.Sequelize.Model {}
@@ -26,9 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         min: {
           args: [0],
           msg: 'Minimum price must be 0, minus values not allowed'
-        },
-        validNotMinus() {
-          notMinus(this.price)
         }
       }
     },

@@ -30,23 +30,23 @@ beforeAll((done) => {
         })
 })
 
-//do afterAll bellow if all function have running well
-// afterAll((done) => {
-//     queryInterface.bulkDelete('Products', {})
-//         .then(_ => {
-//             console.log('Db clean up')
-//             done()
-//         })
-//         .catch(err => {
-//             done(err)
-//         })
-// })
+afterAll((done) => {
+    queryInterface.bulkDelete('Products', {})
+        .then(_ => {
+            console.log('Db clean up')
+            done()
+        })
+        .catch(err => {
+            done(err)
+        })
+})
 
 describe('Product Routes', () => {
     describe('POST /products', () => {
         describe('Success Process', () => {
             test('Should return an object (username, image_url, price, stock) with status code 201', (done) => {
                 let newProduct = {
+                    id : 1,
                     name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
                     image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
                     price: 37299000,
@@ -73,6 +73,7 @@ describe('Product Routes', () => {
         describe('Error Process', () => {
             test('Should return a message about authorization failed', (done) => {
                 let newProduct = {
+                    id: 1,
                     name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
                     image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
                     price: 37299000,
@@ -93,6 +94,7 @@ describe('Product Routes', () => {
     describe('GET /products', () => {
         beforeEach((done) => {
             queryInterface.bulkInsert('Products', [{
+                id: 1,
                 name: 'OLYMPUS OM-D E-M1 Mark II kit 12-40mm f/2.8 PRO (Black)',
                 image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/rsz_col24171-olympus-om-d-e-m1-mark-ii-kit-12-40mm-f28-pro-_black__d1.png',
                 price: 37299000,
@@ -101,6 +103,7 @@ describe('Product Routes', () => {
                 createdAt: new Date(),
                 updatedAt: new Date()
             }, {
+                id: 2,
                 name: 'Nikon D850 Kit AF-S VR 24-120mm f/4G',
                 image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/CNK24169-Nikon-D850-Kit-AF-S-VR-24-120mm-f4G_D1-rev.png',
                 price: 49999000,
@@ -132,8 +135,9 @@ describe('Product Routes', () => {
     })
     describe('UPDATE /products', () => {
         describe('Success Process', () => {
-            test('Should return an object (name, image_url, price, stock) with status code 200', (done) => {
+            test('Should return an object (name, image_url, price, stock, and category) with status code 200', (done) => {
                 let update = {
+                    id: 2,
                     name: 'Nikon D850 Kit AF-S VR 24-120mm f/4G',
                     image_url: 'https://ecommercehacktiv8.s3-ap-southeast-1.amazonaws.com/CNK24169-Nikon-D850-Kit-AF-S-VR-24-120mm-f4G_D1-rev.png',
                     price: 50000000,
@@ -141,7 +145,7 @@ describe('Product Routes', () => {
                     category: 'Nikon',
                 }
                 request(app)
-                    .put('/products/20')
+                    .put('/products/' + update.id)
                     .set('token', token)
                     .send(update)
                     .end((err, res) => {
@@ -183,9 +187,9 @@ describe('Product Routes', () => {
                 })
         })
         describe('Success Process', () => {
-            test('Should return an array of object (name, image_url, price, stock) with status code 200', (done) => {
+            test('Should return anobject (name, image_url, price, stock, category) with status code 200', (done) => {
                 request(app)
-                    .get('/products/20')
+                    .get('/products/2')
                     .set('token', token)
                     .end((err, res) => {
                         // console.log('//------>>>', res.body);
