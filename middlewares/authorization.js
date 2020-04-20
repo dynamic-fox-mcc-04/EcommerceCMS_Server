@@ -9,6 +9,7 @@ module.exports = (req, res, next) => {
         }).then(result => {
             if (result) {
                 // console.log('AUTH OK')
+                req.authorizedId = result.id
                 return next()
             } else {
                 return next({
@@ -17,7 +18,9 @@ module.exports = (req, res, next) => {
             }
 
         }).catch(err => {
-            console.log('ERROR DARI FILE AUTHORIZATION', err)
+            return next({
+                name: 'NotFound'
+            })
         })
     }
 }

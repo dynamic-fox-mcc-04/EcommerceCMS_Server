@@ -76,7 +76,7 @@ class ProductController {
         if (req.currentUserId)
             Product.destroy({
                 where: {
-                    'id': id
+                    'id': req.authorizedId
                 }
             }).then(result => {
                 return res.status(200).json({

@@ -814,13 +814,14 @@ describe('OVERALL TEST', () => {
             })
             describe('succes delete product with specific id', () => {
                 test('should return object with status 200', done => {
+                    console.log('FIRST', firstProduct)
                     Product.findOne({
                         where: {
                             name: firstProduct.name
                         }
                     }).then(data => {
                         let id = data.id
-                        return User.findOne({
+                        User.findOne({
                             where: {
                                 'email': 'user@mail.com'
                             }
@@ -837,6 +838,7 @@ describe('OVERALL TEST', () => {
                                     if (err) {
                                         return done(err)
                                     } else {
+                                        console.log(res.body)
                                         expect(res.status).toBe(200)
                                         expect(res.body).toHaveProperty('msg', expect.any(String))
                                         return done()
@@ -889,13 +891,14 @@ describe('OVERALL TEST', () => {
 
                         access_token = getToken(payload)
                         request(app)
-                            .del('/products')
+                            .del('/products/100')
                             .set({ 'access_token': access_token, Accept: 'application/json' })
                             .end((err, res) => {
                                 if (err) {
                                     return done(err)
                                 } else {
                                     expect(res.status).toBe(404)
+                                    expect(res.body).toHaveProperty('type', 'Not Found')
                                     return done()
                                 }
                             })
