@@ -58,6 +58,18 @@ beforeAll(done => {
                 }
             ])
         })
+        .then(() => {
+            return queryInterface.bulkInsert('Products', [
+                {
+                    name: 'laptop',
+                    image_url: 'laptop.img',
+                    price: '5000000',
+                    stock: '2',
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                }
+            ])
+        })
         .then(() => done())
         .catch(err => done(err))
 })
@@ -795,7 +807,6 @@ describe('OVERALL TEST', () => {
                             .del('/products/' + id)
                             .end((err, res) => {
                                 if (err) {
-                                    console.log(err)
                                     return done(err)
                                 } else {
                                     expect(res.status).toBe(401)
@@ -814,14 +825,13 @@ describe('OVERALL TEST', () => {
             })
             describe('succes delete product with specific id', () => {
                 test('should return object with status 200', done => {
-                    console.log('FIRST', firstProduct)
                     Product.findOne({
                         where: {
-                            name: firstProduct.name
+                            name: 'laptop'
                         }
                     }).then(data => {
                         let id = data.id
-                        User.findOne({
+                        return User.findOne({
                             where: {
                                 'email': 'user@mail.com'
                             }
@@ -831,6 +841,7 @@ describe('OVERALL TEST', () => {
                                 email: result.email
                             }
                             access_token = getToken(payload)
+                            console.log('>>>>>>>>>>>>>>ID', id)
                             request(app)
                                 .del('/products/' + id)
                                 .set({ 'access_token': access_token, Accept: 'application/json' })
