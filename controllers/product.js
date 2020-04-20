@@ -76,6 +76,17 @@ class Controller{
            next(err)
         })
     }
+
+    static viewone(req,res){
+        Product.findByPk(req.params.id)
+        .then(result=>{         
+                          
+            res.status(201).json({data:result})
+        })
+        .catch(err=>{
+           next(err)
+        })
+    }
     
 }
 module.exports = Controller
