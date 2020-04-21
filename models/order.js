@@ -6,13 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Order extends sequelize.Sequelize.Model { }
   Order.init({
     amount: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: `amount is required`
-        }
-      }
+      type: DataTypes.INTEGER
     },
     order_date: DataTypes.DATE,
     order_status: DataTypes.BOOLEAN,

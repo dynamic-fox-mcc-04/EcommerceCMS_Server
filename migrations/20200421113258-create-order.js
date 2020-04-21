@@ -10,7 +10,6 @@ module.exports = {
       },
       amount: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         defaultValue: 0
       },
       order_date: {

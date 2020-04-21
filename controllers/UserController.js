@@ -7,7 +7,7 @@ class UserController {
         const { email, password } = req.body
         let newUser = {
             email,
-            password
+            password: encryptPassword(password)
         }
         User.create(newUser)
             .then(result => {
