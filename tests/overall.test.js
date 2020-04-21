@@ -58,6 +58,18 @@ beforeAll(done => {
                 }
             ])
         })
+        .then(() => {
+            return queryInterface.bulkInsert('Products', [
+                {
+                    name: 'laptop',
+                    image_url: 'laptop.img',
+                    price: '5000000',
+                    stock: '2',
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                }
+            ])
+        })
         .then(() => done())
         .catch(err => done(err))
 })
@@ -795,7 +807,6 @@ describe('OVERALL TEST', () => {
                             .del('/products/' + id)
                             .end((err, res) => {
                                 if (err) {
-                                    console.log(err)
                                     return done(err)
                                 } else {
                                     expect(res.status).toBe(401)
@@ -816,7 +827,7 @@ describe('OVERALL TEST', () => {
                 test('should return object with status 200', done => {
                     Product.findOne({
                         where: {
-                            name: firstProduct.name
+                            name: 'laptop'
                         }
                     }).then(data => {
                         let id = data.id
@@ -830,6 +841,7 @@ describe('OVERALL TEST', () => {
                                 email: result.email
                             }
                             access_token = getToken(payload)
+                            console.log('>>>>>>>>>>>>>>ID', id)
                             request(app)
                                 .del('/products/' + id)
                                 .set({ 'access_token': access_token, Accept: 'application/json' })
@@ -837,6 +849,7 @@ describe('OVERALL TEST', () => {
                                     if (err) {
                                         return done(err)
                                     } else {
+                                        console.log(res.body)
                                         expect(res.status).toBe(200)
                                         expect(res.body).toHaveProperty('msg', expect.any(String))
                                         return done()
@@ -889,13 +902,14 @@ describe('OVERALL TEST', () => {
 
                         access_token = getToken(payload)
                         request(app)
-                            .del('/products')
+                            .del('/products/100')
                             .set({ 'access_token': access_token, Accept: 'application/json' })
                             .end((err, res) => {
                                 if (err) {
                                     return done(err)
                                 } else {
                                     expect(res.status).toBe(404)
+                                    expect(res.body).toHaveProperty('type', 'Not Found')
                                     return done()
                                 }
                             })

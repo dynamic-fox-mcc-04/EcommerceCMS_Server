@@ -72,11 +72,10 @@ class ProductController {
             })
     }
     static delete(req, res, next) {
-        let id = req.params.id
         if (req.currentUserId)
             Product.destroy({
                 where: {
-                    'id': id
+                    'id': req.authorizedId
                 }
             }).then(result => {
                 return res.status(200).json({

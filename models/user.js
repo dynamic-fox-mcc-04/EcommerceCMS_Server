@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Password must be not an empty string'
         }
       }
+    },
+    role: {
+      type: DataTypes.STRING
     }
 
   },
