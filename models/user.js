@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     role: {
       type: DataTypes.STRING
     }
-
   },
     {
       sequelize,
@@ -39,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     })
   User.associate = function (models) {
     // associations can be defined here
+    User.hasMany(models.Order)
   };
   return User;
 };

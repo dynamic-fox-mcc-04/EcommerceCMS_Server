@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User } = require("../models/index")
 const { encryptPassword, decryptPassword } = require("../helpers/bcrypt")
 const { getToken } = require("../helpers/jwt")
 
@@ -46,6 +46,7 @@ class UserController {
                     })
                 }
             } else {
+
                 return next({
                     name: 'InvalidLogin'
                 })

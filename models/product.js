@@ -46,13 +46,13 @@ module.exports = (sequelize, DataTypes) => {
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate:{
+      validate: {
         notNull: {
           args: true,
           msg: `stock is required`
         },
-        isPosiive(value){
-          if(value <= 0){ //try to make another version custom validation
+        isPosiive(value) {
+          if (value <= 0) { //try to make another version custom validation
             throw new Error("stock must be positive");
           }
         }
@@ -64,6 +64,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   Product.associate = function (models) {
     // associations can be defined here
+    Product.belongsToMany(models.Order, { through: 'ProductOrders' })
   };
   return Product;
 };
