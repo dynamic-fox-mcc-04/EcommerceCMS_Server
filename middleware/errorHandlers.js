@@ -2,10 +2,19 @@
 function errorHandler (err, req, res, next){
 
     if (err.name === "SequelizeValidationError"){
+       
+        let arr = []
+        err.errors.forEach(element => {
+           arr.push({message:element.message})
+            
+        });
+        
+        console.log(arr);
+        
         let errors = err.errors.map(el => {
             return { message : el.message }
         })
-
+        
         return res.status(400).json({
             type : 'bad request',
             errors : errors 

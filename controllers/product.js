@@ -33,10 +33,13 @@ class Controller {
             UserId
         })
         .then( result =>{
-
+            console.log(result.id);
             return res.status(201).json({
                 message : 'Success create product'
             })
+
+           
+            
         })
         .catch(err => {
             return next(err)

@@ -1,0 +1,73 @@
+[
+    {
+        "name" : "6KU Fixie & Single Speed Bike",
+        "image_url" : "https://images-na.ssl-images-amazon.com/images/I/715Pky%2BEuqL._AC_UL1270_.jpg",
+        "price" : 15000000,
+        "stock" : 5,
+        "UserId": 2
+    },
+    {
+        "name" : "Rigby Fixed Gear & Single Bikes",
+        "image_url" : "https://cdn.shopify.com/s/files/1/0232/3305/products/JMO_0208.jpg?v=1571266688",
+        "price" : 20000000,
+        "stock" : 3,
+        "UserId": 2
+    },
+    {
+        "name" : "6KU Fixie & Single Speed Bike",
+        "image_url" : "https://cdn.webshopapp.com/shops/212063/files/215260850/650x750x2/6ku-fixie-single-speed-bike-paul.jpg",
+        "price" : 25000000,
+        "stock" : 2,
+        "UserId": 2
+    },
+    {
+        "name" : "Cutthroat",
+        "image_url" : "https://vader-prod.s3.amazonaws.com/1551216837-salsa-cutthroat-1551216828.jpg",
+        "price" : 40000000,
+        "stock" : 5,
+        "UserId": 2
+    },
+    {
+        "name" : "BMW Motorsport Bike Carbon Cruise Bike",
+        "image_url" : "https://images-na.ssl-images-amazon.com/images/I/617ya9KgAnL._SL1000_.jpg",
+        "price" : 50000000,
+        "stock" : 5,
+        "UserId": 2
+    },
+    {
+        "name" : "Diamante",
+        "image_url" : "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTR7Xneo_g5HUIGmPC3vM9mOkRXqF7leyrWAtTq7FTv0nTA4sk1&usqp=CAU",
+        "price" : 35000000,
+        "stock" : 2,
+        "UserId": 2
+    },
+    {
+        "name" : "Giant Talon 2 Pure red",
+        "image_url" : "https://cdn.shoplightspeed.com/shops/622712/files/16305123/650x750x2/giant-talon-2-2020-pure-red.jpg",
+        "price" : 30000000,
+        "stock" : 20,
+        "UserId": 2
+    },
+    {
+        "name" : "Talon 2",
+        "image_url" : "https://images.giant-bicycles.com/b_white,c_pad,h_650,q_80/tvrzsjvpqzd8ez3abxgh/MY20Talon2_ColorA.jpg",
+        "price" : 15000000,
+        "stock" : 10,
+        "UserId": 2
+    },
+    {
+        "name" : "Cross City 2",
+        "image_url" : "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRBcx87C31cbuIqlf2a-pOOUHF-o3Ej_qIUsO8VEfk_I37w1Yfj&usqp=CAU",
+        "price" : 20000000,
+        "stock" : 10,
+        "UserId": 2
+    },
+    {
+        "name" : "Escape 2",
+        "image_url" : "https://images.giant-bicycles.com/b_white,c_pad,h_600,q_80,w_800/ebbzaqkkyraibe34npmh/MY19-Escape-2_Color-A.jpg",
+        "price" : 50000000,
+        "stock" : 5,
+        "UserId": 2
+    }
+
+]

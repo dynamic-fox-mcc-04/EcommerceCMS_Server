@@ -1,19 +1,18 @@
 const { decode } = require('../helpers/jwt')
-const { User } = require('../models')
+const { Customer } = require('../models')
 
-function authentication(req, res, next){
-    console.log('masuk beda');
-    
+function authCustomer(req, res, next){
     try {
-        let decoded = decode(req.headers.access_token)
-        User.findOne({
+        let decoded = decode(req.headers.customer_token)
+
+        Customer.findOne({
             where : { id : decoded.id }
         })
         .then( result => {
 
             if ( result ){
 
-                req.userId = result.id
+                req.customerId = result.id
                 return next()
 
             } else {
@@ -41,4 +40,4 @@ function authentication(req, res, next){
 
 }
 
-module.exports = authentication
+module.exports = authCustomer
