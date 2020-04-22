@@ -25,9 +25,9 @@ class CartController {
 
     static read (req, res, next) {
         Cart.findAll({
-            include: {
+            include: [{
                 model: Product
-            },
+            }],
             where: {
                 useriId: req.currentuserId
             }
