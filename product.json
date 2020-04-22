@@ -1,30 +1,65 @@
 [
     {
-        "name": "Masker",
-        "image_url": "https://media.suara.com/pictures/653x366/2020/02/29/45914-ilustrasi-masker.jpg",
+        "name": "Horror Bear",
+        "image_url": "https://cdn.pixabay.com/photo/2014/04/07/05/25/gummibarchen-318362_960_720.jpg",
         "price": 5000,
         "stock": 10,
         "UserId": 1
     }, 
     {
-        "name": "Termometer IR",
-        "image_url": "https://s2.bukalapak.com/img/2748510291/w-1000/Termometer_Infrared.jpg",
+        "name": "Magnum",
+        "image_url": "https://cdn.pixabay.com/photo/2013/07/12/19/20/summertime-154587_960_720.png",
         "price": 50000,
         "stock": 5,
         "UserId": 1
     },
     {
-        "name": "Hand Sanitizer",
-        "image_url": "https://cf.shopee.co.id/file/f747ca26ccb029ed5770f415a4f1a52b",
-        "price": 5000,
-        "stock": 100,
+        "name": "Tom and Jerry Cocktail",
+        "image_url": "https://cdn.pixabay.com/photo/2013/07/12/19/19/martini-154548_960_720.png",
+        "price": 80000,
+        "stock": 110,
         "UserId": 1
     },
     {
-        "name": "Masker Kain",
-        "image_url": "https://cf.shopee.co.id/file/0a26a227e7a8a19d8ba2b034ad57324c",
+        "name": "Pancake",
+        "image_url": "https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg",
         "price": 20000,
+        "stock": 0,
+        "UserId": 2
+    },
+    {
+        "name": "Vegetarian Food",
+        "image_url": "https://cdn.pixabay.com/photo/2017/10/09/19/29/eat-2834549_960_720.jpg",
+        "price": 50000,
+        "stock": 1,
+        "UserId": 2
+    },
+    {
+        "name": "Bitten Pizza",
+        "image_url": "https://cdn.pixabay.com/photo/2017/10/09/19/29/eat-2834549_960_720.jpg",
+        "price": 11000,
+        "stock": 8,
+        "UserId": 2
+    },
+    {
+        "name": "Berries",
+        "image_url": "https://cdn.pixabay.com/photo/2010/12/13/10/05/background-2277_960_720.jpg",
+        "price": 2000,
         "stock": 100,
         "UserId": 2
+    },
+    {
+        "name": "Melted Ice Cream",
+        "image_url": "https://cdn.pixabay.com/photo/2016/03/23/15/00/ice-cream-cone-1274894_960_720.jpg",
+        "price": 2000,
+        "stock": 100,
+        "UserId": 2
+    },
+    {
+        "name": "A Cup of Coffee for Your Soul",
+        "image_url": "https://cdn.pixabay.com/photo/2017/08/07/22/57/coffee-2608864_960_720.jpg",
+        "price": 2000,
+        "stock": 1000,
+        "UserId": 1
     }
 ]

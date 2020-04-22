@@ -8,8 +8,9 @@ function authentication( req, res, next ) {
         User.findOne({
             where: {
                 [Op.and]: [
-                    {id: decoded.id},
-                    {role: 'admin'}
+                    {id: decoded.id}
+                    // ,
+                    // {role: 'admin'}
                 ]
             }
         })

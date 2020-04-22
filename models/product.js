@@ -75,6 +75,7 @@ module.exports = (sequelize, DataTypes) => {
   })
   Product.associate = function(models) {
     Product.belongsTo(models.User)
+    Product.hasOne(models.Order_Product_)
   };
 
   return Product;
