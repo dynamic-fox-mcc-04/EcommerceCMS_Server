@@ -1,17 +1,18 @@
-const {Detail_customer,Transaction,Product} = require("../models")
+const {Trans,Project} = require("../models")
 class Controller{
 
-    static checkOut(req,res,next){
+    static addCart(req,res,next){
         let data={
-            ProductsId:req.body.ProductsId,
-            Customer_detailsId:req.currentUserId,
+            ProductId:req.body.id,
+            CustomerDetailId:req.headers.idalamat,
+            MasterTransactionId:1,
             price:req.body.price,
             status:"Pending",
-            payment_method:"Pending",
-            Master_transactionsId:1
+            payment_method:"Pending"
         }
+       console.log('>>>>>>>>',data);
        
-        Transaction.create(data)
+        Trans.create(data)
         .then(result=>{
             let payload ={
                 result
@@ -20,13 +21,14 @@ class Controller{
             )
         })
         .catch(err=>{
+            console.log(err)
             next(err)
         })
     }
     
     static confirm(req,res,next){
        
-        Transaction.update({status:'Done'},{
+        Trans.update({status:'Done'},{
             where:{
                 id:req.body.id
                 }
@@ -43,7 +45,7 @@ class Controller{
         })
     }
     static delete(req,res){
-       Transaction.destroy({
+       Trans.destroy({
            where:{
                id:req.body.id
            }})
@@ -53,6 +55,24 @@ class Controller{
                 })
            })
         
+    }
+    static viewpending (req,res) {
+        Trans.findAll({
+            where:{
+                CustomerDetailId: req.headers.idalamat,
+                status: 'Pending'
+                },
+                include:["Product"]
+        })
+        .then(result=>{
+            res.status(201).json({
+                data:result
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            
+        })
     }
    
     

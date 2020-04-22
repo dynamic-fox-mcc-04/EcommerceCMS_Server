@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
   Master_transaction.associate = function(models) {
-    Master_transaction.hasMany(models.Transaction)
+    Master_transaction.hasMany(models.Trans)
     // associations can be defined here
   };
   return Master_transaction;

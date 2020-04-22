@@ -22,6 +22,15 @@ module.exports = (sequelize, DataTypes) => {
         msg:"Address required"
       }
     }
+  },CustomerId :{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+    validate:{
+      notNull:{
+        args:true,
+        msg : "CustomerId required"
+      }
+    }
   } 
 },{
   sequelize,
@@ -30,8 +39,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Customer_detail.associate = function(models) {
     Customer_detail.belongsTo(models.Customer)
-    Customer_detail.hasMany(models.Transaction)
-    Customer_detail.belongsToMany(models.Product,{ through: models.Transaction})
+    Customer_detail.hasMany(models.Trans)
+    // Customer_detail.belongsToMany(models.Product,{ through: models.Trans})
     // associations can be defined here
   };
   return Customer_detail;

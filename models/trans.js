@@ -1,10 +1,9 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  
-  class Transaction extends sequelize.Sequelize.Model{}
+  class Trans extends sequelize.Sequelize.Model{}
 
-  Transaction.init({
-    ProductsId :{
+  Trans.init({
+    ProductId :{
       type:DataTypes.INTEGER,
       allowNull:false,
       validate:{
@@ -14,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }, 
-    Customer_detailsId :{
+    CustomerDetailId :{
     type:DataTypes.INTEGER,
     allowNull:false,
     validate:{
@@ -24,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   },
-  Master_transactionsId :{
+  MasterTransactionId :{
     type:DataTypes.INTEGER,
     allowNull:false,
     validate:{
       notNull:{
         args:true,
-        msg : "Master_transactionsId required"
+        msg : "Master_transaction Id required"
       }
     }
   },  
@@ -66,14 +65,13 @@ module.exports = (sequelize, DataTypes) => {
   }   
 },{
   sequelize,
-  modelName:"Transaction"  
+  modelName:"Trans"  
 })
-
-  Transaction.associate = function(models) {
-    Transaction.belongsTo(models.Customer_detail)
-    Transaction.belongsTo(models.Product)
-    Transaction.belongsTo(models.Master_transaction)
+  Trans.associate = function(models) {
+    Trans.belongsTo(models.Customer_detail)
+    Trans.belongsTo(models.Product)
+    Trans.belongsTo(models.Master_transaction)
     // associations can be defined here
   };
-  return Transaction;
+  return Trans;
 };

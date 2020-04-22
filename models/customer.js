@@ -1,4 +1,5 @@
 'use strict';
+const {Encrypt} = require('../helpers/bcrypt');
 module.exports = (sequelize, DataTypes) => {
 class Customer extends sequelize.Sequelize.Model{}
 

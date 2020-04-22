@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {    
-    return queryInterface.addConstraint('Transactions', ['Master_transactionsId'], {
+    return queryInterface.addConstraint('Transactions', ['Master_transactionId'], {
       type: 'foreign key',
       name: 'fkey_Master_transactions',
       references: { //Required field

@@ -1,14 +1,13 @@
-const {Detail_customer,Transaction,Product} = require("../models")
+const {Customer_detail,Transaction,Product} = require("../models")
 class Controller{
 
     static addNew(req,res,next){
         let data={
             name:req.body.name,
             address:req.body.address,
-            CostumersId:req.currentUserId
+            CustomerId:req.currentUserId
         }
-       
-        Detail_customer.create(data)
+        Customer_detail.create(data)
         .then(result=>{
             let payload ={
                 result
@@ -17,6 +16,8 @@ class Controller{
             )
         })
         .catch(err=>{
+            console.log(err);
+            
             next(err)
         })
     }
@@ -24,10 +25,10 @@ class Controller{
         let data={
             name:req.body.name,
             address:req.body.address,
-            CostumersId:req.currentUserId
+            CostumerId:req.currentUserId
         }
         
-        Detail_customer.update(data,{
+        Customer_detail.update(data,{
             where:{
                 id:req.params.id
                 }
@@ -51,7 +52,7 @@ class Controller{
            .then(reponse=>{
                if(reponse.data.length > 0) {
 
-                   Detail_customer.destroy({
+                   Customer_detail.destroy({
                        where:{
                            id:req.params.id
                        }
@@ -75,7 +76,7 @@ class Controller{
         
     }
     static viewpending(req,res){
-        Detail_customer.findAll({
+        Customer_detail.findAll({
             where:{
                 CostumersId:req.currentUserId
             },
@@ -88,6 +89,20 @@ class Controller{
                     }
                 }]
             }]
+        })
+        .then(result=>{
+            res.status(201).json({data:result})
+        })
+        .catch(err=>{
+           next(err)
+        })
+    }
+
+    static viewall(req,res,next){
+        Customer_detail.findAll({
+            where:{
+                CustomerId:req.currentUserId
+            }
         })
         .then(result=>{
             res.status(201).json({data:result})

@@ -17,13 +17,18 @@ class Controller {
         Customer_detail.create({
             name:"default",
             address:"default",
-            CostumersId:response.id
+            CustomerId:response.id
         })
         .then(result=>{
-            res.status(201).json(payload);
+           let token = generateToken(payload)
+            res.status(201).json({
+              token:token,
+              idalamat:result.id
+            });
         })
       })
       .catch(err => {
+        console.log(err)
         next(err);
       });
   }
@@ -51,11 +56,20 @@ class Controller {
               
               let token = generateToken(payload)
               console.log(token);
-              return res.status(201).json({
-                  
-                  id:result.id,
-                  token:token
+              Customer_detail.findOne({
+                where:{
+                  CustomerId: payload.id,
+                  name:'default'
+                }
               })
+              .then(address => {
+                return res.status(201).json({
+                    token:token,
+                    idalamat: address.id
+                })
+
+              })
+
               
           }
           else{

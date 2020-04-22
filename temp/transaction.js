@@ -14,16 +14,26 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }, 
-    Customer_detailsId :{
+    Customer_detailId :{
     type:DataTypes.INTEGER,
     allowNull:false,
     validate:{
       notNull:{
         args:true,
-        msg : "detailid required"
+        msg : "Customer detail id required"
       }
     }
-  }, 
+  },
+  Master_transactionId :{
+    type:DataTypes.INTEGER,
+    allowNull:false,
+    validate:{
+      notNull:{
+        args:true,
+        msg : "Master transaction Id required"
+      }
+    }
+  },  
   price:{
     type: DataTypes.INTEGER,
     allowNull:false,
@@ -60,8 +70,9 @@ module.exports = (sequelize, DataTypes) => {
 })
 
   Transaction.associate = function(models) {
-    Transaction.belongsTo(models.Custumer_detail)
+    Transaction.belongsTo(models.Customer_detail)
     Transaction.belongsTo(models.Product)
+    Transaction.belongsTo(models.Master_transaction)
     // associations can be defined here
   };
   return Transaction;

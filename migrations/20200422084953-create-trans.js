@@ -1,29 +1,33 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Transactions', {
+    return queryInterface.createTable('Trans', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ProductsId: {
+      ProductId: {
         type: Sequelize.INTEGER,
         references:{
           model:"Products",
           key:"id"
         }
       },
-      Customer_detailsId: {
+      CustomerDetailId: {
         type: Sequelize.INTEGER,
         references:{
           model:"Customer_details",
           key:"id"
         }
       },
-      Master_transactionsId: {
-        type: Sequelize.INTEGER
+      MasterTransactionId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:"Master_transactions",
+          key:"id"
+        }
       },
       price: {
         type: Sequelize.INTEGER
@@ -45,6 +49,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Transactions');
+    return queryInterface.dropTable('Trans');
   }
 };

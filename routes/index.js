@@ -2,8 +2,11 @@ const router = require('express').Router()
 const user = require('./user')
 const product = require('./product')
 const customer = require('./customer')
-
+const transaction = require('./transaction')
+const customerdetail = require('./customerDetail')
 router.use('/user',user)
 router.use('/product',product)
 router.use('/customer',customer)
+router.use('/trans',transaction)
+router.use('/customerdetail',customerdetail)
 module.exports = router
