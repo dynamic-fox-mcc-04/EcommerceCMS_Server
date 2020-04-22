@@ -22,20 +22,7 @@ class CartController {
             return next(err)
         });
     }
-    static delete (req, res, next) {
-        Cart.destroy({
-            where: {
-                status: false
-            }
-        })
-        .then((result) => {
-            return res.status(200).json({
-                message: 'Data successfully deleted'
-            })
-        }).catch((err) => {
-            return next(err)
-        });
-    }
+    
 }
 
 module.exports = CartController

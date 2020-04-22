@@ -7,6 +7,6 @@ router.get('/', ProductController.readProduct)
 router.use(authentication)
 router.post('/', authorization, ProductController.addProduct)
 router.delete('/:id', authorization, ProductController.deleteProduct)
-router.patch('/:id', authorization, ProductController.updateProduct)
+router.patch('/:id', ProductController.updateProduct)
 
 module.exports = router
