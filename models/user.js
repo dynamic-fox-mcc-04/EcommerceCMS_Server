@@ -31,16 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       {
         isIn : [["admin", "user"]]
       }
-    },
-    wallet: 
-    {
-      type : DataTypes.INTEGER,
-      defaultValue : 0,
-      validate :
-      {
-        isInt : true,
-        min : 0
-      }
     }
   }, {
     hooks :

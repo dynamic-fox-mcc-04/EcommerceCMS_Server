@@ -2,6 +2,7 @@ const {Product, Order} = require("../models");
 
 class ProductController
 {
+    //All users
     static showAll(req, res, next)
     {
         Product.findAll()
@@ -29,23 +30,76 @@ class ProductController
             return next(err);
         })
     }
+    //Customer
+    static showCart(req, res, next)
+    {
+        const { Op } = require("sequelize");
+        Order.findAll(
+        {
+            where:
+            {
+                [Op.and]:
+                [
+                    {'UserId': req.user_id},
+                    {'buyed': false}
+                ]
+            },
+            include: {model: Product}
+        })
+        .then(data =>
+        {
+            console.log(data)
+            return res.status(200).json(data);
+        })
+        .catch(err =>
+        {
+            console.log(err)
+            return next(err);
+        })
+    }
 
+    static addCart(req, res, next)
+    {
+        const order =
+        {
+            ProductId: req.body.ProductId,
+            UserId: req.user_id
+        }
+        Order.create(order)
+        .then(data =>
+        {
+            return res.status(200).json(data);
+        })
+        .catch(err =>
+        {
+            return next(err);
+        })
+    }
+
+    static buy(req, res, next)
+    {
+        let {id, buyed} = req.body;
+
+        Order.update({buyed}, {where: {id}})
+        .then(data =>
+        {
+            return res.status(200).json(data);
+        })
+        .catch(err =>
+        {
+            return next(err);
+        })
+    }
+
+    //Admin
     static add(req, res, next)
     {
         let {name, image_url, price, stock, description} = req.body;
-        let UserId = req.user_id;
-        let product = {name, image_url, price, stock, description, UserId};
+        let product = {name, image_url, price, stock, description};
 
         Product.create(product)
         .then(data =>
         {
-            let order = 
-            {
-                UserId : req.user_id,
-                ProductId : data.id
-            }
-            
-            Order.create(order)
             return res.status(201).json(data);
         })
         .catch(err =>
@@ -79,7 +133,6 @@ class ProductController
         Product.destroy({where : {id}})
         .then(() =>
         {
-            console.log('Success')
             return res.status(200).json({message : "Data successfully deleted"});
         })
         .catch(err =>

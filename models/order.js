@@ -10,6 +10,17 @@ module.exports = (sequelize, DataTypes) => {
     {
       allowNull: false,
       type : DataTypes.INTEGER
+    },
+    buyed: 
+    {
+      allowNull: false,
+      type : DataTypes.BOOLEAN,
+      defaultValue : false
+    },
+    sum: 
+    {
+      allowNull: false,
+      type : DataTypes.INTEGER
     }
   }, {});
   Order.associate = function(models) {

@@ -16,6 +16,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
+      buyed: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      sum: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
