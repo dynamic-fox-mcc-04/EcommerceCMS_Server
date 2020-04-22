@@ -5,6 +5,6 @@ const cart = require('./cart')
 
 router.use('/users', user)
 router.use('/products', product)
-router.use('/cart', cart)
+router.use('/carts', cart)
 
 module.exports = router
