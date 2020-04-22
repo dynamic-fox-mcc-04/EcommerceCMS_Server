@@ -30,7 +30,7 @@ class CartController {
             quantity: 1
           })
             .then((cart) => {
-              res.status(201).json({cart})
+              res.status(201).json({ cart })
             })
         }
       })
@@ -46,39 +46,82 @@ class CartController {
       include: [Product]
     })
       .then((cart) => {
-        res.status(200).json({cart})
+        res.status(200).json({ cart })
       })
       .catch(next)
   }
 
   static increase(req, res, next) {
-    Cart.update({
-      quantity: sequelize.literal('quantity + 1')
-    }, {
+    let cartQuantity;
+    Cart.findOne({
       where: {
         id: req.params.id
-      },
-      returning: true
+      }
     })
-    .then((cart) => {
-      res.status(200).json(cart[1][0])
-    })
-    .catch(next)
+      .then((cart) => {
+        cartQuantity = cart.quantity
+        if (cart) {
+          return Product.findOne({
+            where: {
+              id: cart.ProductId
+            }
+          })
+        }
+        else {
+          next({ name: 'NotFound' })
+        }
+      })
+      .then((product) => {
+        if (product) {
+          if (product.stock > cartQuantity) {
+            return Cart.update({
+              quantity: sequelize.literal('quantity + 1')
+            }, {
+              where: {
+                id: req.params.id
+              },
+              returning: true
+            })
+          }
+          else {
+            next({ name: 'Quantity out of stock' })
+          }
+        }
+        else {
+          next({ name: 'NotFound' })
+        }
+      })
+      .then((cart) => {
+        res.status(200).json(cart[1][0])
+      })
+      .catch(next)
   }
 
   static decrease(req, res, next) {
-    Cart.update({
-      quantity: sequelize.literal('quantity - 1')
-    }, {
+    Cart.findOne({
       where: {
         id: req.params.id
-      },
-      returning: true
+      }
     })
-    .then((cart) => {
-      res.status(200).json(cart[1][0])
-    })
-    .catch(next)
+      .then((cart) => {
+        if (cart.quantity > 0) {
+          return Cart.update({
+            quantity: sequelize.literal('quantity - 1')
+          }, {
+            where: {
+              id: req.params.id
+            },
+            returning: true
+          })
+        }
+        else {
+          next({ name: 'Min. quantity is 0' })
+        }
+      })
+      .then((cart) => {
+        res.status(200).json(cart[1][0])
+      })
+      .catch(next)
   }
 
   static delete(req, res, next) {
