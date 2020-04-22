@@ -28,6 +28,10 @@ io.on('connection', function(socket) {
         console.log('LOGIN')
     })
 
+    socket.on('disconnect', () => {
+        console.log('A User Disconnected')
+    })
+
 })
 
 
