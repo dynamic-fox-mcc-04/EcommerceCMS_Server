@@ -5,6 +5,6 @@ const product = require('./product');
 
 router.use("/", user);
 router.use(authentication);
-router.use("/", product);
+router.use("/product", product);
 
 module.exports = router;
