@@ -24,6 +24,7 @@ class UserController {
     }
 
     static login(req, res, next) {
+        let currentUser;
         const { email, password } = req.body;
         User.findOne({
             where: {
@@ -31,6 +32,7 @@ class UserController {
             }
         })
             .then(foundUser => {
+                currentUser = foundUser.username;
                 const payload = { 
                     id: foundUser.id,
                     username: foundUser.username,
@@ -41,7 +43,8 @@ class UserController {
                      let verify = decrypt(password, foundUser.password);
                      if(verify) {
                         return res.status(200).json({
-                            token
+                            token,
+                            currentUser
                         })
                      } else {
                         return next({
