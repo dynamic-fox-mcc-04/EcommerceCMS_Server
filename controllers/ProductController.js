@@ -5,7 +5,7 @@ const Op = sequelize.Op;
 class ProductController {
     static read(req, res, next) {
         if (req.query.category) {
-            return models.Product.findAll({where: { category: req.query.category}})
+            return models.Product.findAll({where: { category: req.query.category}, order: [['id', 'ASC']]})
             .then(result => {
                 return res.status(200).json({
                     Products: result

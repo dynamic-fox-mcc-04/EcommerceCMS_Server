@@ -1,4 +1,5 @@
 'use strict';
+const { encryptPassword } = require('../helpers/bcrypt.js')
 module.exports = (sequelize, DataTypes) => {
     class User extends sequelize.Sequelize.Model {}
     User.init({
@@ -79,10 +80,17 @@ module.exports = (sequelize, DataTypes) => {
         }
     }, {
         sequelize,
+        hooks: {
+            beforeCreate(User, options) {
+                User.password = encryptPassword(User.password)
+            }
+        },
         modelName: 'User'
     })
     User.associate = function(models) {
         // associations can be defined here
+        // User.belongsToMany(models.Product, {through: "Carts"})
+        User.hasMany(models.Cart, {foreignKey: 'UserId'})
     };
     return User;
 };

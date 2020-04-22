@@ -31,7 +31,20 @@ const authentication = (req, res, next) => {
 const admin_authorization = (req, res, next) => {
     const role = req.decoded.role
     if (role == 'admin') {
-        console.log(`authorized`)
+        console.log(`authorized as admin`)
+        return next()
+    } else {
+        return next({
+            name: 'Unauthorized',
+            errors: [{ message: `you are unauthorized` }]
+        })
+    }
+}
+
+const customer_authorization = (req, res, next) => {
+    const role = req.decoded.role
+    if (role == 'customer') {
+        console.log(`authorized as customer`)
         return next()
     } else {
         return next({
@@ -43,5 +56,6 @@ const admin_authorization = (req, res, next) => {
 
 module.exports = {
     authentication,
-    admin_authorization
+    admin_authorization,
+    customer_authorization
 }

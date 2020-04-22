@@ -5,12 +5,13 @@ const { generateToken } = require('../helpers/jwt.js')
 class UserController {
     static register(req, res, next) {
         const { username, email, password } = req.body
-        const newAccount = { username, email, password }
-        if (req.body.role == '') {
-            newAccount.role = 'customer'
+        let role;
+        if (!req.body.role) {
+            role = 'customer'
         } else {
-            newAccount.role = req.body.role
+            role = req.body.role
         }
+        const newAccount = { username, email, password, role }
         return models.User.create(newAccount)
             .then(result => {
                 return res.status(201).json({

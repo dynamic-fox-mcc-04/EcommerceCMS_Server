@@ -90,6 +90,8 @@ module.exports = (sequelize, DataTypes) => {
     })
     Product.associate = function(models) {
         // associations can be defined here
+        // Product.belongsToMany(models.User, {through: "Carts"})
+        Product.hasMany(models.Cart, {foreignKey: 'ProductId'})
     };
     return Product;
 };
