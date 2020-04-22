@@ -1,4 +1,4 @@
-const { Product } = require('../models')
+const { Product, Cart } = require('../models')
 
 function adminAuthorization(req, res, next) {
   Product.findOne({
@@ -18,6 +18,26 @@ function adminAuthorization(req, res, next) {
   })
 }
 
+function userAuthorization(req, res, next) {
+  Cart.findOne({
+    where: {
+      id: req.params.id,
+      UserId: req.currentUserId
+    }
+  })
+  .then((cart) => {
+    if(cart) {
+      next()
+    } else {
+      res.status(401).json({ message: `Unauthorized`})
+    }
+  })
+  .catch((err) => {
+    res.status(401).json({ message: `Unauthorized`})
+  })
+}
+
 module.exports = {
-  adminAuthorization
+  adminAuthorization,
+  userAuthorization
 }
