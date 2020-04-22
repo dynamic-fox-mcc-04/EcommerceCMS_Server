@@ -1,4 +1,4 @@
-const { Cart } = require('../models')
+const { Cart, Product } = require('../models')
 class CartController {
     static create (req, res, next) {
         const cart = {
@@ -17,6 +17,24 @@ class CartController {
                 qty: result.qty,
                 total: result.total,
                 status: result.status
+            })
+        }).catch((err) => {
+            return next(err)
+        });
+    }
+
+    static read (req, res, next) {
+        Cart.findAll({
+            include: {
+                model: Product
+            },
+            where: {
+                useriId: req.currentuserId
+            }
+        })
+        .then((result) => {
+            res.status(200).json({
+                result
             })
         }).catch((err) => {
             return next(err)
