@@ -125,6 +125,7 @@ class Controller {
     }
 
     static getDetails(req, res, next) {
+        console.log(req.params.id)
         Product.findOne({
             where: {
                 id: req.params.id
@@ -143,7 +144,8 @@ class Controller {
         Cart.findAll({
             where: {
                 UserId: req.authenticated.id
-            }
+            },
+            include: ['User', 'Product']
         })
             .then(result => {
                 return res.status(200).json(result)
@@ -196,6 +198,7 @@ class Controller {
 
     static UpdateCart(req, res, next) {
         let data = req.body
+        data.UserId = req.authenticated.id
         Cart.update({
             UserId: data.UserId,
             ProductId: data.ProductId,
@@ -207,7 +210,9 @@ class Controller {
             }
         })
             .then(result => {
-                return res.status(201).json(result)
+                return res.status(201).json({
+                    msg: 'Successfully Update Cart'
+                })
             })
             .catch(err => {
                 next(err)
@@ -246,7 +251,6 @@ class Controller {
     }
 
     static Checkout(req, res, next) {
-        console.log('MASUK CHECKOUT')
         let data;
         let UpdatedProduct;
         let ordercreate
@@ -378,6 +382,20 @@ class Controller {
             next(err)
         })
 
+    }
+    static GetCartDetail(req, res, next) {
+        Cart.findOne({
+            where: {
+                id: req.params.id
+            },
+            include: ['Product']
+        })
+            .then(result => {
+                return res.status(200).json(result)
+            })
+            .catch(err => {
+                next(err)
+            }) 
     }
 }
 

@@ -13,7 +13,6 @@ module.exports = function(req, res, next) {
                     next()
                 }
                 else {
-                    console.log('MASUK AUTH ADMIN')
                     let err = {
                         msg: 'Not Authorized'
                     }

@@ -6,15 +6,29 @@ switch (env) {
             path: process.cwd() +'/.env.test'
         })
         break;
-    default:
+    case 'development': 
         require('dotenv').config({
             path: process.cwd() + '/.env'
         })
-        break;
+    break;
+    default:
+        
 }
-
+console.log(env)
 const app = require('../app')
 const http = require('http').createServer(app)
+const io = require('socket.io')(http)
+io.on('connection', function(socket) {
+    console.log('A User Connected')
+
+    socket.on('checkoutdone', () => {
+        io.emit('updatedata')
+    })
+    socket.on('login', () => {
+        console.log('LOGIN')
+    })
+
+})
 
 
 http.listen(process.env.PORT, function() {

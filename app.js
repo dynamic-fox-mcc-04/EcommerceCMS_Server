@@ -9,4 +9,8 @@ app.use(cors())
 app.use(router)
 
 app.use(errhandler)
+
+// app.listen(process.env.PORT, function() {
+//     console.log(`listenting to port ${process.env.PORT}`)
+// })
 module.exports = app
