@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       beforeCreate: (User, options) => {
         User.password = encrypt(User.password)
         if (User.role == '' || !User.role) {
-          User.role = 'admin'
+          User.role = 'customer'
         }
       }
     },
