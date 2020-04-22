@@ -2,6 +2,7 @@ const {User} = require('../models')
 
 
 module.exports = function(req, res, next) {
+    console.log('MASUK AUTHORIZE USER')
     User.findOne({
         where: {
             id: req.authenticated.id
@@ -9,11 +10,11 @@ module.exports = function(req, res, next) {
     })
         .then(function(result) {
             if(result) {
-                if(result.Role == 'Admin') {
-                    next()
+                if(result.Role == 'User') {
+                    console.log('MASUK USER')
+                    return next()
                 }
                 else {
-                    console.log('MASUK AUTH ADMIN')
                     let err = {
                         msg: 'Not Authorized'
                     }
@@ -21,6 +22,7 @@ module.exports = function(req, res, next) {
                 }
             }
             else {
+                console.log('MASUK AUTH USER')
                 let err = {
                     msg: 'Not Authorized'
                 }
@@ -28,6 +30,7 @@ module.exports = function(req, res, next) {
             }
         })
         .catch(function(err) {
+            console.log(err)
             next(err)
         })
 
