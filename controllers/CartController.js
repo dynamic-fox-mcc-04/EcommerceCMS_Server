@@ -27,6 +27,7 @@ class CartController {
         Cart.findAll({
             include: [{
                 model: Product,
+                as: 'Product',
                 required: true
             }],
             where: {
