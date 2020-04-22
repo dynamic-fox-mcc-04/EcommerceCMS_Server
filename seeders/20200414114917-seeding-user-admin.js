@@ -7,6 +7,13 @@ const admin = [
     role: 'admin',
     createdAt: new Date(),
     updatedAt: new Date()
+  },
+  {
+    email: 'mail@mail.com',
+    password: encrypt('12345'),
+    role: 'customer',
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 ]
 
@@ -16,6 +23,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-   return queryInterface.bulkDelete('users')
+   return queryInterface.bulkDelete('Users')
   }
 };
