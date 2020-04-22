@@ -17,7 +17,9 @@ class ProductController {
   }
 
   static display(req, res, next) {
-    Product.findAll()
+    Product.findAll({
+      order: [['createdAt', 'DESC']]
+    })
       .then((product) => {
         res.status(200).json(product)
       })
