@@ -32,6 +32,7 @@ class UserController {
             }
         })
             .then(foundUser => {
+                console.log(foundUser)
                 currentUser = foundUser.username;
                 const payload = { 
                     id: foundUser.id,
