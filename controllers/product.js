@@ -63,11 +63,13 @@ class ProductController
         const order =
         {
             ProductId: req.body.ProductId,
-            UserId: req.user_id
+            UserId: req.user_id,
+            sum: req.body.sum
         }
         Order.create(order)
         .then(data =>
         {
+            Product.update({stock: req.body.stock - order.sum})
             return res.status(200).json(data);
         })
         .catch(err =>
