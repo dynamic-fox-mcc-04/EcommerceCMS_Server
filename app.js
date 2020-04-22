@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended : false}));
 app.use("/", router);
 app.use((err, req, res, next) =>
 {
-    res.status(500).json(err);
+    return res.status(500).json(err);
 });
 
 module.exports = app;
