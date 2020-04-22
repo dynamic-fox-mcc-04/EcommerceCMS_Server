@@ -65,9 +65,7 @@ Read all existing products.
 GET
 
 **Request Header:**
-{
-"token": [string] 
-}
+None
 
 **Request Body:**
 None

@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize
   });
   Product.associate = function(models) {
+    Product.hasMany(models.Cart)
     // associations can be defined here
   };
   return Product;

@@ -51,4 +51,27 @@ function authenticationAdmin(req, res, next) {
     }
 }
 
-module.exports = { authenticationSuper, authenticationAdmin }
+function authenticationUser (req, res, next) {
+    try {
+        let decoded = verifyToken(req.headers.token)
+        User.findOne({ where: { id: decoded.id } })
+            .then(response => {
+                if(response.role === 'buyer') {
+                    req.user - {
+                        id: response.id,
+                        email: response.email
+                    }
+                    next()
+                } else {
+                    throw { status: 404, type: '404 Not Found', message: 'User not found' }
+                }
+            })
+            .catch(err => {
+                return next({status: 401, type: 'Unauthorized', message: 'User unauthorized - not a buyer.'})
+            })
+    } catch (error) {
+        
+    }
+}
+
+module.exports = { authenticationSuper, authenticationAdmin, authenticationUser }
