@@ -49,7 +49,7 @@ class CartController {
     static changeAmt (req, res, next) {
         Cart.update({ amount: req.body.amount }, { where: { id: req.params.id }, returning: true })
             .then(response => {
-                return res.status(200).json(response[0][1])
+                return res.status(200).json(response[1][0])
             })
             .catch(err => {
                 return next(err)
