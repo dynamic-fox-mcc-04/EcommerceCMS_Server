@@ -314,7 +314,7 @@ OR
   })
   ```
 
-  **Login User**
+**Login User**
 ----
   Login registered user.
 
@@ -325,6 +325,10 @@ OR
 * **Method:**
 
   `POST`
+
+* **Auth:**
+
+  `role=[admin]`
 
 * **Data Params**
 
@@ -409,3 +413,541 @@ OR
         }
       })
 ```
+
+**Login Customer**
+----
+  Login registered customer.
+
+* **URL**
+
+  /users/loginUser
+
+* **Method:**
+
+  `POST`
+
+* **Auth:**
+
+  `role=[user]`
+
+* **Data Params**
+
+   **Required:**
+ 
+   `email=[string]`
+   `password=[string]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `{ access_token : xyz }`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ message : "User not found" }`
+
+* **Sample Call:**
+
+```javascript
+      axios({
+        method: 'POST',
+        url: context.state.baseUrl + '/users/loginUser',
+        data: {
+          email: payload.email,
+          password: payload.password
+        }
+      })
+  ```
+
+  **Show All User**
+----
+  Returns json data about all User.
+
+* **URL**
+
+  /users/
+
+* **Method:**
+
+  `GET`
+  
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `
+    {
+    "result": [
+        {
+            "id": 1,
+            "email": "admin@mail.com",
+            "password": "$2a$10$WFCjunAr7j2ZfZXqh0GlGuFfNiHXuzfOm2jtp9g8plPcJWkQ95VSW",
+            "role": "admin",
+            "createdAt": "2020-04-17T13:07:01.852Z",
+            "updatedAt": "2020-04-17T13:07:01.852Z"
+        },
+            `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'GET',
+        url: context.state.baseUrl + '/users',
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Show All Order_Product_**
+----
+  Returns json data about all Order_Product_.
+
+* **URL**
+
+  /order_product_s/
+
+* **Method:**
+
+  `GET`
+  
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `
+    {
+    "result": [
+        {
+            "id": 34,
+            "quantity": 8,
+            "OrderId": 17,
+            "ProductId": 4,
+            "createdAt": "2020-04-21T10:54:41.610Z",
+            "updatedAt": "2020-04-21T10:54:41.610Z",
+            "Product": {
+                "id": 4,
+                "name": "maskerrr",
+                "image_url": "https://cdn.pixabay.com/photo/2017/05/07/08/56/pancakes-2291908_960_720.jpg",
+                "price": 20000,
+                "stock": 8,
+                "createdAt": "2020-04-17T13:07:02.013Z",
+                "updatedAt": "2020-04-23T03:00:43.307Z",
+                "UserId": 2
+            },
+            "Order": {
+                "id": 17,
+                "checkout_status": true,
+                "total_quantity": 0,
+                "total_product": 0,
+                "total_price": 0,
+                "UserId": 13,
+                "createdAt": "2020-04-21T10:54:41.596Z",
+                "updatedAt": "2020-04-21T10:54:41.596Z",
+                "User": {
+                    "id": 13,
+                    "email": "user@mail.com",
+                    "password": "$2a$10$Uv2ijEqGIt4gMUyTzfDPVeKLqDVHPqs9NqaGrVAI6QL6HoHwovZbi",
+                    "role": "user",
+                    "createdAt": "2020-04-18T04:30:35.068Z",
+                    "updatedAt": "2020-04-18T04:30:35.068Z"
+                }
+            }
+        },
+            `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'GET',
+        url: context.state.baseUrl + '/order_product_s',
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Create Order_Product_ (Add Cart)**
+----
+  Check whether an Order is already made, update if already made, create if not. And then Create json data about a single Order_Product_ when the product is not yet available, or update when product is already available. And also check if the quantity requested in Order_Product is more than Product Stock.
+
+* **URL**
+
+  /order_product_s/:id
+
+* **Method:**
+
+  `POST`
+
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+   **Required:**
+ 
+   `quantity=[integer]`
+
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 201 CREATED <br />
+    **Content:** `
+    {
+    "result": [
+        1,
+        [
+            {
+                "id": 56,
+                "quantity": 99,
+                "OrderId": 32,
+                "ProductId": 2,
+                "createdAt": "2020-04-22T05:47:38.129Z",
+                "updatedAt": "2020-04-23T06:19:47.035Z"
+            }
+        ]
+    ],
+    "message": "Successfully created / updated product in order_product_ table"
+    }
+            `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'POST',
+        url: context.state.baseUrl + '/order_product_s/' + payload.id,
+        data: {
+          quantity: payload.quantity
+        },
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Create Order_Product_ (Update Cart)**
+----
+   Update json data about Order_Product_. And also check if the quantity requested in Order_Product is more than Product Stock.
+
+* **URL**
+
+  /order_product_s/:id
+
+* **Method:**
+
+  `PUT`
+
+*  **URL Params**
+
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+   **Required:**
+ 
+   `quantity=[integer]`,
+   `orderDetails=[object]`
+
+
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `
+    {
+    "result": [
+        1,
+        [
+            {
+                "id": 56,
+                "quantity": 99,
+                "OrderId": 32,
+                "ProductId": 2,
+                "createdAt": "2020-04-22T05:47:38.129Z",
+                "updatedAt": "2020-04-23T06:19:47.035Z"
+            }
+        ]
+    ],
+    "message": "Successfully updated product in order_product_ table"
+    }
+            `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'PUT',
+        url: context.state.baseUrl + '/order_product_s/' + payload.id,
+        data: {
+          quantity: payload.quantity,
+          OrderId: payload.OrderId
+        },
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Show All Order**
+----
+  Returns json data about all products.
+
+* **URL**
+
+  /orders/
+
+* **Method:**
+
+  `GET`
+  
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `
+    {
+    "result": [
+        {
+            "id": 32,
+            "checkout_status": false,
+            "total_quantity": 0,
+            "total_product": 0,
+            "total_price": 0,
+            "UserId": 13,
+            "createdAt": "2020-04-22T05:47:06.363Z",
+            "updatedAt": "2020-04-23T04:58:40.828Z",
+            "User": {
+                "id": 13,
+                "email": "user@mail.com",
+                "password": "$2a$10$Uv2ijEqGIt4gMUyTzfDPVeKLqDVHPqs9NqaGrVAI6QL6HoHwovZbi",
+                "role": "user",
+                "createdAt": "2020-04-18T04:30:35.068Z",
+                "updatedAt": "2020-04-18T04:30:35.068Z"
+            }
+        },
+            `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'GET',
+        url: context.state.baseUrl + '/orders',
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Check Stock**
+----
+  Returns json data about product stock and availability status and difference.
+
+* **URL**
+
+  /orders/checkStock
+
+* **Method:**
+
+  `GET`
+
+* **Data Params**
+
+   **Required:**
+ 
+   `orderDetails=[object]`
+  
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `
+    "result": {
+        "ProductId": 1,
+        "name": "magnum",
+        "stock": 100,
+        "quantity": 10,
+        "difference": 90,
+        "status": true
+    }
+  `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'PUT',
+        url: context.state.baseUrl + '/orders/checkStock',
+        data: {
+          orderDetails: payload.orderDetails
+        },
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Check Out**
+----
+  Returns message when a product successfully checks out.
+
+* **URL**
+
+  orders/:OrderId/checkOut
+
+* **Method:**
+
+  `PUT`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `OrderId=[integer]`
+
+
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** ` message: 'Successfully checked out' `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'PUT',
+        url: context.state.baseUrl + '/orders/' + payload.OrderId + '/checkOut',
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
+
+**Update Stock**
+----
+  Returns json message when product stock is updated, while deleting from order_product_ table if product quantity is 0.
+
+* **URL**
+
+  /orders/updateStock
+
+* **Method:**
+
+  `PUT`
+
+* **Data Params**
+
+   **Required:**
+ 
+   `orderDetails=[object]`
+  
+*  **Headers Params**
+  
+   **Required:**
+
+  `access_token=[token]`
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `message: 'Stock Updated' `
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `err`
+
+* **Sample Call:**
+
+  ```javascript
+    axios({
+        method: 'PUT',
+        url: context.state.baseUrl + '/orders/updateStock',
+        data: {
+          orderDetails: payload.orderDetails
+        },
+        headers: {
+          access_token: localStorage.token
+        }
+      })
+  ```
