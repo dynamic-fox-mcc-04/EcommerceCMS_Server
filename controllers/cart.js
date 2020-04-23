@@ -3,13 +3,15 @@ const { Cart } = require('../models/index')
 class CartController {
     static add (req, res, next) {
         const { ProductId, amount } = req.body
+        console.log(ProductId, amount)
         const UserId = req.user.id
+        console.log(req.user.id)
         Cart.findOne({ where: { ProductId: ProductId, UserId: UserId, status: false } })
             .then(response => {
                 if(response) {
-                    Cart.update({ amount }, { where: { id: response.id }, returning: true })
+                    return Cart.update({ amount }, { where: { id: response.id }, returning: true })
                 } else {
-                    Cart.create({ ProductId, UserId, amount, status: false })
+                    return Cart.create({ ProductId, UserId, amount, status: false })
                 }
             })
             .then(response => {

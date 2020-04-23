@@ -57,7 +57,7 @@ function authenticationUser (req, res, next) {
         User.findOne({ where: { id: decoded.id } })
             .then(response => {
                 if(response.role === 'buyer') {
-                    req.user - {
+                    req.user = {
                         id: response.id,
                         email: response.email
                     }
