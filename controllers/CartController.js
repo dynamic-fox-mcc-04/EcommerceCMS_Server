@@ -1,4 +1,5 @@
 const models = require('../models')
+const mailer = require('../helpers/nodemailer.js')
 
 class CartController {
     static read(req, res, next) {
@@ -13,15 +14,49 @@ class CartController {
         })
     }
 
+    static adminCart(req, res, next) {
+        return models.Cart.findAll({where: {isPaid: true}, include: {model: models.Product}, order: [['updatedAt', 'ASC']]})
+        .then(result => {
+            return res.status(200).json({
+                Carts: result
+            })
+        })
+        .catch(err => {
+            return next(err)
+        })
+    }
+
+    static confirmTransaction(req, res, next) {
+        let email;
+        let username;
+        return models.User.findByPk(req.body.UserId)
+        .then(result => {
+            console.log('>>>>> ini result', result.email)
+            email = result.email
+            username = result.username
+            mailer(email, username, req.body.productName, req.body.imageUrl)
+        })
+        .then(result => {
+            return models.Cart.update({isSent: true}, {where: {id: req.body.CartId}})
+        })
+        .then(response => {
+            console.log('email has been sent')
+            return res.status(200).json({
+                message: 'email has been sent'
+            })
+        })
+        .catch(err => {
+            return next(err)
+        })
+    }
+
     static addCart(req, res, next) {
         console.log('in create cart controller')
         let ProductId = req.body.ProductId
         let UserId = req.decoded.id
         let quantity = 1
-        console.log('==>', {ProductId, UserId, quantity})
         return models.Product.findOne({where: {id: ProductId}})
         .then(result => {
-            console.log('=====', result)
             console.log('===price', result.price)
             return models.Cart.create({
                 ProductId, 
@@ -30,7 +65,6 @@ class CartController {
                 totalPrice: result.price})
         })
         .then(result => {
-            console.log('successfully created a cart', result)
             return res.status(201).json({
                 result
             })
@@ -69,7 +103,7 @@ class CartController {
             })
         })
         .catch(err => {
-            console.log('err patch cart', err)
+            console.log('>>>>>>>>  err patch cart', err)
             return next(err)
         })
 
@@ -89,48 +123,6 @@ class CartController {
     }
 
     static checkoutCart(req, res, next) {
-        // console.log('masuk controller checkout')
-        // let data;
-        // return models.Cart.findAll({where: {UserId: req.decoded.id, isPaid: false}, include: [models.Product]})
-        // .then(result => {
-        //     data = result
-        //     let promises = []
-        //     result.forEach(el => {
-        //         if (el.Product.stock >= el.quantity) {
-        //             promises.push(
-        //                 models.Cart.update({isPaid: true}, {where: {id: el.id}}
-        //                 )
-        //             )
-        //         } else {
-        //             return next({
-        //                 name: 'SequelizeValidationError',
-        //                 errors: [{message: `${el.Product.productName} stock is not enough`}]
-        //             })
-        //         }
-        //     })
-        //     return Promise.all(promises)
-        // })
-        // .then(result => {
-        //     let newPromises = []
-        //     data.forEach(el => {
-        //         newPromises.push(models.Product.decrement('stock', {
-        //             by: el.quantity,
-        //             where: {
-        //                 id: el.ProductId
-        //             }
-        //         }))
-        //     })
-        //     return Promise.all(newPromises)
-        // })
-        // .then(result => {
-        //     console.log('successfully checkout cart')
-        //     return res.status(200).json({
-        //         message: 'successfully checkout cart'
-        //     })
-        // })
-        // .catch(err => {
-        //     return next(err)
-        // })
         console.log('masuk controller checkout')
         const promises = []
         return models.Cart.findAll({where: {UserId: req.decoded.id, isPaid: false}, include: [models.Product]})
