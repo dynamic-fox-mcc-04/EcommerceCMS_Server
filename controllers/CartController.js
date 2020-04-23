@@ -34,8 +34,19 @@ class CartController {
             }
         })
         .then((result) => {
+            const carts = result.map(el => {
+                return {
+                    id: el.id,
+                    userId: el.userId,
+                    productId: el.productId,
+                    qty: el.qty,
+                    total: el.total,
+                    static: el.status,
+                    name: el.Product.name
+                }
+            })
             res.status(200).json({
-                result
+                carts
             })
         }).catch((err) => {
             return next(err)
