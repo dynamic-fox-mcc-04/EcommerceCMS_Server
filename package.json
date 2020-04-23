@@ -1,0 +1,36 @@
+{
+  "name": "Ecommerce_Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "heroku-cli": "^7.0.9",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.0.2",
+    "sequelize": "^5.21.6"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "jest": "^25.3.0",
+    "supertest": "^4.0.2"
+  },
+  "scripts": {
+    "test": "NODE_ENV=test jest --detectOpenHandles --runInBand",
+    "dev": "NODE_ENV=development nodemon bin/server.js",
+    "start": "NODE_ENV=production node bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linnrobin/Ecommerce_Server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linnrobin/Ecommerce_Server/issues"
+  },
+  "homepage": "https://github.com/linnrobin/Ecommerce_Server#readme"
+}
