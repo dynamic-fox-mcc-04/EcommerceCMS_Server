@@ -122,14 +122,14 @@ class CartController {
     static delete(req, res, next) {
         let id = req.params.id;
         let deletedCart;
-        Cart.findByPk(id)
+        Cart.findOne({
+            where: { id }
+        })
             .then(cart => {
                 if (cart) {
-                    deletedCart = cart
+                    deletedCart = cart;
                     return Cart.destroy({
-                        where: {
-                            id
-                        }
+                        where: { id }
                     })
                 } else {
                     return next({
@@ -138,12 +138,11 @@ class CartController {
                     })
                 }
             })
-            .then(() => {
-                console.log('masuk akhirrrr destroy')
+            .then(_ => {
                 res.status(200).json(deletedCart)
             })
             .catch(err => {
-                next(err)
+                return next(err)
             })
     }
 }
