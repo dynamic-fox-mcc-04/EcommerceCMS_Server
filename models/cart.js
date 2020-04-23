@@ -1,30 +1,24 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-
   const { Model } = sequelize.Sequelize
 
-  class Order extends Model {}
+  class Cart extends Model{}
 
-  Order.init({
+  Cart.init( {
     UserId: {
       type: DataTypes.INTEGER
     },
     ProductId: {
       type: DataTypes.INTEGER
     },
-    AddressId: {
-      type: DataTypes.INTEGER
-    },
     qty: {
-      type: DataTypes.INTEGER
-    },
-    StatusId: {
       type: DataTypes.INTEGER
     }
   }, {sequelize})
 
-  Order.associate = function(models) {
+  Cart.associate = function(models) {
     // associations can be defined here
+    Cart.belongsTo(models.Product, {foreignKey: "ProductId", onDelete: 'cascade'})
   };
-  return Order;
+  return Cart;
 };

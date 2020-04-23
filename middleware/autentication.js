@@ -12,18 +12,8 @@ function autentication(req, res, next) {
     })
       .then((result) => {
         if (result) {
-          if(result.level < 2){
-            req.CurrentUserId = result.id
-            return next()
-          }else{
-            return next({
-              name: 'NotAutenticate',
-              errors: [{
-                type: 401,
-                message: 'User not autenticate'
-              }]
-            })
-          }
+          req.CurrentUserId = result.id
+          return next()
         } else {
           return next({
             name: 'NotFound',

@@ -7,8 +7,7 @@ class Controller {
   static register(req, res, next) {
     const user = {
       email: req.body.email,
-      password: req.body.password,
-      level: req.body.level
+      password: req.body.password
     }
     console.log(user);
     User.create(user)
@@ -50,6 +49,7 @@ class Controller {
             }
             const token = encodeToken(payload)
             return res.status(200).json({
+              level: result.level,
               access_token: token
             })
           } else {
@@ -80,6 +80,22 @@ class Controller {
     User.findAll()
       .then((result) => {
         return res.status(200).json(result)
+      })
+      .catch((err)=>{
+        return next(err)
+      })
+  }
+
+  static findEmail(req, res, next){
+    User.findOne({
+      where: {
+        email: req.params.email
+      }
+    })
+      .then((result) => {
+        return res.status(200).json({
+          email: result.email
+        })
       })
       .catch((err)=>{
         return next(err)

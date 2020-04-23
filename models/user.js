@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     hooks: {
       beforeCreate: (user, options) => {
         user.password = encodePassword(user.password);
+        user.level = 2
       }
     },
     sequelize})

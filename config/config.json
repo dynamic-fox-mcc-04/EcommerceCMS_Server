@@ -14,10 +14,6 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "cxvbolzrbmlbyi",
-    "password": "e7e7f7e0f6c9cd3e75884bf6351df6356fa255d5298040aed28598a4564ea388",
-    "database": "dedcijcgg19ern",
-    "host": "ec2-3-223-21-106.compute-1.amazonaws.com",
-    "dialect": "postgres"
+    "use_env_variable": "DATABASE_URL"
   }
 }
