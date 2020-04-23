@@ -2,8 +2,9 @@ const request = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
-const verify = require ('../helpers/jwt')
-const{Product} = require('../models')
+const {generateToken} = require ('../helpers/jwt')
+const{Product,User} = require('../models')
+const bcrypt = require('bcryptjs')
 
 
 afterAll(done => {
@@ -19,25 +20,52 @@ afterAll(done => {
     });
 });
 
-// beforeAll(done => {
-  
+const dataUser = {
+  email: 'top@gmail.com',
+  password: 'test'
+};
+
+// afterAll(done => {
 //   queryInterface
-//     .bulkInsert('Products', [
-//       {
-//         email: admin.email,
-//         password: adminHashPassword,
-//         createdAt: new Date(),
-//         updatedAt: new Date()
-//       }
-//     ])
+//     .bulkDelete('Users')
 //     .then(() => {
-//       console.log('Product created: ' + admin.email);
+//       console.log('Db clean up ');
 //       done();
 //     })
 //     .catch(err => {
+//       console.log(err);
 //       done(err);
 //     });
 // });
+
+beforeAll(done => {
+  const salt = bcrypt.genSaltSync(10);
+  const dataUserHashPassword = bcrypt.hashSync(dataUser.password, salt);
+  queryInterface
+    .bulkInsert('Users', [
+      {
+        email: dataUser.email,
+        password: dataUserHashPassword,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ])
+    .then(() => {
+      console.log('User created: ' + dataUser.email);
+      done();
+    })
+    .catch(err => {
+      done(err);
+    });
+});
+
+let payload ={
+  id:1,
+  email: 'top@gmail.com'
+}
+token = generateToken(payload)
+console.log('*******************',token);
+
 const newProduct={
   name : "Minyak goreng lagi",
   image_url:"test",
@@ -47,10 +75,9 @@ describe('Product', () => {
   describe('POST /', () => {
     describe('success add product', () => {
       test('should send an object with product detail', done => {
-        
-
         request(app)
           .post('/product')
+          .set({'token':token})
           .send(newProduct)
           .end((err, response) => {
             if (err) {
@@ -86,6 +113,7 @@ describe('Product', () => {
         ];
         request(app)
           .post('/product')
+          .set({'token':token})
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
@@ -106,6 +134,11 @@ describe('Product', () => {
       test('should send Message and status 200', done => {
         request(app)
           .put('/product/1')
+          .set({'token':token})
+          .send({name : "Minyak goreng lagi",
+                image_url:"test",
+                price: 15000,
+                stock: 10})
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);
@@ -143,6 +176,7 @@ describe('Product', () => {
       test('should send Message and status 200', done => {
         request(app)
           .delete('/product/1')
+          .set({'token':token})
           .end((err, response) => {
             if (err) {
               console.log('There is some error: ', err);

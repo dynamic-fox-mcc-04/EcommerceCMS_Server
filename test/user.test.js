@@ -3,7 +3,7 @@ const app = require('../app');
 const { sequelize } = require('../models');
 const { queryInterface } = sequelize;
 const bcrypt = require('bcryptjs');
-
+const{Product,User} = require('../models')
 const dataUser = {
   email: 'iguntop@gmail.com',
   password: 'test'
@@ -11,7 +11,7 @@ const dataUser = {
 
 afterAll(done => {
   queryInterface
-    .bulkDelete('Users')
+   User.destroy({ truncate: true, restartIdentity: true })
     .then(() => {
       console.log('Db clean up ');
       done();

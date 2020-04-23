@@ -41,7 +41,7 @@ class Controller {
             
             let token = generateToken(payload)
             console.log(token);
-            return res.status(201).json({
+            return res.status(200).json({
                 
                 id:result.id,
                 token:token
