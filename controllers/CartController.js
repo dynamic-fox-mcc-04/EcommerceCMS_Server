@@ -76,37 +76,45 @@ class CartController {
     }
 
     static editQuantity(req, res, next) {
-        console.log('in patch cart controller')
-        let id = req.params.id
-        return models.Cart.findOne({where: {id}, include: {model: models.Product}})
-        .then(result => {
-            if (req.body.action == 'plus') {
-                let newQuantity = result.quantity + 1
-                let newTotalPrice = result.totalPrice + result.Product.price
-                return models.Cart.update({
-                    quantity: newQuantity,
-                    totalPrice: newTotalPrice
-                }, {where: {id}})  
-            } else {
-                let newQuantity = result.quantity - 1
-                let newTotalPrice = result.totalPrice - result.Product.price
-                return models.Cart.update({
-                    quantity: newQuantity,
-                    totalPrice: newTotalPrice
-                }, {where: {id}})  
-            }
-        })
-        .then(response => {
-            console.log('successfully patch a cart', response)
-            return res.status(200).json({
-                response
+        try {
+            console.log('in patch cart controller')
+            let id = req.params.id
+            return models.Cart.findOne({where: {id}, include: {model: models.Product}})
+            .then(result => {
+                if (req.body.action == 'plus') {
+                    console.log('stock', result.Product.stock)
+                    console.log('quantity', result.quantity)
+                    if (result.Product.stock == result.quantity) {
+                        throw new Error('stock is not enough')
+                    } else {
+                        let newQuantity = result.quantity + 1
+                        let newTotalPrice = result.totalPrice + result.Product.price
+                        return models.Cart.update({
+                            quantity: newQuantity,
+                            totalPrice: newTotalPrice
+                        }, {where: {id}})  
+                    }
+                } else {
+                    let newQuantity = result.quantity - 1
+                    let newTotalPrice = result.totalPrice - result.Product.price
+                    return models.Cart.update({
+                        quantity: newQuantity,
+                        totalPrice: newTotalPrice
+                    }, {where: {id}})  
+                }
             })
-        })
-        .catch(err => {
-            console.log('>>>>>>>>  err patch cart', err)
+            .then(response => {
+                console.log('successfully patch a cart', response)
+                return res.status(200).json({
+                    response
+                })
+            })
+            .catch(err => {
+                return next(err)
+            })
+        } catch(err) {
             return next(err)
-        })
-
+        }
     }
 
     static deleteCart(req, res, next) {
