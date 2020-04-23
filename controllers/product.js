@@ -5,7 +5,7 @@ class ProductController
     //All users
     static showAll(req, res, next)
     {
-        Product.findAll()
+        Product.findAll({order : [['id', 'ASC']]})
         .then(data =>
         {
             return res.status(200).json(data);
