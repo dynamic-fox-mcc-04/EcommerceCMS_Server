@@ -8,6 +8,6 @@ router.post('/', OrderController.newOrder)
 router.get('/', OrderController.getOrder)
 router.put('/', OrderController.fixOrder)
 router.post('/cart', ProductorderController.addCart)
-router.get('/cart', ProductorderController.getCarts)
+router.get('/cart/:OrderId', ProductorderController.getCarts)
 
 module.exports = router

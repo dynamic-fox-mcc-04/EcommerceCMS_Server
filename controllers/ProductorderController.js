@@ -1,4 +1,4 @@
-const { ProductOrder, Order } = require("../models/index")
+const { ProductOrder, Order, Product } = require("../models/index")
 
 class ProductorderController {
     static addCart(req, res, next) {
@@ -18,12 +18,11 @@ class ProductorderController {
     }
 
     static getCarts(req, res, next) {
-        console.log('INI', req.body.OrderId)
         ProductOrder.findAll({
             where: {
-                'OrderId': req.body.OrderId
+                'OrderId': req.params.OrderId
             },
-            include: [{ model: Order }]
+            include: [{ model: Order }, { model: Product }]
         }).then(result => {
             let productOrders = []
             result.forEach(el => {
@@ -33,7 +32,8 @@ class ProductorderController {
                     quantity: el.quantity,
                     OrderId: el.OrderId,
                     ProductId: el.ProductId,
-                    Order: el.Order.dataValues
+                    Order: el.Order.dataValues,
+                    Product: el.Product.dataValues
                 })
                 return productOrders
             })

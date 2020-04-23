@@ -4,6 +4,7 @@ const { verToken } = require("../helpers/jwt")
 module.exports = (req, res, next) => {
     try {
         let decoded = verToken(req.headers.access_token)
+        console.log(req.params)
         User.findOne({
             where: {
                 'id': decoded.id
