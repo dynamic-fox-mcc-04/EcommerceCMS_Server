@@ -1,12 +1,14 @@
-const { Task } = require('../models')
+const { Product } = require('../models')
 
 function authorization(req, res, next) {
-    Task.findOne({
+
+    Product.findOne({
         where: {
             id: req.params.id
         }
     })
         .then( result => {
+
             if (result) {
                 if (result.UserId == req.currentUserId)
                     return next()
@@ -22,6 +24,10 @@ function authorization(req, res, next) {
                     errors: [{ message: 'Task Not Found' }]
                 })
             }
+        })
+        .catch(err => {
+            console.log(err)
+            return next(err)
         })
 }
 
