@@ -1,4 +1,5 @@
 const {Trans,Product,Master_transaction} = require("../models")
+const nodemailer = require("nodemailer")
 class Controller{
 
     static addCart(req,res,next){
@@ -46,6 +47,32 @@ class Controller{
            next(err)
         })
     }
+
+    static mail(req,res){
+           let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'irwanlearn@gmail.com',
+                pass: 'Irwanlearn1ng'
+            }
+            });
+
+            let mailOptions = {
+            from: 'irwanlearn@gmail.com',
+            to: req.body.email,
+            subject: `Transaksi di G-Ecommer dgn no Transaksi : ${req.body.number_trans} selesai`,
+            text: `Terima kasih anda telah berbelanja di G-Ecommers sebesar Rp. ${req.body.total_price} `
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+            });
+    }
+
     static delete(req,res){
        Trans.destroy({
            where:{
