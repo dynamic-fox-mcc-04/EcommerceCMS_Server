@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notNull:{
           args:true,
-          msg:"total_price required"
+          msg:"Transaction Date required"
         }
       }
     }  

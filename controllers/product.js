@@ -1,4 +1,5 @@
 const {Product} = require("../models")
+const Sequelize = require('sequelize')
 class Controller{
 
     static addNew(req,res,next){
@@ -66,8 +67,36 @@ class Controller{
            next(err)
         })
     }
-    static viewall(req,res){
+    static viewall(req,res){       
         Product.findAll()
+        .then(result=>{
+            res.status(201).json({data:result})
+        })
+        .catch(err=>{
+           next(err)
+        })
+    }
+
+    static viewallcustomer(req,res){
+        console.log('======');
+        
+        const Op = Sequelize.Op
+        Product.findAll({
+            where:{
+                stock:{
+                    [Op.gt]: 0
+                }
+            }})
+        .then(result=>{
+            res.status(201).json({data:result})
+        })
+        .catch(err=>{
+           next(err)
+        })
+    }
+
+    static viewone(req,res){
+        Product.findByPk(req.params.id)
         .then(result=>{         
                           
             res.status(201).json({data:result})
@@ -77,7 +106,7 @@ class Controller{
         })
     }
 
-    static viewone(req,res){
+    static decrement(req,res){
         Product.findByPk(req.params.id)
         .then(result=>{         
                           

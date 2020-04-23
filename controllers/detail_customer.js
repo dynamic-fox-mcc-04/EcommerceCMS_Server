@@ -25,7 +25,7 @@ class Controller{
         let data={
             name:req.body.name,
             address:req.body.address,
-            CostumerId:req.currentUserId
+            CustomerId:req.currentUserId
         }
         
         Customer_detail.update(data,{

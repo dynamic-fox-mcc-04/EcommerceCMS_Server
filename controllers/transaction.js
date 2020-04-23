@@ -1,4 +1,4 @@
-const {Trans,Project} = require("../models")
+const {Trans,Product,Master_transaction} = require("../models")
 class Controller{
 
     static addCart(req,res,next){
@@ -10,8 +10,6 @@ class Controller{
             status:"Pending",
             payment_method:"Pending"
         }
-       console.log('>>>>>>>>',data);
-       
         Trans.create(data)
         .then(result=>{
             let payload ={
@@ -28,12 +26,16 @@ class Controller{
     
     static confirm(req,res,next){
        
-        Trans.update({status:'Done'},{
+        Trans.update({
+            MasterTransactionId:req.body.masterid,
+            status:'Done'
+        },{
             where:{
-                id:req.body.id
+                id:+req.body.id
                 }
             })
         .then(result=>{
+            Product.decrement('stock', { where: { id: req.body.ProductId}});
             res.status(201).json({
                 msg:"Transaction Done Success"
             })
