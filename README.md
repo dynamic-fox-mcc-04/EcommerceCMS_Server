@@ -841,7 +841,7 @@
 
 * **Method:**
 
-  `POST`
+  `PATCH`
 
 * **Headers :**
   token=[STRING]
