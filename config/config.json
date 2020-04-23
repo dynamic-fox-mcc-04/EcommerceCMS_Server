@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Fzn197",
+    "database": "db_cms",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Fzn197",
+    "database": "db_cms_testing",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL"
+  }
+}
