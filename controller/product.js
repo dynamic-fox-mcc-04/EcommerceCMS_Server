@@ -120,7 +120,35 @@ class ProductController{
             })
             .catch(err => res.status(500).json(err))
         }
-    
+    static put (req, res) {
+        const id = Number(req.body.ProductId)
+        const quantity= Number(req.body.quantity)
+        Product.findOne({
+            where: {
+                id: id
+            }
+        })
+            .then((result) => {
+                if(result) {
+                    Product.update({
+                        stock: result.stock-quantity
+                    }, {
+                        where: {
+                            id: result.id
+                        }
+                    })
+                        .then((result) => {
+                            res.status(200).json({message: 'success'})
+                        })
+                        .catch(err=> {
+                            console.log(err)
+                        })
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 }
 
 module.exports= ProductController
