@@ -11,13 +11,16 @@ class CartController {
                 if(response) {
                     return Cart.update({ amount }, { where: { id: response.id }, returning: true })
                 } else {
+                    console.log('mau create')
                     return Cart.create({ ProductId, UserId, amount, status: false })
                 }
             })
             .then(response => {
-                if(response[1][0]) {
+                console.log(response)
+                if(response[0] == 1) {
                     return res.status(200).json(response[1][0])
                 } else {
+                    console.log('sukses create')
                     return res.status(201).json(response)
                 }
             })
