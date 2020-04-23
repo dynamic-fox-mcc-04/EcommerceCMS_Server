@@ -808,7 +808,7 @@ OR
 
 * **Method:**
 
-  `GET`
+  `PUT`
 
 * **Data Params**
 
