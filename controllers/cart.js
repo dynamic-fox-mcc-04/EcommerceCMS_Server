@@ -24,7 +24,7 @@ class CartController {
             })
     }
     static read (req, res, next) {
-        Cart.findAll({ where: { UserId: req.user.id } })
+        Cart.findAll({ where: { UserId: req.user.id }, order: [['createdAt', 'DESC']], include: ['Product']  })
             .then(response => {
                 return res.status(200).json(response)
             })
