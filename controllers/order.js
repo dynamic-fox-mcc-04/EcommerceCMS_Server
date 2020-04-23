@@ -1,4 +1,4 @@
-const { Order, User, Product } = require('../models')
+const { Order, User, Product, Order_Product_ } = require('../models')
 const Order_Product_Controller = require('../controllers/order_product_Controller')
 
 class Controller {
@@ -83,7 +83,18 @@ class Controller {
         for(let i = 0; i < orderDetails.length; i++) {
             Product.findByPk(orderDetails[i].ProductId)
                 .then(found => {
-                    newStock = found.stock - orderDetails[i].quantity
+                    if (orderDetails[i].quantity == 0) {
+                        return Order_Product_.destroy({
+                            where: {
+                                id: orderDetails[i].id
+                            }
+                        })
+                    } else {
+                        return found
+                    }
+                })
+                .then (updating => {    
+                    newStock = updating.stock - orderDetails[i].quantity
                     return Product.update({stock: newStock}, {
                         where: {
                             id: orderDetails[i].ProductId

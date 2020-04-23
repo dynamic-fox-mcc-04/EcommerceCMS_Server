@@ -26,8 +26,6 @@ class Order_Product_Controller {
             ]
         })
             .then( found => {
-                console.log('================================================================================================')
-                console.log(found.length)
                 let result = []
                 for(let i = 0; i < found.length; i++) {
                     if (found[i].Order !== null) {
