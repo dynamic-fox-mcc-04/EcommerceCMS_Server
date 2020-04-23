@@ -1,6 +1,6 @@
 const { Admin } = require('../models')
-const { compare } = require('../helpers/bcrypt')
-const { generateToken } = require('../helpers/jwt')
+const { generateToken } = require('../helpers/jwt.js')
+const compare = require('../helpers/bcrypt.js').compare
 class AdminController {
     static login(req, res, next) {
         const getdata = {
@@ -13,9 +13,14 @@ class AdminController {
                 }
             })
             .then((result) => {
+                console.log('masuk login');
                 if (result) {
+                    console.log('result ketemu');
+                    // console.log(result.password + " " + getdata.password);
                     let decode = compare(getdata.password, result.password)
+                    console.log(decode);
                     if (decode) {
+                        console.log('berhasil login');
                         let payload = {
                             id: result.id,
                             email: result.email
@@ -28,20 +33,20 @@ class AdminController {
                             isAdmin: result.isAdmin
                         })
                     } else {
-                        return next({
+                        next({
                             name: 'BadRequest',
                             errors: [{ message: 'Invalid Email/Password' }]
                         })
                     }
                 } else {
-                    return next({
+                    next({
                         name: 'BadRequest',
                         errors: [{ message: 'Invalid Email/Password' }]
                     })
                 }
             })
             .catch((err) => {
-                return next({
+                next({
                     name: 'InternalServerError',
                     errors: [{ message: err }]
                 })

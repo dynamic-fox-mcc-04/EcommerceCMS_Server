@@ -1,7 +1,10 @@
 const router = require('express').Router()
 const ProductController = require('../controllers/ProductController')
-const authentication = require('../middlewares/authentication')
+const adminauthentication = require('../middlewares/adminauthentication')
+router.get('/', ProductController.findAll)
+router.get('/:id', ProductController.findOne)
+router.post('/', adminauthentication, ProductController.addProduct)
+router.put('/edit/:id', adminauthentication, ProductController.editProduct)
+router.delete('/delete/:id', adminauthentication, ProductController.deleteProduct)
 
-router.get('/list', ProductController.findAll)
-router.get('/list/:id', authentication, ProductController.findOne)
 module.exports = router

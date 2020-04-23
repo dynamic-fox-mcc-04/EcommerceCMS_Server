@@ -1,29 +1,20 @@
-const { Product } = require('../models')
+const { UserProduct } = require('../models')
 
 function authorization(req, res, next) {
-    Product.findOne({
+    UserProduct.findOne({
             where: {
                 id: req.params.id
             }
         })
-        .then(result => {
-            if (result) {
-                if (result.userId == req.currentUserId) {
-                    return next()
-                }
+        .then((Product) => {
+            if (Product) {
+                if (Product.userId == req.currentUserId) return next()
+                else return next({ name: 'Unauthorized' })
             } else {
-                return res.status(404).json({
-                    name: "NotFound",
-                    errors: "Data Not Found"
-                })
+                return next({ name: 'NotFound' })
             }
         })
-        .catch(err => {
-            return res.status(500).json({
-                name: "InternalServerError",
-                errors: [{ message: "Error" }]
-            })
-        })
+        .catch(next)
 }
 
 module.exports = authorization

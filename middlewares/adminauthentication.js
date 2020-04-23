@@ -1,33 +1,29 @@
-const { decode } = require('../helpers/jwt')
 const { Admin } = require('../models')
+const { verifyToken } = require('../helpers/jwt')
 
-const authentication = (req, res, next) => {
+function adminauthentication(req, res, next) {
     try {
-        const decoded = decode(req.headers.access_token)
-        Admin.findOne({
-                where: {
-                    email: decoded.email
-                }
-            })
-            .then((result) => {
-                if (result) {
-                    // req.currentAdminId = result.id
-                    return next()
-                } else {
-                    return next({
-                        name: 'NotFound',
-                        errors: [{ message: 'Admin not found' }]
-                    })
-                }
-            }).catch((err) => {
-                return res.status(401).json({
-                    type: 'Unauthorized',
-                    errors: 'Unauthorized'
+        console.log('auth test admin');
+        if (req.headers.access_token) {
+            let verify = verifyToken(req.headers.access_token)
+            console.log(verify)
+            req.currentUserId = verify.id
+            Admin.findOne({
+                    where: {
+                        id: req.currentUserId
+                    }
                 })
-            });
-    } catch (err) {
-        return next(err)
+                .then((result) => {
+                    if (result) next()
+                    else next({ name: 'Unauthenticated' })
+                })
+                .catch(next)
+        } else {
+            next({ name: 'Unauthenticated' })
+        }
+    } catch {
+        next({ name: 'Unauthenticated' })
     }
 }
 
-module.exports = authentication
+module.exports = adminauthentication

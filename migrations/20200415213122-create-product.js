@@ -17,10 +17,11 @@ module.exports = {
                 allowNull: false
             },
             description: {
-                type: Sequelize.STRING
+                type: Sequelize.STRING,
+                allowNull: false
             },
-            videourl: {
-                type: Sequelize.STRING
+            stock: {
+                type: Sequelize.INTEGER
             },
             price: {
                 type: Sequelize.INTEGER,

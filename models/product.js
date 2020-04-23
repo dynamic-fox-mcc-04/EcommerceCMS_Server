@@ -25,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
             }
         },
         description: DataTypes.STRING,
-        videourl: DataTypes.STRING,
+        stock: {
+            type: DataTypes.INTEGER
+        },
         price: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -40,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
         sequelize
     });
     Product.associate = function(models) {
-        Product.belongsToMany(models.User, { through: 'UserProducts' })
+        Product.belongsToMany(models.User, { through: 'UserProducts', as: 'products', foreignKey: 'productId' })
 
     };
     return Product;

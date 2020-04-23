@@ -1,15 +1,15 @@
-const bcrypt = require('bcryptjs')
-const salt = bcrypt.genSaltSync(18)
+const bcrypt = require('bcrypt')
 
-const generate = (password) => {
-    return bcrypt.hashSync(password, salt)
+const salt = bcrypt.genSaltSync(8)
+
+function generate(password) {
+    let result = bcrypt.hashSync(password, salt)
+    return result
 }
 
-const compare = (password, hash) => {
-    return bcrypt.compareSync(password, hash)
+function compare(password, hash) {
+    let result = bcrypt.compareSync(password, hash)
+    return result
 }
-
-// console.log(generate('test'));
-// console.log(compare('test', '$2a$18$9FFknwMOxo9OyE2/NwCjNuYuwOp61cBoHWqYurURebqA3oSi9TVGa'))
 
 module.exports = { generate, compare }

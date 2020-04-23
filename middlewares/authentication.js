@@ -1,32 +1,28 @@
-const { decode } = require('../helpers/jwt')
 const { User } = require('../models')
+const { verifyToken } = require('../helpers/jwt')
 
-const authentication = (req, res, next) => {
+function authentication(req, res, next) {
     try {
-        const decoded = decode(req.headers.access_token)
-        User.findOne({
-                where: {
-                    email: decoded.email
-                }
-            })
-            .then((result) => {
-                if (result) {
-                    req.currentUserId = result.id
-                    return next()
-                } else {
-                    return next({
-                        name: 'NotFound',
-                        errors: [{ message: 'User not found' }]
-                    })
-                }
-            }).catch((err) => {
-                return res.status(401).json({
-                    type: 'Unauthorized',
-                    errors: 'Unauthorized'
+        console.log('auth test user');
+        if (req.headers.access_token) {
+            let verify = verifyToken(req.headers.access_token)
+            console.log(verify)
+            req.currentUserId = verify.id
+            User.findOne({
+                    where: {
+                        id: req.currentUserId
+                    }
                 })
-            });
-    } catch (err) {
-        return next(err)
+                .then((result) => {
+                    if (result) next()
+                    else next({ name: 'Unauthenticated' })
+                })
+                .catch(next)
+        } else {
+            next({ name: 'Unauthenticated' })
+        }
+    } catch {
+        next({ name: 'Unauthenticated' })
     }
 }
 

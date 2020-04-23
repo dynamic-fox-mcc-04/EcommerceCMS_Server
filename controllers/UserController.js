@@ -10,6 +10,7 @@ class UserController {
         }
         User.create(payload)
             .then((result) => {
+                console.log('berhasil buat')
                 let newUser = {
                     id: result.id,
                     email: result.email
@@ -36,6 +37,7 @@ class UserController {
                 }
             })
             .then((data) => {
+                console.log('dapet data')
                 if (data) {
                     let decrypted = compare(payload.password, data.password)
                     if (decrypted) {
@@ -43,6 +45,7 @@ class UserController {
                             id: data.id,
                             email: data.email
                         }
+                        console.log('berhasi login')
                         let access_token = generateToken(userdata)
                         return res.status(200).json({
                             id: data.id,
@@ -63,7 +66,7 @@ class UserController {
                 }
             })
             .catch((err) => {
-                return next({
+                next({
                     name: 'InternalServerError',
                     errors: [{ message: err }]
                 })
@@ -81,7 +84,7 @@ class UserController {
                 return res.status(200).json({ data })
             })
             .catch((err) => {
-                return next({
+                next({
                     name: 'InternalServerError',
                     errors: [{ message: err }]
                 })
@@ -99,7 +102,7 @@ class UserController {
                 return res.status(201).json({ data })
             })
             .catch((err) => {
-                return next({
+                next({
                     name: 'InternalServerError',
                     errors: [{ msg: 'Failed to Update.' }]
                 })
