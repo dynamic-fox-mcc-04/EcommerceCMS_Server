@@ -1,4 +1,5 @@
 const {Product, Order} = require("../models");
+const { Op } = require("sequelize");
 
 class ProductController
 {
@@ -33,14 +34,13 @@ class ProductController
     //Customer
     static showCart(req, res, next)
     {
-        const { Op } = require("sequelize");
         Order.findAll(
         {
             where:
             {
                 [Op.and]:
                 [
-                    {'UserId': req.user_id},
+                    {'UserId': Number(req.user_id)},
                     {'buyed': false}
                 ]
             },
