@@ -1,5 +1,4 @@
 const { Order, User, Product, Order_Product_ } = require('../models')
-const Order_Product_Controller = require('../controllers/order_product_Controller')
 
 class Controller {
     static findAll(req, res, next) {
@@ -20,43 +19,10 @@ class Controller {
             })
     }
 
-    static create(req, res, next) {
-        // let newCreate = { total_product: 0, total_quantity: 0, total_price: 0, checkout_status: false, UserId: req.currentUserId }
-        // Order.create(newCreate)
-        //     .then( result => {
-        //         return res.status(201).json({
-        //             result,
-        //             message: 'Successfully created new order'
-        //         })
-        //     })
-        //     .catch( err => {
-        //         return next(err)
-        //     })
-    }
-
-    static delete(req, res, next) {
-        // Order.destroy({
-        //     where: {
-        //         id: req.params.id
-        //     }
-        // })
-        //     .then( result => {
-        //         if (result) {
-        //             return res.status(200).json({ message: 'Successfully deleted order'})
-        //         } else { 
-        //             return next({
-        //                 name: 'NotFound',
-        //                 errors: [{ message: 'Order Not Found' }] 
-        //             })
-        //         }
-        //     })
-        //     .catch( err => {
-        //         return next(err)
-        //     })
-    }
-
     static checkStock(req, res, next) {
+        console.log('=====================masuk sini=====================')
         let { orderDetails } = req.body
+        console.log(req.body)
         Product.findByPk(orderDetails.ProductId)
             .then(check => {
                 let result = {
@@ -73,6 +39,8 @@ class Controller {
                 return res.status(200).json({ result })
             })
             .catch(err => {
+                console.log('=====================YOKKKK=====================', err)
+
                 return next(err)
             })
     }
@@ -121,32 +89,6 @@ class Controller {
                 return res.status(200).json ({ message: 'Successfully checked out'})
             })
             .catch(err => {
-                return next(err)
-            })
-    }
-
-    static findOne(req, res, next) {
-        let { id } = req.params
-        Order.findOne({
-            where: {
-                id
-            }, 
-            include: [ User ]
-        })
-            .then( result => {
-                if (result) {
-                    return res.status(200).json({
-                        result,
-                        message: 'Found'
-                    })
-                } else {
-                    return next({
-                        name: 'NotFound',
-                        errors: [{ message: 'Order Not Found '}]
-                    })
-                }
-            })
-            .catch( err => {
                 return next(err)
             })
     }

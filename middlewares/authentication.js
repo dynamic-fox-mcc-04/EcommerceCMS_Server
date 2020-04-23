@@ -32,6 +32,7 @@ function authentication( req, res, next ) {
                 })
             })
     } catch(err) {
+        console.log('kesini?')
         return next(err)
     }
 }

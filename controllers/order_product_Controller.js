@@ -40,46 +40,6 @@ class Order_Product_Controller {
             })
     }
 
-    static findAllOrderId(req, res, next) {
-        Order_Product_.findAll({
-            where: {
-                OrderId: req.params.OrderId
-            },
-            order: [
-                ['OrderId', 'ASC']
-            ],
-            include: [ 
-                {
-                    model: Product
-                },
-                {
-                    model: Order,
-                    include: [
-                        {
-                            model: User,
-                            where: {
-                                id: req.currentUserId
-                            }
-                        }
-                    ]
-                }
-            ]
-        })
-            .then( found => {
-                let result = []
-                for(let i = 0; i < found.length; i++) {
-                    if (found[i].Order !== null) {
-                        result.push(found[i])
-                    }
-                }
-                return res.status(200).json({ result })
-            })
-            .catch( err => {
-                console.log(err)
-                return next(err)
-            })
-    }
-
     static create(req, res, next) {
         let { id } = req.params
         let { quantity } = req.body
@@ -101,10 +61,8 @@ class Order_Product_Controller {
             .then(found => {
                 if (found === null) {
                     let newOrder = { total_product: 0, total_quantity: 0, total_price: 0, checkout_status: false, UserId: req.currentUserId }
-                    //  console.log('xxxxxxxxxxxxxxxxxxx Ini NULL xxxxxxxxxxxxxxxxxxx')
                     return Order.create(newOrder)
                 } else {
-                    // console.log('xxxxxxxxxxxxxxxxxxx Ini ELSE xxxxxxxxxxxxxxxxxxx')
                     return found
                 }
             })
@@ -205,7 +163,7 @@ class Order_Product_Controller {
                 
             })
             .then( result => {
-                return res.status(201).json({
+                return res.status(200).json({
                     result,
                     message: 'Successfully updated product in order_product_ table'
                 })
