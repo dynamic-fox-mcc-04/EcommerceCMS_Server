@@ -148,6 +148,141 @@ None
 	"message": "Item destroyed"
 }
 
+## CART ROUTES
+
+## Add Cart
+
+Add new column to the table Carts. This is used to manage your customer's purchases. If there is an existing unpaid purchase with the same UserId and and ProductId, this route will update that item instead of creating a new Cart item.
+
+**URL:**
+/cart
+
+**Method:**
+POST
+
+**Request Header:**
+{
+"token": [string]
+}
+
+**Request Body:**
+{
+"ProductId": [integer],
+"amount": [integer]
+}
+
+**Response**:
+{
+"id": [integer],
+"ProductId": [integer],
+"UserId": [integer],
+"amount": [integer],
+"status": false
+}
+
+## Read Carts
+
+Read all column of table Carts that belongs to the user currently logged in, includes information about the Product item that is going to be purchased.
+
+**URL:**
+/cart
+
+**Method:**
+GET
+
+**Request Header:**
+{
+"token": [string]
+}
+
+**Request** **Body:**
+None
+
+**Response**:
+[
+{
+"id": [integer],
+"ProductId": [integer],
+"UserId": [integer],
+"amount": [integer],
+"status": false,
+"Product": {
+	"id": [integer],
+	"name": [string],
+	"image_url":[string],
+	"category": [string],
+	"price": [integer],
+	"stock": [integer]
+	}
+},
+{
+"id": [integer],
+"ProductId": [integer],
+"UserId": [integer],
+"amount": [integer],
+"status": false,
+"Product": {
+	"id": [integer],
+	"name": [string],
+	"image_url":[string],
+	"category": [string],
+	"price": [integer],
+	"stock": [integer]
+	}
+},
+	 //etc
+]
+
+### **Checkout**
+
+Change the status of all Cart items to true. This means all the items has been confirmed for purchase.
+
+**URL:**
+/cart
+
+**Method:**
+PATCH
+
+**Request Header:**
+{
+"token": [string]
+}
+
+**Request** **Body:**
+None
+
+**Response:**
+{
+"message": "Your current cart has been checked out"
+}
+
+### **Change Amount**
+
+Change the amount of products to be purchased in the Cart.
+
+**URL:**
+/cart/:id
+
+**Method:**
+PATCH
+
+**Request Header:**
+{
+"token": [string]
+}
+
+**Request** **Body:**
+None
+
+**Response:**
+{
+"id": [integer],
+"ProductId": [integer],
+"UserId": [integer],
+"amount": [integer],
+"status": false
+}
+
 ## USER ROUTES
 
 ## Register
@@ -161,9 +296,7 @@ Create a new user. There are three roles, the super admin, standard admin, and "
 POST
 
 **Request** **Header:**
-{
-"token": [string]
-}
+none
 
 **Request** **Body:**
 {
@@ -191,9 +324,7 @@ Log in an existing user.
 POST
 
 **Request** **Header:**
-{
-"token": [string]
-}
+none
 
 **Request** **Body:**
 {

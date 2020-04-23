@@ -9,7 +9,8 @@ class CartController {
         Cart.findOne({ where: { ProductId: ProductId, UserId: UserId, status: false } })
             .then(response => {
                 if(response) {
-                    return Cart.update({ amount }, { where: { id: response.id }, returning: true })
+                    const newAmt = amount + response.amount
+                    return Cart.update({ newAmt }, { where: { id: response.id }, returning: true })
                 } else {
                     console.log('mau create')
                     return Cart.create({ ProductId, UserId, amount, status: false })
