@@ -1,4 +1,4 @@
-require('dotenv').config() // kamu akan pakai semua require yang ada di .env, jadi kamu tidak perlu khawatir development/testing
+// require('dotenv').config() // kamu akan pakai semua require yang ada di .env, jadi kamu tidak perlu khawatir development/testing
 const cors = require("cors")
 const express = require('express')
 const app = express()
