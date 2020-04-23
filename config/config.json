@@ -1,0 +1,21 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "muhrian",
+    "database": "db_ecommerce",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "test": {
+    "username": "postgres",
+    "password": "muhrian",
+    "database": "test_ecommerce",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "use_env_variable" : "DATABASE_URL"
+  }
+}
