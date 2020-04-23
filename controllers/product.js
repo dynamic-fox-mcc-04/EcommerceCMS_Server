@@ -67,7 +67,7 @@ class ProductController
             sum: req.body.sum
         }
         console.log(order)
-        Order.create(order)
+        Order.create(order, {include: {model: Product}})
         .then(data =>
         {
             const stock = req.body.stock - order.sum;
