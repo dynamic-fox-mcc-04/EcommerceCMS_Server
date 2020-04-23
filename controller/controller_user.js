@@ -7,7 +7,8 @@ class Controller {
   static register(req, res, next) {
     const user = {
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      level: 2
     }
     console.log(user);
     User.create(user)
