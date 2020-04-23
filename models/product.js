@@ -3,13 +3,14 @@ module.exports = (sequelize, DataTypes) => {
   class Product extends sequelize.Sequelize.Model{}
   Product.init({    
   name:{
-    type: DataTypes.STRING,
+    type: DataTypes.STRING,    
     allowNull:false,
     validate:{
       notNull:{
         args:true,
         msg:"Name require"
-      }
+      },
+      notEmpty: true
     }
 
   },
@@ -30,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         notNull:{
           args:true,
           msg:"Price require"
-        }
+        },
+      min:0
       }
     },
     stock:{
@@ -40,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
         notNull:{
           args:true,
           msg:"stock require"
-        }
+        },
+      min:0
       }
     } 
   },{

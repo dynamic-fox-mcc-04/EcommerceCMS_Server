@@ -34,6 +34,10 @@ app.use((err, req, res, next) => {
     return res.status(400).json({
       errors
     });
+  } else if (err.name == 'SequelizeForeignKeyConstraintError') {    
+    return res.status(403).json({
+      message: "elete on table violates foreign key constraint "
+    });
   } else {
     console.log("error",err);
     

@@ -50,7 +50,7 @@ class Controller{
            next(err)
         })
     }
-    static delete(req,res){
+    static delete(req,res,next){
         Product.destroy({
             where:{
                 id:req.params.id
@@ -67,7 +67,7 @@ class Controller{
            next(err)
         })
     }
-    static viewall(req,res){       
+    static viewall(req,res,next){       
         Product.findAll()
         .then(result=>{
             res.status(201).json({data:result})
@@ -95,7 +95,7 @@ class Controller{
         })
     }
 
-    static viewone(req,res){
+    static viewone(req,res,next){
         Product.findByPk(req.params.id)
         .then(result=>{         
                           
@@ -106,7 +106,7 @@ class Controller{
         })
     }
 
-    static decrement(req,res){
+    static decrement(req,res,next){
         Product.findByPk(req.params.id)
         .then(result=>{         
                           
