@@ -1,7 +1,7 @@
 const { Product } = require('../models')
 
 function authorization(req, res, next) {
-    Product.findOne({ where: { id: req.params.id } })
+    Cart.findOne({ where: { id: req.params.id } })
         .then(response => {
             if(response) {
                 if(response.UserId === req.user.id) {
