@@ -96,6 +96,24 @@ class ProductController
         })
     }
 
+    static removeOrder(req, res, next)
+    {
+        const {id} = req.params;
+        const {order} = req.body;
+
+        Order.destroy({where: {id}})
+        .then(() =>
+        {
+            order.product.stock += order.sum;
+            Product.update(order.product, {where: {id: order.product.id}})
+            return res.status(200).json({"message" : "Successfully deleted order"});
+        })
+        .catch(err =>
+        {
+            return next(err);
+        })
+    }
+
     //Admin
     static add(req, res, next)
     {
