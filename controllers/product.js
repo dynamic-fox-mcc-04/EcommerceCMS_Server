@@ -40,7 +40,7 @@ class ProductController
             {
                 [Op.and]:
                 [
-                    {'UserId': Number(req.user_id)},
+                    {'UserId': req.user_id},
                     {'buyed': false}
                 ]
             },
@@ -48,7 +48,6 @@ class ProductController
         })
         .then(data =>
         {
-            console.log(data)
             return res.status(200).json(data);
         })
         .catch(err =>
