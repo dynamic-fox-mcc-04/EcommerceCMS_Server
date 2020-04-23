@@ -40,9 +40,9 @@ class CartController {
             return models.Cart.update({isSent: true}, {where: {id: req.body.CartId}})
         })
         .then(response => {
-            console.log('email has been sent')
-            return res.status(200).json({
-                message: 'email has been sent'
+            console.log('Product is on the way')
+            return res.status(201).json({
+                message: 'Product is on the way'
             })
         })
         .catch(err => {
