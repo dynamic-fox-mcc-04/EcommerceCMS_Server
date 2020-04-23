@@ -302,3 +302,87 @@
     **Content:** `{ errors : [{ message: "Internal Server Error." }] }`
 
  -----------------------------------------------------------------------------------
+
+ **Mengambil semua data cart (Read cart)**
+----
+  Returns json data about multiple cart that already exists in database.
+
+* **URL**
+
+  /carts
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   None
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `{  [ { "id": 2, "name": "Brocolli", "qty": "2", "createdAt": "2020-04-08T13:55:40.209Z", "total": "32000", "userId": 1, "productId": 1, "status": "Paid" } ] }`
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ errors : [{ message: "Internal Server Error."}] }`
+
+ **Request Header:**
+ ```javascript
+ {  
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJoYXJpc2tpMThAZ21haWwuY29tIiwiaWF0IjoxNTg1NjY3MzgzfQ.t2IFTfKLMEGi_LHVKdR_qaqczqN8tRKBg66z-sVtR5E"
+ }
+ ```
+
+ -----------------------------------------------------------------------------------
+
+ **Membuat cart (Create cart)**
+----
+  Returns json data about a single cart that recently added.
+
+* **URL**
+
+  /carts
+
+* **Method:**
+
+  `POST`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   None
+
+* **Data Params**
+
+```javascript
+ {
+     "userId": 1, "productId": 1, "qty": 2, "total": 32000, "status": "Paid"
+ }
+ ```
+
+* **Success Response:**
+
+  * **Code:** 201 Created <br />
+    **Content:** `{ "userId": 1, "productId": 1, "qty": 2, "total": 32000, "status": "Paid" }`
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ errors : [{message: "Internal Server Error."}] }`
+
+ **Request Header:**
+ ```javascript
+ {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJoYXJpc2tpMThAZ21haWwuY29tIiwiaWF0IjoxNTg1NjY3MzgzfQ.t2IFTfKLMEGi_LHVKdR_qaqczqN8tRKBg66z-sVtR5E"
+ }
+ ```
