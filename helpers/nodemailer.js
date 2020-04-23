@@ -292,7 +292,7 @@ function mailer(buyer, username, productName, imageUrl) {
                   <tr>
                     <td>
                       <div class="text" style="padding: 0 3em; text-align: center;">
-                        <h2 style="color: white;">Hi! Archiafinno</h2>
+                        <h2 style="color: white;">Hi! ${username}</h2>
                         <p style="color: white;">Thanks for your purchase! Your ${productName} is on the way your home. Please wait, and please confirm to us if the package is already delivered</p>
                         <p style="color: white;"><a href="https://brada-customer.web.app/history" class="btn btn-primary">See your transaction history</a></p>
                       </div>
