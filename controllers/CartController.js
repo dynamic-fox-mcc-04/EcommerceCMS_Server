@@ -41,7 +41,7 @@ class CartController {
                     productId: el.productId,
                     qty: el.qty,
                     total: el.total,
-                    static: el.status,
+                    status: el.status,
                     createdAt: el.createdAt,
                     name: el.Product.name
                 }
