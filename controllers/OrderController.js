@@ -14,6 +14,30 @@ class OrderController {
             }))
             .catch(err => console.log(err))
     }
+
+    static getOrder(req, res, next) {
+        const { OrderId } = req.body
+        Order.findAll({
+            where: {
+                'id': OrderId
+            },
+            // include: [{ model: ProductOrder }]
+        }).then(result => {
+            return res.status(200).json(result)
+        }).catch(err => next(err))
+    }
+
+    static fixOrder(req, res, next) {
+        const { amount, OrderId } = req.body
+        let order_status = true
+        Order.update({ amount, order_status }, {
+            where: {
+                'id': OrderId
+            }
+        }).then(result => res.status(200).json({
+            msg: `success updating data with id ${OrderId}`
+        })).catch(err => next(err))
+    }
 }
 
 

@@ -13,12 +13,16 @@ module.exports = (req, res, next) => {
                 req.currentUserId = result.id
                 return next()
             } else {
-                console.log('ERROR AUTHENTICATE 1')
+                return next({
+                    name: 'NotAuthorized'
+                })
             }
         }).catch(err => {
-            console.log('ERROR AUTHENTICATE', err)
+            return next({
+                name: 'NotAuthorized'
+            })
         })
     } catch (error) {
-        return next (error)
+        return next(error)
     }
 }

@@ -1,7 +1,7 @@
 'use strict';
 let admin = [{
   email: 'bayuaslamaa@gmail.com',
-  password: '$2y$10$zhS6Qa5BSdZnkAeh0fTJIuX52Qg/ThpDJPCags33Cqc1Dweg00sae',
+  password: 'bayuaslama',
   role: 'admin',
   createdAt: new Date(),
   updatedAt: new Date()
