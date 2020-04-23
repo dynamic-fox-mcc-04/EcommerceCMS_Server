@@ -1,14 +1,13 @@
-const jwt = require("jsonwebtoken")
+const jwt = require('jsonwebtoken');
 
-function generateToken(payload){
-    // Di sini terjadi proses pembuatan token
-    //var token = jwt.sign({ foo: 'bar' }, 'shhhhh')
-    return jwt.sign(payload, process.env.SECRET) // kembalikan token
+function createToken (payload){
+    const token = jwt.sign(payload, process.env.SECRET);
+    return token 
 }
 
-function verifyToken(token){
-    // verify a token symmetric - synchronous
-     return jwt.verify(token, process.env.SECRET)
+function verifyToken (token) {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    return decoded
 }
 
-module.exports = { generateToken, verifyToken }
+module.exports = {createToken, verifyToken}

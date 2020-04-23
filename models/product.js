@@ -1,33 +1,44 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  // const Product = sequelize.define('Product', {
-  //   name: DataTypes.STRING,
-  //   image_url: DataTypes.STRING,
-  //   price: DataTypes.INTEGER,
-  //   stock: DataTypes.INTEGER,
-  //   userId: DataTypes.INTEGER
-  // }, {});
+
   class Product extends sequelize.Sequelize.Model {}
 
   Product.init({
-    name : {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    image_url : {
+    // Model attributes are defined here
+    name: { 
       type: DataTypes.STRING,
       allowNull: false,
       validate : {
-        // isNotNull: tambahin is not null
+        notNull: {
+          args: true,
+          msg: "Product name cannot be empty"
+        }
       }
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue : "https://media.istockphoto.com/vectors/silhouette-security-stroller-with-baby-child-inside-vector-id801488358"
     },
     price: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate : {
+        notNull: {
+          args: true,
+          msg: "Product price must be defined"
+        }
+      }
     },
     stock: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate : {
+        notNull: {
+          args: true,
+          msg: "Product stock must be defined"
+        }
+      }
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -35,14 +46,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     // Other model options go here
+    hooks:{
+      beforeCreate: (product, options) => {
+        if(!product.imageUrl){
+          product.imageUrl = "https://media.istockphoto.com/vectors/silhouette-security-stroller-with-baby-child-inside-vector-id801488358"
+        }
+      }
+    },
     sequelize, // We need to pass the connection instance
     modelName: 'Product' // We need to choose the model name
   });
 
-
   Product.associate = function(models) {
     // associations can be defined here
-    Product.belongsTo(models.User)
+    Product.belongsToMany(models.User, {through: models.ShoppingCart})
+
   };
   return Product;
 };

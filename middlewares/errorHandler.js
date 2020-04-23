@@ -1,5 +1,5 @@
-function errorHandler(req,res,next){
-    console.log(err, "ini errornya")
+function errorHandler(err, req,res,next){
+    console.log("=========================",err)
     if(err.message == "SequelizeValidationError"){
         const errors = err.errors.map(el => ({
             message : el.message
@@ -7,7 +7,7 @@ function errorHandler(req,res,next){
         return res.status(400).json({
             code:"400",
             type:"BadRequest",
-            errors
+            errors: errors
         })
     } 
     //buat error handler untuk err.name == sequelize unique constraint error
@@ -27,7 +27,7 @@ function errorHandler(req,res,next){
     } else {
         return res.status(500).json({
             message: "InternalServerError",
-            error: error
+            error: err.stack
         })
     }
 }

@@ -1,25 +1,14 @@
 {
-  "name": "ecommerce_server",
+  "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "eCommerce for Client side",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon bin/server.js",
     "test": "cls&&jest --detectOpenHandles",
-    "initdbtest": "sequelize db:create --env=test",
-    "start": "node app.js"
+    "dev": "nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AndreRGunawan/Ecommerce_Server.git"
-  },
-  "keywords": [],
   "author": "AndreRGunawan",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AndreRGunawan/Ecommerce_Server/issues"
-  },
-  "homepage": "https://github.com/AndreRGunawan/Ecommerce_Server#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
@@ -31,7 +20,7 @@
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "jest": "^25.3.0",
+    "jest": "^25.4.0",
     "supertest": "^4.0.2"
   }
 }

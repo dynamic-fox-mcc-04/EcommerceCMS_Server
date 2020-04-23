@@ -17,25 +17,24 @@ function authentication(req,res,next){
                 req.currentUserId = result.id
                 return next()
             } else {
-                //error : kalau user tidak ketemu
                 return next({
                     name:"User Not Found", 
                     errors: [{message: "User Not Found"}]
                 })
             }
         })
-        .catch(_ => {
-            console.log(_)
+        .catch(error => {
+            console.log(error)
             //error : kalau prosesfindOne gagal karena user tidak registered
             res.status(401).json({
                 name:"Unauthorized", 
+                // error: [{message: "User unauthenticated"}]
                 error: [{message: "User unauthenticated"}]
+
             })
         })
     }
     catch(err){
-        console.log("--------------------------")
-        console.log(err)
         //error: gagal decode karena tokennya malformed/tidak pas dengan secret string
         return res.status(500).json({
             name: "Internal Server Error",

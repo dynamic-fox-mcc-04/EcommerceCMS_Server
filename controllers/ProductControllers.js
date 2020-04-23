@@ -2,8 +2,9 @@ const  { Product } = require("../models/index.js")
 
 class ProductController {
     static findAll(req,res,next){
+        // console.log("berhasil masuk prodController")
         Product.findAll({
-            order: [['updatedAt', 'DESC']]
+            order: [['id', 'ASC']]
         })
         .then(result =>{
             res.status(200).json({
@@ -11,11 +12,12 @@ class ProductController {
             })
         })
         .catch(error =>{
-            console.log(error)
-            res.status(500).json({ //Kalau sudah ada errorHandler, gantikan res.status(500).json menjadi return next({error})
-                message:"InternalServerError",
-                error:error
-            })
+            next(
+                res.status(500).json({ //Kalau sudah ada errorHandler, gantikan res.status(500).json menjadi return next({error})
+                    message:"InternalServerError",
+                    error:error
+                })
+            )
         })
     }
     static getOneProduct(req,res,next){
@@ -35,20 +37,18 @@ class ProductController {
             }
         })
         .catch(err =>{
-            console.log("-----------------------")
-            console.log(err)
-            return next({
+            next({
                 message:"InternalServerError",
                 error:err
             })
         })
     }
     static addNewProduct(req,res,next){
-        let { name, image_url, price, stock } = req.body
+        let { name, imageUrl, price, stock } = req.body
         let userId = req.currentUserId
         let newProduct = {
             name,
-            image_url,
+            imageUrl,
             price,
             stock,
             userId: userId
@@ -61,8 +61,7 @@ class ProductController {
             })
         })
         .catch(error =>{
-            console.log(error)
-            return next({
+            next({
                 message: "InternalServerError",
                 error: error
             })
@@ -88,7 +87,7 @@ class ProductController {
             })
         })
         .catch(err =>{
-            return next({
+            next({
                 message:"InternalServerError",
                 error:err
             })
@@ -105,10 +104,12 @@ class ProductController {
             })
         })
         .catch(error =>{
-            res.status(500).json({
-                message: "InternalServerError",
-                error:error
-            })
+            next(
+                res.status(500).json({
+                    message: "InternalServerError",
+                    error:error
+                })
+            )
         })
     }
 }

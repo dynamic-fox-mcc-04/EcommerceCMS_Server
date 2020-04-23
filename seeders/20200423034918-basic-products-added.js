@@ -1,15 +1,18 @@
 'use strict';
 
+const fs = require("fs")
+
+const allProductData = JSON.parse(fs.readFileSync("../data/products.json", "utf-8"))
+allProductData.forEach((product) => {
+  product.createdAt = new Date ()
+  product.updatedAt = new Date ()
+});
+
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     
-    return queryInterface.bulkInsert('Users', [{
-      email: 'archie@gmail.com',
-      password: "$2a$10$7rmaQ4ie9CuRDpKohoUOH.qD7IcNjx2.5LfPgPUq7vI3m.dqUt7RC",
-      role : "admin",
-      createdAt : new Date(),
-      updatedAt : new Date()
-    }], {});
+    return queryInterface.bulkInsert('Products', allProductData, {})
     
     
     /*
@@ -25,8 +28,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Users', null, {});
-    
+    return queryInterface.bulkDelete('Products', null, {});
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.

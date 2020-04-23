@@ -2,18 +2,16 @@
   "development": {
     "username": "postgres",
     "password": "postgres",
-    "database": "database_ecommerce_cms_development",
+    "database": "database_ecommerce_customer_client_development",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "operatorsAliases": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "postgres",
     "password": "postgres",
-    "database": "database_ecommerce_cms_test",
+    "database": "database_ecommerce_customer_client_test",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "logging": false
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",

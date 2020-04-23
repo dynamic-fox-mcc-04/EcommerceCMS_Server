@@ -1,13 +1,7 @@
 'use strict';
-
-const { encryptPassword } = require("../helpers/bcrypt.js")
+const { hashPassword } = require("../helpers/bcrypt.js")
 
 module.exports = (sequelize, DataTypes) => {
-  // const User = sequelize.define('User', {
-  //   email: DataTypes.STRING,
-  //   password: DataTypes.STRING,
-  //   role: DataTypes.STRING
-  // }, {});
 
   class User extends sequelize.Sequelize.Model {}
 
@@ -15,38 +9,50 @@ module.exports = (sequelize, DataTypes) => {
     // Model attributes are defined here
     email: {
       type: DataTypes.STRING,
-      unique:{
-        args: true,
-        msg: 'Email is already registered'
-      },
       allowNull: false,
-      validate: {
-        notNull:{
+      validate : {
+        notNull: {
           args: true,
           msg: "Email cannot be empty"
         },
+        isEmail: {
+          args: true,
+          msg: "Invalid email format"
+        },
         notEmpty: {
           args: true,
-          msg: "Email must be provided"
-        },
-        isEmail : {
-          args: true,
-          msg: "Submitted email must follow email format"
+          msg:"Email cannot be empty"
         }
       }
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notNull: {
+          args: true,
+          msg: "Password cannot be empty"
+        },
+        notEmpty: {
+          args: true,
+          msg:"Password cannot be empty"
+        }
+      }
     },
     role: {
       type: DataTypes.STRING,
-      defaultValue: "user"
+      allowNull: false,
+      defaultValue:"user"
     }
   }, {
     hooks:{
       beforeCreate: (user, options) => {
-        user.password = encryptPassword(user.password)
+        if(!user.role){
+          user.role = "user"
+        }
+      },
+      beforeCreate: (user, options) => {
+        user.password = hashPassword(user.password)
       }
     },
     // Other model options go here
@@ -54,10 +60,10 @@ module.exports = (sequelize, DataTypes) => {
     modelName: 'User' // We need to choose the model name
   });
 
-
   User.associate = function(models) {
     // associations can be defined here
-    User.hasMany(models.Product)
+    User.belongsToMany(models.Product, {through: models.ShoppingCart})
+    
   };
   return User;
 };
