@@ -42,6 +42,7 @@ class CartController {
                     qty: el.qty,
                     total: el.total,
                     static: el.status,
+                    createdAt: el.createdAt,
                     name: el.Product.name
                 }
             })
