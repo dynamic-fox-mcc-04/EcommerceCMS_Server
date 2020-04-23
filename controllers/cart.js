@@ -10,7 +10,7 @@ class CartController {
             .then(response => {
                 if(response) {
                     const newAmt = amount + response.amount
-                    console.log(newAmt)
+                    console.log(newAmt,'ini amount barunya')
                     return Cart.update({ newAmt }, { where: { id: response.id }, returning: true })
                 } else {
                     console.log('mau create')
