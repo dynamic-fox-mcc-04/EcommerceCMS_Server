@@ -2,8 +2,6 @@ const { decode } = require('../helpers/jwt')
 const { User } = require('../models')
 
 function authentication(req, res, next){
-    console.log('masuk beda');
-    
     try {
         let decoded = decode(req.headers.access_token)
         User.findOne({

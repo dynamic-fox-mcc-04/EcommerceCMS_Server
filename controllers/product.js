@@ -4,9 +4,7 @@ class Controller {
 
     static read(req, res, next){
 
-        Product.findAll({
-            where : { UserId : req.userId}
-        })
+        Product.findAll()
         .then(result => {
             
             return res.status(200).json({
@@ -14,7 +12,7 @@ class Controller {
             })
         })
         .catch(err => {
-            return next()
+            return next(err)
         })
 
 

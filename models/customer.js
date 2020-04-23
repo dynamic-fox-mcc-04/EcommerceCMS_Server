@@ -8,10 +8,62 @@ module.exports = (sequelize, DataTypes) => {
   class Customer extends Model {}
 
   Customer.init({
-    fname: DataTypes.STRING,
-    lname: DataTypes.STRING,
-    address: DataTypes.STRING,
-    phone: DataTypes.STRING,
+    fname: {
+      type: DataTypes.STRING,
+     allowNull: false,
+     validate: {
+      notEmpty: {
+        args: true,
+        msg: 'First Name cannot be empty',
+      },
+      notNull: {
+        args: true,
+        msg: 'First Name cannot be null',
+      }
+    }
+  },
+    lname: {
+      type: DataTypes.STRING,
+     allowNull: false,
+     validate: {
+      notEmpty: {
+        args: true,
+        msg: 'Last Name cannot be empty',
+      },
+      notNull: {
+        args: true,
+        msg: 'Last Name cannot be null',
+      },
+     }
+   },
+    address: {
+     type: DataTypes.STRING,
+     allowNull: false,
+     validate: {
+      notEmpty: {
+        args: true,
+        msg: 'Address cannot be empty',
+      },
+      notNull: {
+        args: true,
+        msg: 'Address cannot be null',
+      },
+    }
+   },
+    phone: {
+    type: DataTypes.STRING,
+     allowNull: false,
+     validate: {
+      notEmpty: {
+        args: true,
+        msg: 'Phone cannot be empty',
+      },
+      notNull: {
+        args: true,
+        msg: 'Phone cannot be null',
+      }
+     }
+    },
     email: {
      type: DataTypes.STRING,
      allowNull: false,

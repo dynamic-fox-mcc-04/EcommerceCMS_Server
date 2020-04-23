@@ -4,11 +4,16 @@ const { generateToken } = require('../helpers/jwt')
 
 class Controller {
     static register(req, res, next){
+        const {fname, lname, address, phone, email, password} = req.body
+
         let payload = {
-            email: req.body.email,
-            password: req.body.password
+            fname,
+            lname,
+            address,
+            phone,
+            email,
+            password
         }
-                
         Customer.create(payload)
         .then(result => {
             return res.status(201).json({
@@ -37,6 +42,7 @@ class Controller {
                     let token = generateToken(payload)
 
                     return res.status(200).json({
+                        name: result.fname,
                         customer_token: token
                     })
                 } else {

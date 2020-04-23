@@ -4,7 +4,6 @@ const { Op, Sequelize } = require('sequelize')
 class Controller {
 
     static readCart(req, res, next){
-
         Order.findAll({
             where: {
                 [Op.and] : [{
@@ -18,11 +17,11 @@ class Controller {
         ]
         })
         .then(orders => {
+            
             if (orders){
-            //  console.log(orders);
              CartProduct.findAll({
                  where: {
-                     OrderId: 1
+                     OrderId: orders[0].id
                  }
              })
              .then(carts => {
@@ -31,9 +30,8 @@ class Controller {
 
                  orders.forEach(el => {
                       results.push({
-                         orderId: el.id,
                          products: el.Products.map((prod, index) => {
-                             return { id: prod.id, name: prod.name, image_url:prod.image_url,cart: carts[index].qty}
+                             return { price: prod.price, stock: prod.stock, orderId: el.id, ProdId: prod.id, name: prod.name, image_url:prod.image_url,cartId:carts[index].id, qty: carts[index].qty}
                          })
                      })
                  });
@@ -119,34 +117,31 @@ class Controller {
             }
         })
         .catch(err => {
-            console.log(err);
-            
             return next(err)
         })
 
     }
 
     static checkout(req, res, next){
-       const { orderId,products } = req.body
-       
+       const { products } = req.body
        Order.update({
         status: true
        }, {
            where: {
-               id: orderId
+               id: req.params.orderId
             }
         })
         .then(() => {
-            return Promise.all(products.forEach(el => {
-              Product.findByPk(el.id)
+            return Promise.all(products.map(el => {
+              
+              Product.findByPk(el.prodId)
               .then(product => {
-                  return product.decrement(['stock'], {by: el.cart})
+                  return product.decrement(['stock'], {by: el.qty})
               })
               .catch(err => {
                   return next(err)
               })
-            })
-            )
+            }))
             .then(() => {
                return res.status(200).json({
                     message: 'Success update'
@@ -155,7 +150,24 @@ class Controller {
             .catch(err => {
                 return next(err)
             })
+        })
+
+    }
+
+    static delete(req,res,next) {
           
+        CartProduct.destroy({
+            where: {
+                id: req.params.cartId
+            }
+        })
+        .then(result => {
+            return res.status(200).json({
+                message: 'Success delete item'
+            })
+        })
+        .catch(err => {
+            return next(err)
         })
 
     }

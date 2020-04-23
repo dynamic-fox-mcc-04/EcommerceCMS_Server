@@ -4,9 +4,9 @@ const product = require('./product')
 const customer = require('./customer')
 const order = require('./order')
 
-router.use('/', user)
 router.use('/customer',customer)
 router.use('/customer',order)
+router.use('/', user)
 router.use('/', product)
 
 
