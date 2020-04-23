@@ -9,7 +9,7 @@ class CartController {
         Cart.findOne({ where: { ProductId: ProductId, UserId: UserId, status: false } })
             .then(response => {
                 if(response) {
-                    const newAmt = amount + response.amount
+                    const newAmt = Number(amount) + Number(response.amount)
                     console.log(newAmt,'ini amount barunya')
                     return Cart.update({ newAmt }, { where: { id: response.id }, returning: true })
                 } else {
