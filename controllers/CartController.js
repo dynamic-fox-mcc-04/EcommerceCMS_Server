@@ -8,27 +8,27 @@ class CartController {
                 ProductId: req.body.ProductId
             }
         })
-            .then(existingCart => {
-                console.log(['existed ===>'], existingCart);
-                if (existingCart) {
-                    next({
+            .then(Exist => {
+                if (Exist) {
+                    return next({
                         status: 400,
                         message: 'Product existed, try updating instead of adding a new one'
                     })
                 } else {
-                    Cart.create({
+                    return Cart.create({
                         product_qty: 1,
                         paid: false,
                         UserId: req.currentUserId,
                         ProductId: req.body.ProductId
                     })
-                        .then(cart => {
-                            res.status(201).json(cart)
-                        })
-                        .catch(err => {
-                            next(err)
-                        })
                 }
+            })
+            .then(cart => {
+                console.log('cart is here', cart)
+                res.status(201).json(cart)
+            })
+            .catch(err => {
+                next(err)
             })
     }
 
@@ -40,7 +40,6 @@ class CartController {
             }
         })
             .then(existingCart => {
-                console.log(['existed ===>'], existingCart);
                 if (existingCart) {
                     next({
                         status: 400,
@@ -54,6 +53,7 @@ class CartController {
                         ProductId: req.body.ProductId
                     })
                         .then(cart => {
+                            console.log(cart)
                             res.status(201).json(cart)
                         })
                         .catch(err => {
@@ -68,10 +68,12 @@ class CartController {
             where: {
                 UserId: req.currentUserId
             },
-            order: [['updatedAt', 'DESC']],
+            order: [['createdAt', 'DESC']],
             include: [Product]
         })
             .then(carts => {
+                console.log('ini masuk findAll cart')
+                // console.log(carts)
                 res.status(200).json(carts)
             })
             .catch(err => {
@@ -80,18 +82,21 @@ class CartController {
     }
 
     static increase(req, res, next) {
+        console.log(req.params.id)
         Cart.update({
             product_qty: sequelize.literal('product_qty + 1')
         }, {
             where: {
-                id: req.params.cartId
+                id: req.params.id
             },
             returning: true
         })
             .then(carts => {
+                console.log(carts)
                 res.status(200).json(carts[1][0])
             })
             .catch(err => {
+                console.log('error kenapa ini?', err)
                 next(err)
             })
     }
@@ -101,11 +106,12 @@ class CartController {
             product_qty: sequelize.literal('product_qty - 1')
         }, {
             where: {
-                id: req.params.cartId
+                id: req.params.id
             },
             returning: true
         })
             .then(carts => {
+                // console.log(carts)
                 res.status(200).json(carts[1][0])
             })
             .catch(err => {
@@ -114,29 +120,27 @@ class CartController {
     }
 
     static delete(req, res, next) {
-        let cartId = req.params.cartId;
+        let id = req.params.id;
         let deletedCart;
-        Cart.findByPk(cartId)
+        Cart.findByPk(id)
             .then(cart => {
                 if (cart) {
                     deletedCart = cart
-                    Cart.destroy({
+                    return Cart.destroy({
                         where: {
-                            id: cartId
+                            id
                         }
                     })
-                        .then(() => {
-                            res.status(200).json(deletedCart)
-                        })
-                        .catch(err => {
-                            next(err)
-                        })
                 } else {
-                    next({
+                    return next({
                         status: 404,
                         message: 'Cart not found'
                     })
                 }
+            })
+            .then(() => {
+                console.log('masuk akhirrrr destroy')
+                res.status(200).json(deletedCart)
             })
             .catch(err => {
                 next(err)

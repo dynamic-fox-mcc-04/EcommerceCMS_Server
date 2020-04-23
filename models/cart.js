@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   class Cart extends sequelize.Sequelize.Model {}
   Cart.init({
+    CartId: DataTypes.INTEGER,
     paid: DataTypes.BOOLEAN,
     product_qty: {
       type: DataTypes.INTEGER,

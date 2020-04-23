@@ -19,14 +19,16 @@ function adminAuth(req, res, next) {
 }
 
 function customerAuth(req, res, next) {
+    console.log('customerAuth =>', req.params.id)
     Cart.findOne({
         where: {
-            id: req.params.cartId
+            id: req.params.id
         }
     })
         .then(cart => {
             if (cart) {
                 if (cart.UserId == req.currentUserId) {
+                    console.log('lannnjuutt')
                     next()
                 } else {
                     res.status(401).json({ status: 401, message: "Authorization failed" })
