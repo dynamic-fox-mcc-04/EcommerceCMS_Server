@@ -775,7 +775,7 @@
 
 * **Method:**
 
-  `GET`
+  `PATCH`
 
 * **Headers :**
   token=[STRING]
