@@ -26,20 +26,32 @@ class Controller{
     }
     
     static confirm(req,res,next){
+       Trans.findAll({
+           where:{
+            CustomerDetailId: +req.body.id_alamat_default,
+            status:'Pending'
+           }
+       })
+       .then(result=>{
+           console.log('Decrement----',  result);
+           for (const i in result ) {
+               let proid = result[i].dataValues.ProductId
+               Product.decrement('stock', { where: { id: proid}});
+               console.log('yesy----',  result[i].dataValues.ProductId);
+            }
        
+       })
+        
         Trans.update({
             MasterTransactionId:req.body.masterid,
             status:'Done'
         },{
             where:{
-                id:+req.body.id
+                CustomerDetailId: req.body.id_alamat_default
                 }
             })
         .then(result=>{
-            Product.decrement('stock', { where: { id: req.body.ProductId}});
-            res.status(201).json({
-                msg:"Transaction Done Success"
-            })
+            console.log(result)
         })
         .catch(err=>{
             console.log(err);
@@ -76,8 +88,12 @@ class Controller{
     static delete(req,res){
        Trans.destroy({
            where:{
-               id:req.body.id
-           }})
+               ProductId:req.body.id,
+               status:'Pending',
+               CustomerDetailId: req.headers.idalamat
+           },
+           limit:1
+        })
            .then(reponse=>{
                 res.status(201).json({
                     msg:"Delete Success"
