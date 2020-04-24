@@ -29,7 +29,7 @@ function errorHandler (err, req, res, next){
     } else if (err.name = "JsonWebTokenError") {
         return res.status(400).json({
             type : 'bad request',
-            errors : [{ message : err }]   
+            errors : [{ message : 'Request Token' }]   
         })
     } else {
         return res.status(500).json({

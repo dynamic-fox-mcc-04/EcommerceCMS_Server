@@ -13,7 +13,6 @@ afterAll(() => {
 
 
 describe('Product Service', () => {
-
     describe('success create', ()=>{
         describe('POST /products', ()=>{
             test('should return success message and status 201 with token', (done) => {
@@ -47,30 +46,116 @@ describe('Product Service', () => {
 
     describe('Error create products', ()=>{
         describe('POST /products', ()=>{
-            test('should return multiple error when all input is empty and give status 400 with token', (done)=>{
+            test('should return error when name is null and give status 400 with token', (done)=>{
                 const data = {
                     name : "",
-                    image_url : "",
-                    price : "",
-                    stock : ""
+                    image_url : "https://dummyimage.com/300",
+                    price : 10000,
+                    stock : 50
                 }
 
                 const errors = [
                     {
                         message : 'Name cannot be null'
-                    },
+                    }
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+
+            test('should return error when image_url is null and give status 400 with token', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "",
+                    price : 10000,
+                    stock : 50
+                }
+
+                const errors = [
                     {
                         message : 'must Url format (http://foo.com)'
                     },
                     {
                         message :  'Image_url cannot be null'
                     },
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+
+            test('should return error when price is null and give status 400 with token', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "https://dummyimage.com/300",
+                    price : "",
+                    stock : 50
+                }
+
+                const errors = [
                     {
                         message :  'Price cannot be null'
                     },
                     {
                         message :  'Price must be a number'
                     },
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+
+            test('should return error when stock is null and give status 400 with token', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "https://dummyimage.com/300",
+                    price : 10000,
+                    stock : ""
+                }
+
+                const errors = [
                     {
                         message :  'Stock cannot be null'
                     },
@@ -96,21 +181,51 @@ describe('Product Service', () => {
                 })
 
             })
+
+
         })
 
         describe('POST /products', ()=>{
-            test('should return errors when price and price are negative value and give status 400 with token', (done)=>{
+            test('should return errors when price are negative value and give status 400 with token', (done)=>{
                 const data = {
                     name : "molto",
                     image_url : "https://dummyimage.com/300",
                     price : -10000,
-                    stock : -50
+                    stock : 50
                 }
 
                 const errors = [
                     {
                         message : 'Price must greater than or equal to 0'
                     },
+                ]
+
+                request(app)
+                .post('/products')
+                .set('access_token', dummyToken)
+                .send(data)
+                .end((err, response) => {
+
+                    if (err) {
+                        return done(err)
+                    } else {
+                        expect(response.status).toBe(400)
+                        expect(response.body).toHaveProperty('errors', errors)
+                        return done()
+                    }
+                })
+
+            })
+
+            test('should return errors when price are negative value and give status 400 with token', (done)=>{
+                const data = {
+                    name : "molto",
+                    image_url : "https://dummyimage.com/300",
+                    price : 10000,
+                    stock : -50
+                }
+
+                const errors = [
                     {
                         message : 'Stock must greater than or equal to 0'
                     },
@@ -133,6 +248,8 @@ describe('Product Service', () => {
                 })
 
             })
+
+
         })
 
         describe('POST /products', ()=>{
