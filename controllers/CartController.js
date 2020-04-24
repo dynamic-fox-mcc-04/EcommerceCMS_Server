@@ -145,6 +145,57 @@ class CartController {
                 return next(err)
             })
     }
+
+    static paid (req, res, next) {
+        Cart.update({
+            paid: true
+        }, {
+            where: {
+                CartId: req.params.id
+            },
+            returning: true
+        })
+            .then(data => {
+                return res.status(200).json(data[1][0])
+            })
+            .catch(err => {
+                return next(err)
+            })
+    }
+
+    static checkout (req, res, next) {
+        let sold;
+        Cart.findOne({
+            where : {
+                CartId: req.params.id,
+                UserId: req.currentUserId
+            }
+        })
+            .then(data => {
+                sold = data.Product;
+                if (data && data.paid) {
+                    return Product.destroy({
+                        where: {
+                            id: data.Product.id
+                        }
+                    })
+                } else {
+                    return next({
+                        status: 401,
+                        message: 'User Not Found'
+                    })
+                }
+            })
+            .then(_ => {
+                res.status(200).json({
+                    message: 'Barang sedang dikirim',
+                    sold
+                })
+            })
+            .catch(err => {
+                return next(err)
+            })
+    }
 }
 
 module.exports = CartController;
