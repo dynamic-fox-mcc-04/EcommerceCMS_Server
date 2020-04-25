@@ -27,6 +27,19 @@ class ProductController {
         }
     }
 
+    static detail(req, res, next) {
+        let id = req.params.id
+        return models.Product.findByPk(id) 
+        .then(result => {
+            return res.status(200).json({
+                result
+            })
+        })
+        .catch(err => {
+            return next(err)
+        })
+    }
+
     static create(req, res, next) {
         console.log(`masuk create`)
         const { productName, imageUrl, price, stock, category } = req.body

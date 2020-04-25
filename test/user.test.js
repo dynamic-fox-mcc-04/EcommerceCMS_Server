@@ -136,29 +136,29 @@ describe('user service', () => {
                     })
             })
         })
-        describe('error register', () => {
-            test('should return error with status code 400 because missing role', done => {
-                const missingrole = {...dummyUser }
-                delete missingrole.role
-                const errors = [{
-                    message: 'role is required'
-                }]
-                request(app)
-                    .post('/users/register')
-                    .send(missingrole)
-                    .end((err, response) => {
-                        if (err) {
-                            // console.log(err)
-                            return done(err)
-                        } else {
-                            // console.log(response.body)
-                            expect(response.status).toBe(400)
-                            expect(response.body).toHaveProperty('errors', errors)
-                            return done()
-                        }
-                    })
-            })
-        })
+        // describe('error register', () => {
+        //     test('should return error with status code 400 because missing role', done => {
+        //         const missingrole = {...dummyUser }
+        //         delete missingrole.role
+        //         const errors = [{
+        //             message: 'role is required'
+        //         }]
+        //         request(app)
+        //             .post('/users/register')
+        //             .send(missingrole)
+        //             .end((err, response) => {
+        //                 if (err) {
+        //                     // console.log(err)
+        //                     return done(err)
+        //                 } else {
+        //                     // console.log(response.body)
+        //                     expect(response.status).toBe(400)
+        //                     expect(response.body).toHaveProperty('errors', errors)
+        //                     return done()
+        //                 }
+        //             })
+        //     })
+        // })
         describe('error register', () => {
             test('should return error with status code 400 because missing username, email, password, role', done => {
                 const errors = [{
@@ -169,9 +169,6 @@ describe('user service', () => {
                     },
                     {
                         message: 'password is required'
-                    },
-                    {
-                        message: 'role is required'
                     }
                 ]
                 request(app)

@@ -10,7 +10,7 @@ router.patch('/delivered', admin_authorization, CartController.confirmTransactio
 router.post('/', CartController.addCart)
 router.patch('/checkout', CartController.checkoutCart)
 router.use(customer_authorization)
-router.patch('/:id', CartController.editQuantity)
+router.patch('/:id', customer_authorization, CartController.editQuantity)
 router.delete('/:id', CartController.deleteCart)
 
 
