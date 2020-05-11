@@ -9,7 +9,7 @@ const bcrypt = require('bcryptjs')
 
 afterAll(done => {
   queryInterface
-  Product.destroy({ truncate: true, restartIdentity: true })
+  Product.destroy({ truncate: true, cascade: true, restartIdentity: true})
     .then(() => {
       console.log('Db clean up');
       done();
@@ -129,6 +129,8 @@ describe('Product', () => {
     });
       
   });
+
+
   describe('PUT /Product', () => {
     describe('Update Product', () => {
       test('should send Message and status 200', done => {

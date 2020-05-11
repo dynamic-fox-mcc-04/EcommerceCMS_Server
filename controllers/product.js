@@ -9,7 +9,7 @@ class Controller{
             price: req.body.price,
             stock: req.body.stock
         }
-       console.log(data);
+       console.log('*******dari product controller*******',data);
        
         Product.create(data)
         .then(result=>{
@@ -23,6 +23,7 @@ class Controller{
             )
         })
         .catch(err=>{
+            console.log('****err dari product controller',err);            
             next(err)
         })
     }

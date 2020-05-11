@@ -65,7 +65,7 @@ class Controller{
             service: 'gmail',
             auth: {
                 user: 'irwanlearn@gmail.com',
-                pass: 'Irwanlearn1ng'
+                pass: 'Irwanlearn1ng1'
             }
             });
 
