@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Bobs Red Mill Gluten Free Old Fashioned Rolled Oats Whole Grain - 907gr",
+        "imageUrl": "https://assets.babyzania.com/image/cache/catalog/1/Whole%20grain%20920g-800x800.jpg",
+        "price": 169000,
+        "stock": 35
+    },
+    {
+        "name": "Bobs Red Mill Organic Quinoa Grain - 737gr",
+        "imageUrl": "https://assets.babyzania.com/image/cache/catalog/1/QUINOA-800x800.jpg",
+        "price": 279000,
+        "stock": 90
+    },
+    {
+        "name": "Bobs Red Mill Organic Tricolor Quinoa Grain - 369gr",
+        "imageUrl": "https://assets.babyzania.com/image/cache/catalog/1/6042s136_organic_tricolorquinoa_f_hr_1_1-800x800.jpg",
+        "price": 149000,
+        "stock": 80
+    },
+    {
+        "name": "Bobs Red Mill Organic Quick Cooking Rolled Oats - 454gr",
+        "imageUrl": "https://assets.babyzania.com/image/cache/catalog/1/Rolled%20oats-800x800.jpg",
+        "price": 83000,
+        "stock": 50
+    },
+    {
+        "name": "Lingkar Organik Beras Organik 1kg - Pandan Wangi",
+        "imageUrl": "https://assets.babyzania.com/image/cache/catalog/1/LINGKAR%20ORGANIK-800x800.jpg",
+        "price": 25000,
+        "stock": 50
+    }
+]
