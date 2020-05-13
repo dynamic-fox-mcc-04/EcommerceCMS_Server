@@ -16,7 +16,6 @@ class ProductController {
     }
 
     static getAll(req, res, next) {
-        if (req.currentUserId)
             Product.findAll()
                 .then(result => {
                     res.status(200).json({
