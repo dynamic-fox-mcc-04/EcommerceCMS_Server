@@ -10,6 +10,7 @@ module.exports = (req, res, next) => {
             }
         }).then(result => {
             if (result) {
+                // console.log(result.id)
                 req.currentUserId = result.id
                 return next()
             } else {

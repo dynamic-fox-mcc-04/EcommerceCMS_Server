@@ -16,12 +16,12 @@ class ProductController {
     }
 
     static getAll(req, res, next) {
-            Product.findAll()
-                .then(result => {
-                    res.status(200).json({
-                        products: result
-                    })
-                }).catch(err => next(err))
+        Product.findAll()
+            .then(result => {
+                res.status(200).json({
+                    products: result
+                })
+            }).catch(err => next(err))
 
     }
     static getProduct(req, res, next) {
@@ -77,8 +77,9 @@ class ProductController {
                     'id': req.authorizedId
                 }
             }).then(result => {
+                console.log(result)
                 return res.status(200).json({
-                    msg: `success deleting task with id: ${id}`
+                    msg: `success deleting task with id: ${req.authorizedId}`
                 })
             }).catch(err => {
                 return next({
