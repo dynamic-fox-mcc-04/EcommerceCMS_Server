@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "set NODE_ENV=development&&nodemon ./bin/server.js",
     "start": "node ./bin/server.js",
-    "test": "set NODE_ENV=test&&jest --detectOpenHandles"
+    "test": "set NODE_ENV=test&&jest --detectOpenHandles --coverage --runInBand"
   },
   "repository": {
     "type": "git",

@@ -157,7 +157,7 @@ describe('User service', () => {
             })
         })
     })
-    describe('/POST login', () => {
+    describe('POST /login', () => {
         describe('Login - success', () => {
             test('should send access token with status 200', done => {
                 const login = {
@@ -205,4 +205,49 @@ describe('User service', () => {
             })
         })
     })
-})
+    describe('PATCH /reset', () => {
+        describe('Password reset is successful', () => {
+            test('should return status 200 and the reset password', done => {
+                const resetPass = {
+                    email: userInput.email
+                };
+                request(app)
+                .patch('/reset')
+                .send(resetPass)
+                .end((err, response) => {
+                    if (err) {
+                        console.log('Error testing:', err);
+                        return done(err);
+                    } else {
+                        expect(response.status).toBe(200);
+                        expect(response.body).toHaveProperty('newPass');
+                        return done();
+                    }
+                })
+            });
+        });
+        describe('Reset - error', () => {
+            test('should return status 404 because the email does not exist', done => {
+                const falseEmail = {
+                    email: 'fakemail@false.com'
+                };
+                const error = {
+                    message: 'Email does not exist'
+                };
+                request(app)
+                .patch('/reset')
+                .send(falseEmail)
+                .end((err, response) => {
+                    if (err) {
+                        console.log('Error testing', err);
+                        return done(err);
+                    } else {
+                        expect(response.status).toBe(404);
+                        expect(response.body).toHaveProperty('message', error.message);
+                        return done();
+                    }
+                })
+            })
+        })
+    });
+});

@@ -7,6 +7,7 @@ const authorization = require('../middlewares/authorization')
 
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
+// router.patch('/reset', UserController.resetPassword)
 
 router.get('/product', ProductController.read)
 
