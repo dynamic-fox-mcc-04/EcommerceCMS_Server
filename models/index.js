@@ -11,8 +11,20 @@ const db = {};
 let sequelize;
 if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    protocol: 'postgres'
+    dialect: "postgres",
+    protocol: "postgres",
+    host: "ec2-18-210-51-239.compute-1.amazonaws.com",
+    database: "dfc0938v728ccm",
+    username: "goflfohwcugzcp",
+    port: 5432,
+    password: "6e7d038920ec3cc0fa9fd80edf6bb0b75e2f7c06b49d9fe575150715ed690bf3",
+    ssl: true,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false // <<<<<< YOU NEED THIS self signed issue
+      }
+    }
   });
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
