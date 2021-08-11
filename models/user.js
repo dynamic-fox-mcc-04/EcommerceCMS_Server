@@ -18,15 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     ,
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Password is required'
-        },
-        notEmpty: {
-          msg: 'Password must be not an empty string'
-        }
-      }
+      allowNull: true
+    },
+    phone: {
+      type: DataTypes.STRING
     },
     role: {
       type: DataTypes.STRING
